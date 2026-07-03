@@ -1,0 +1,73 @@
+#pragma once
+#include "ModularAbilitySystemComponent.h"
+
+#include "ModularAbilityExtensionComponent.generated.h"
+
+/**
+ * Pawn 侧 Ability 扩展组件。
+ *
+ * 负责把 Pawn 与 UModularAbilitySystemComponent 对接，并处理 Input 绑定与初始化状态流转。
+ */
+UCLASS(ClassGroup=AbilitySystem, hidecategories=(Object,LOD,Lighting,Transform,Sockets,TextureStreaming), editinlinenew, meta=(BlueprintSpawnableComponent))
+class MODULARGAMEPLAYABILITIES_API UModularAbilityExtensionComponent : public UPawnComponent, public IGameFrameworkInitStateInterface
+{
+	GENERATED_BODY()
+
+public:
+	/** 构造 Ability 扩展组件。 */
+	UModularAbilityExtensionComponent(const FObjectInitializer& ObjectInitializer);
+
+	/** 绑定并初始化目标 AbilitySystem。 */
+	virtual void InitializeAbilitySystem(UModularAbilitySystemComponent* InASC, AActor* InOwnerActor);
+
+	/** 解除当前 AbilitySystem 绑定并清理状态。 */
+	void UninitializeAbilitySystem();
+
+	/**
+	 * 获取当前缓存的 UModularAbilitySystemComponent。
+	 *
+	 * ASC 可能由其他 Actor 持有（例如 PlayerState），此处仅返回已绑定的指针。
+	 */
+	UFUNCTION(BlueprintPure, Category = "AbilitySystem|Pawn")
+	UModularAbilitySystemComponent* GetModularAbilitySystemComponent() const { return AbilitySystemComponent; }
+
+	/** 控制器变化时刷新 Input / Ability 初始化流程。 */
+	void HandleControllerChanged();
+	/** 初始化玩家 Input 绑定。 */
+	void InitializePlayerInput(UInputComponent* PlayerInputComponent);
+	/** 按 InputConfig 将 Enhanced Input Action 映射到 AbilityInputTag。 */
+	void InputActionMapping(UInputComponent* PlayerInputComponent, const APawn* Pawn);
+	/** Ability 输入按下：转发到 ASC。 */
+	void Input_AbilityInputTagPressed(FGameplayTag InputTag);
+	/** Ability 输入抬起：转发到 ASC。 */
+	void Input_AbilityInputTagReleased(FGameplayTag InputTag);
+
+	//~IGameFrameworkInitStateInterface
+	virtual FName GetFeatureName() const override { return NAME_ActorFeatureName; }
+	virtual bool  CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const override;
+	virtual void  HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) override;
+	virtual void  OnActorInitStateChanged(const FActorInitStateChangedParams& Params) override;
+	virtual void  CheckDefaultInitialization() override;
+	//~IGameFrameworkInitStateInterface 结束
+
+	static const FName NAME_ActorFeatureName;
+
+protected:
+	virtual void OnRegister() override;
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	/**
+	 * 缓存的 AbilitySystemComponent 指针（便于 Blueprint / 代码访问）。
+	 *
+	 * @todo 评估用更清晰的 service / 初始化管线替代 friend 式启动依赖。
+	 */
+	UPROPERTY()
+	TObjectPtr<UModularAbilitySystemComponent> AbilitySystemComponent;
+
+	/** Pawn 成为 ASC 的 Avatar 并完成初始化后广播。 */
+	FSimpleMulticastDelegate OnAbilitySystemInitialized;
+
+	/** Pawn 从 ASC 的 Avatar 解绑后广播。 */
+	FSimpleMulticastDelegate OnAbilitySystemUninitialized;
+};

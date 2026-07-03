@@ -1,0 +1,101 @@
+###############################################################################
+### Unreal Engine Perforce Ignore File
+### Based on Epic Games + Lyra Sample Project standards
+###############################################################################
+
+# Ignore local .p4config overrides
+.p4config
+/.p4sync.txt
+.ugs/
+ugs/
+p4config.txt
+
+# Ignore all Local Developer Plugins
+/Plugins/Developer/*
+**/Plugins/Developer/*
+
+# Ignore Generated Binaries and Build folders
+/Binaries/*
+**/Binaries/*
+/Plugins/*/Binaries/*
+**/Plugins/*/Binaries/*
+
+# Ignore root Visual Studio solution files
+/*.sln
+
+# Ignore Visual Studio temp files
+.vs/
+.vsconfig
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.db
+*.opendb
+*.csproj.props
+*.csproj.user
+
+# Ignore Rider IDE files
+.idea/
+*.DotSettings.user
+
+# Ignore VSCode files
+.vscode/
+
+# Ignore XCode files
+*.xcodeproj
+*.xcworkspace
+
+# Ignore Clang tools
+.clang-format
+.clang-tidy
+
+# Ignore DerivedDataCache
+/DerivedDataCache/*
+**/DerivedDataCache/*
+
+# Ignore Intermediate and Saved directories (INDUSTRY STANDARD)
+/Intermediate/*
+**/Intermediate/*
+/Saved/*
+**/Saved/*
+
+# UnrealBuildTool / module metadata (generated)
+*.modules
+
+# Ignore UBT files
+*.uatbuildrecord
+*.tmp
+**/obj/*
+*.csproj.AssemblyReference.cache
+*Cache*
+
+# Ignore Python cached files
+*.pyc
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Ignore Git files (if previously used Git)
+.git/
+.gitignore
+.gitattributes
+
+# Ignore Claude Code
+.claude/
+.antigravitycli/
+.mcp.json
+CLAUDE.md
+GEMINI.md
+
+# Ignore temporary files
+*.log
+*.swp
+*~
+*.lnk
+nul
+steam_appid.txt
+
+/Build/Windows/

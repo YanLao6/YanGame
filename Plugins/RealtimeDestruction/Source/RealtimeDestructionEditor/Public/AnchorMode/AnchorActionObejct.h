@@ -1,0 +1,122 @@
+// Copyright (c) 2026 LazyDevelopers <lazydeveloper24@gmail.com>. All rights reserved.
+// This plugin is distributed under the Fab Standard License.
+//
+// This product was independently developed by us while participating in the Epic Project, a developer-support
+// program of the KRAFTON JUNGLE GameTech Lab. All rights, title, and interest in and to the product are exclusively
+// vested in us. Krafton, Inc. was not involved in its development and distribution and disclaims all representations
+// and warranties, express or implied, and assumes no responsibility or liability for any consequences arising from
+// the use of this product.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+#include "UObject/WeakObjectPtrTemplates.h"
+#include "AnchorActionObejct.generated.h"
+
+class URealtimeDestructibleMeshComponent;
+class AAnchorActor;
+class AActor;
+
+UCLASS(ClassGroup = (RealtimeDestructionEditor))
+class REALTIMEDESTRUCTIONEDITOR_API UAnchorActionObejct : public UObject
+{
+	GENERATED_BODY()
+	
+public:
+	virtual void BeginDestroy() override;
+	
+	UFUNCTION(CallInEditor, Category = "1. Spawn", meta = (DisplayPriority = "1"))
+	void SpawnAnchorPlane();
+	
+	UFUNCTION(CallInEditor, Category = "1. Spawn", meta = (DisplayPriority = "2"))
+	void SpawnAnchorVolume();
+
+	UFUNCTION(CallInEditor, Category = "2. Apply", meta = (DisplayPriority = "1"))
+	void ApplyAllAnchorPlanes();
+	
+	UFUNCTION(CallInEditor, Category = "2. Apply", meta = (DisplayPriority = "2"))
+	void ApplyAllAnchorVolumes();
+
+	UFUNCTION(CallInEditor, Category = "3. Remove", meta = (DisplayPriority = "1"))
+	void RemoveAllAnchorPlanes();
+
+	UFUNCTION(CallInEditor, Category = "3. Remove", meta = (DisplayPriority = "2"))
+	void RemoveAllAnchorVolumes();
+
+	UFUNCTION(CallInEditor, Category = "4. Selection", meta = (DisplayPriority = "1"))
+	void ApplyAnchors();
+
+	UFUNCTION(CallInEditor, Category = "4. Selection", meta = (DisplayPriority = "2"))
+	void RemoveAnchors();	
+
+	UFUNCTION(CallInEditor, Category = "4. Selection", meta = (DisplayPriority = "3"))
+	void BuildGridCellsForSelection();
+
+	UFUNCTION(CallInEditor, Category = "4. Selection", meta = (DisplayPriority = "4"))
+	void ClearAllCells();
+	
+	UPROPERTY(VisibleAnywhere, Category = "4. Selection",  meta = (DisplayPriority = "5"))
+	FString SelectedComponentName = "None";
+
+	UPROPERTY(VisibleAnywhere, Category = "4. Selection",  meta = (DisplayPriority = "6"))
+	int32 TotalCellCount = 0;
+
+	UPROPERTY(VisibleAnywhere, Category = "4. Selection",  meta = (DisplayPriority = "7"))
+	int32 ValidCellCount = 0;
+
+	UPROPERTY(VisibleAnywhere, Category = "4. Selection",  meta = (DisplayPriority = "8"))
+	int32 AnchorCellCount = 0;
+
+	UPROPERTY(EditAnywhere, Category = "4. Selection",  meta = (DisplayPriority = "9"))
+	bool bShowGridCell = false;
+
+	void UpdateSelectionFromEditor(UWorld* World);
+
+	void UpdateCellCounts();
+
+	void SetTargetComponent(URealtimeDestructibleMeshComponent* InComp) { TargetComp = InComp; }
+	
+	void ValidateAnchorArray();
+
+	void CollectionExistingAnchorActors(UWorld* World);
+	
+	void EnsureEditorDelegatesBound();
+
+	void UnBindEditorDelgates();
+
+	bool ResolveTargetComponent(UWorld* World);
+
+	void RefreshTargetFromEditorSelection(UWorld* World);
+
+	void OnEditorSelectionChanged(UObject* NewSeletion);
+
+	void OnEditorSelectObject(UObject* Object);
+
+	void OnLevelActorAdded(AActor* InActor);
+
+	void OnLevelActorDeleted(AActor* InActor);
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> TargetOwner;
+	
+	UPROPERTY(Transient)
+	FName  TargetCompName = NAME_None;
+	
+	TObjectPtr<URealtimeDestructibleMeshComponent> TargetComp = nullptr;
+
+	TArray<TWeakObjectPtr<AAnchorActor>> AnchorActors;
+
+	bool bAnchorActorsDirty = true;
+
+	FDelegateHandle OnLevelActorAddedHandle;
+	FDelegateHandle OnLevelActorDeletedHandle;
+
+	bool bEditorDelegatesBound = false;
+
+	FDelegateHandle OnObjectsReplacedHandle;
+	FDelegateHandle OnSelectionChangedHandle_Actors;
+	FDelegateHandle OnSelectionChangedHandle_Components;
+	FDelegateHandle OnSelectObjectHandle_Actors;
+	FDelegateHandle OnSelectObjectHandle_Components;
+};

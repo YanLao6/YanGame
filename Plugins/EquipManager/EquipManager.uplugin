@@ -1,0 +1,45 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "EquipManager",
+  "Description": "",
+  "Category": "Other",
+  "CreatedBy": "YanLao",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "CanContainContent": true,
+  "IsBetaVersion": true,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "EquipManager",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "GameplayMessageRouter",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayExperiences",
+      "Enabled": true
+    },
+    {
+      "Name": "GameplayAbilities",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayAbilities",
+      "Enabled": true
+    },
+    {
+      "Name": "ModalCamera",
+      "Enabled": true
+    }
+  ]
+}

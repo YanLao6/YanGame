@@ -1,0 +1,6 @@
+class UASMoverComponent : UYanMoverComponent
+{
+	default
+    {
+    }
+}

@@ -1,0 +1,100 @@
+###############################################################################
+### Unreal Engine Git Ignore File
+### Based on project .p4ignore
+###############################################################################
+
+# Perforce 配置文件（不适用于 Git）
+.p4config
+.p4sync.txt
+.ugs/
+ugs/
+p4config.txt
+
+# 本地开发插件
+/Plugins/Developer/
+**/Plugins/Developer/
+
+# 编译产物
+/Binaries/
+**/Binaries/
+/Plugins/*/Binaries/
+**/Plugins/*/Binaries/
+
+# Visual Studio
+/*.sln
+/*.slnx
+.vs/
+.vsconfig
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.db
+*.opendb
+*.csproj.props
+*.csproj.user
+
+# Rider IDE
+.idea/
+*.DotSettings.user
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Xcode
+*.xcodeproj
+*.xcworkspace
+
+# Clang 工具
+.clang-format
+.clang-tidy
+
+# UE 生成目录
+/DerivedDataCache/
+**/DerivedDataCache/
+/Intermediate/
+**/Intermediate/
+/Saved/
+**/Saved/
+
+# UBT / 模块元数据
+*.modules
+*.uatbuildrecord
+*.tmp
+**/obj/
+*.csproj.AssemblyReference.cache
+*Cache*
+
+# Python
+*.pyc
+
+# 操作系统
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# AI 工具配置（本地，不纳入版本控制）
+.claude/
+.antigravitycli/
+.mcp.json
+CLAUDE.md
+CLAUDEzh.md
+GEMINI.md
+
+# 文档目录（本地，不纳入版本控制）
+/Docs/
+
+# 生成报告
+/reports/
+
+# 临时文件
+*.log
+*.swp
+*~
+*.lnk
+nul
+steam_appid.txt
+
+# Windows 构建产物
+/Build/Windows/

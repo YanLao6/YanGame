@@ -1,0 +1,112 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "YanGameCore",
+  "Description": "",
+  "Category": "Other",
+  "CreatedBy": "",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "YanGameCore",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameAbility",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameUI",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameSession",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameEquipment",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameplay",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameMover",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "YanGameCutting",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "CommonGame",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayExperiences",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayActors",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplay",
+      "Enabled": true
+    },
+    {
+      "Name": "CommonLoadingScreen",
+      "Enabled": true
+    },
+    {
+      "Name": "ControlFlows",
+      "Enabled": true
+    },
+    {
+      "Name": "CommonUser",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayAbilities",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayUI",
+      "Enabled": true
+    },
+    {
+      "Name": "Mover",
+      "Enabled": true
+    },
+    {
+      "Name": "GeometryProcessing",
+      "Enabled": true
+    },
+    {
+      "Name": "MoverExamples",
+      "Enabled": true
+    },
+    {
+      "Name" : "RealtimeDestruction",
+      "Enabled" : true
+    }
+  ]
+}
