@@ -1,0 +1,128 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(*)",
+      "Write(*)",
+      "NotebookEdit(*)",
+      "Bash(*)",
+      "WebFetch(domain:*)",
+      "WebSearch",
+      "mcp__ide__*",
+      "mcp__chrome-devtools__*",
+      "mcp__claude-in-chrome__*",
+      "mcp__playwright__*",
+      "mcp__reddit-mcp-server__search_reddit",
+      "mcp__reddit-mcp-server__get_post_details",
+      "mcp__tavily-web-search__tavily_search",
+      "mcp__tavily-web-search__tavily_extract",
+      "WebFetch(domain:api.open-meteo.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:support.claude.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:json.schemastore.org)",
+      "WebFetch(domain:claudelog.com)",
+      "WebFetch(domain:www.eesel.ai)",
+      "WebFetch(domain:shipyard.build)"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(shred *)",
+      "Bash(unlink *)",
+      "Bash(dd *)",
+      "Bash(mkfs *)",
+      "Bash(fdisk *)",
+      "Bash(chmod *)",
+      "Bash(chown *)",
+      "Bash(npm *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(docker *)",
+      "Bash(kubectl *)",
+      "Bash(firebase *)",
+      "Bash(gcloud *)",
+      "Bash(wget *)",
+      "Bash(kill *)",
+      "Bash(killall *)",
+      "Bash(pkill *)"
+    ]
+  },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": ["Admiring Shayan's code", "Learning from Shayan", "Studying Shayan's patterns", "Copying Shayan's genius", "Thanking Shayan deeply", "Absorbing Shayan's wisdom", "Following Shayan's lead", "Praising Shayan's repo"]
+  },
+  "spinnerTipsOverride": {
+    "tips": [
+      "This is shayan custom tip#1",
+      "This is shayan custom tip#2"
+    ],
+    "excludeDefault": true
+  },
+  
+  "plansDirectory": "./reports",
+  "outputStyle": "Explanatory",
+  "statusLine": {
+    "type": "command",
+    "command": "echo \"shayan's best practice status line\"",
+    "padding": 0
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
+    "pr": "Generated with [Claude Code](https://claude.ai/code)"
+  },
+  "spinnerTipsEnabled": true,
+  "respectGitignore": true,
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80"
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& \"${CLAUDE_PROJECT_DIR}/.claude/hooks/scripts/p4-auto.ps1\" -Mode Checkout",
+            "timeout": 20,
+            "statusMessage": "p4 edit"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& \"${CLAUDE_PROJECT_DIR}/.claude/hooks/scripts/p4-auto.ps1\" -Mode Add",
+            "timeout": 20,
+            "async": true,
+            "statusMessage": "p4 add"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& \"${CLAUDE_PROJECT_DIR}/.claude/hooks/scripts/p4-auto.ps1\" -Mode Delete",
+            "timeout": 30,
+            "async": true,
+            "statusMessage": "p4 delete"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+ModularExperienceUtils.h 行尾符改为 LF
+
+- 行尾符由 CRLF 全量改为 LF，代码内容无变化
+- GetKeyValueByTag 声明之后多出一个仅含缩进的空行
