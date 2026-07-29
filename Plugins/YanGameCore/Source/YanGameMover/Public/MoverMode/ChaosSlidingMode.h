@@ -10,16 +10,6 @@ struct FWaterCheckResult;
 
 /**
  * UChaosSlidingMode - Chaos 版滑行运动模式，与 UChaosWalkingMode 平级，继承 UChaosCharacterMovementMode。
- *
- * 设计意图（对应旧 USlidingMode 的 Chaos 化）：
- *  - GenerateMove：不接受方向输入（bHasDirIntent=false），对水平速度做摩擦衰减，并叠加坡度重力，
- *                 使角色顺坡滑行。决策结果写入 ProposedMove，作为本帧的运动目标。
- *  - SimulationTick：参照 UChaosWalkingMode，根据地面查询结果把角色贴合到目标高度并沿地面推进，
- *                   实际位移由 Character Ground Constraint 施力逼近 target，而非直接 sweep。
- *  - UpdateConstraintSettings：设置贴地约束的摩擦力上限与阻尼等参数。
- *
- * 说明：为避免引入对 Chaos 模块内部接口的直接依赖，本模式未重写 ModifyContacts（沿用基类默认），
- *      且 SimulationTick 未补偿动态地面自身的重力下落分量。对平地、斜坡、匀速移动平台上的滑行无影响。
  */
 UCLASS(Blueprintable, BlueprintType, EditInlineNew, DefaultToInstanced)
 class YANGAMEMOVER_API UChaosSlidingMode : public UChaosCharacterMovementMode
@@ -32,6 +22,18 @@ public:
 	/** 地面摩擦系数（越小越滑），每帧按 dV = SlideFriction * |V| * dt 对水平速度衰减 */
 	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
 	float SlideFriction = 0.1f;
+
+	/** 正对下坡方向滑行时的摩擦系数（越小越滑），随移动方向与坡向夹角插值 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
+	float DownhillFriction = 0.4f;
+
+	/** 正对上坡方向滑行时的摩擦系数（越大越难上坡），随移动方向与坡向夹角插值 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
+	float UphillFriction = 3.0f;
+
+	/** 地面法线与上方向的夹角超过该值（度）即视为斜面，改用上/下坡插值摩擦 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0", ClampMax = "90", UIMax = "90", ForceUnits = "degrees"))
+	float SlopeAngleThreshold = 5.0f;
 
 	/** 水平速度（cm/s）低于该阈值视为滑行结束，供退出 Transition 判定使用 */
 	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))

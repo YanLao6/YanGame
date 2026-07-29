@@ -40,6 +40,14 @@
     {
       "Name": "ModalCamera",
       "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayUI",
+      "Enabled": true
+    },
+    {
+      "Name": "GameFeatures",
+      "Enabled": true
     }
   ]
 }

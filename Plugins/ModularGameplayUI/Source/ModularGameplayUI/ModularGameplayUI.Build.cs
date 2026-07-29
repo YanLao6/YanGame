@@ -37,6 +37,7 @@ public class ModularGameplayUI : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
+				"AsyncMixin",
 				"CommonGame",
 				"CommonInput",
 				"DeveloperSettings",
@@ -47,6 +48,7 @@ public class ModularGameplayUI : ModuleRules
 				"Engine",
 				"GameFeatures",
 				"GameplayAbilities",
+				"InputCore",     // FKey::IsValid / GetDisplayName（按键提示查询）
 				"ModularGameplay",
 				"ModularGameplayAbilities",
 				"ModularGameplayActors",

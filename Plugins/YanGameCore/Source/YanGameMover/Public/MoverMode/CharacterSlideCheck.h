@@ -26,7 +26,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
 	float MinSlideSpeed = 1000.0f;
 
+	/** 进入滑铲瞬间沿移动方向叠加的前冲速度大小（cm/s），以 Additive 冲量一次性施加 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
+	float SlideBoostSpeed = 200.0f;
+
 	//~Begin UBaseMovementModeTransition Interface
 	virtual FTransitionEvalResult Evaluate_Implementation(const FSimulationTickParams& Params) const override;
+	virtual void                  Trigger_Implementation(const FSimulationTickParams& Params) override;
 	//~End UBaseMovementModeTransition Interface
 };

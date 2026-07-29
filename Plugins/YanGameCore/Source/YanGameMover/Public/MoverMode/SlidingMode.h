@@ -26,6 +26,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Slide")
 	float SlideFriction = 0.1f;
 
+	/** 正对下坡方向滑行时的摩擦系数（越小越滑），随移动方向与坡向夹角插值 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
+	float DownhillFriction = 0.4f;
+
+	/** 正对上坡方向滑行时的摩擦系数（越大越难上坡），随移动方向与坡向夹角插值 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
+	float UphillFriction = 3.0f;
+
+	/** 地面法线与上方向的夹角超过该值（度）即视为斜面，改用上/下坡插值摩擦 */
+	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0", ClampMax = "90", UIMax = "90", ForceUnits = "degrees"))
+	float SlopeAngleThreshold = 5.0f;
+
 	/** Exit slide when horizontal speed (cm/s) drops below this threshold */
 	UPROPERTY(EditDefaultsOnly, Category = "Slide")
 	float SlideEndSpeed = 100.0f;

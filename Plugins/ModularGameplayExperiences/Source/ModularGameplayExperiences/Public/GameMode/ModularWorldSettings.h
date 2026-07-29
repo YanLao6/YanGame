@@ -4,6 +4,7 @@
 #pragma once
 
 #include "ModularExperienceDefinition.h"
+#include "GameFramework/WorldSettings.h"
 #include "ModularWorldSettings.generated.h"
 
 /**

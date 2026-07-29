@@ -3,6 +3,7 @@
 #pragma once
 
 #include "DataAsset/ModularAbilityData.h"
+#include "Engine/DeveloperSettings.h"
 
 #include "ModularGameplayAbilitiesConfig.generated.h"
 

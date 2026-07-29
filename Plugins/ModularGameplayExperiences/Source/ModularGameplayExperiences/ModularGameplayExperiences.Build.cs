@@ -32,6 +32,7 @@ public class ModularGameplayExperiences : ModuleRules
 				"Core",
 				"GameFeatures",
 				"GameplayTags",
+				"InputCore",
 				"ModularGameplay",
 				"ModularGameplayActors",
 				"ModularGameplayData",

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameplayEffect.h"
+#include "Engine/DataAsset.h"
 
 #include "ModularAbilityData.generated.h"
 

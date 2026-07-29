@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InventoryItemDefinition.h"
+#include "Templates/SubclassOf.h"
 #include "InventoryFragment_EquippableItem.generated.h"
 
 

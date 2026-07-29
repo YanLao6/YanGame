@@ -61,28 +61,54 @@ void UChaosSlidingMode::GenerateMove_Implementation(const FMoverSimContext& SimC
 
 	const float DeltaSeconds = TimeStep.StepMs * 0.001f;
 
-	// 读取上一帧速度，做摩擦衰减：dV = SlideFriction * |V| * dt（只减速，不反向）
 	FVector     PriorVelocity = StartingSyncState->GetVelocity_WorldSpace();
 	const float PriorSpeed    = PriorVelocity.Size();
-	if (PriorSpeed > 0.f)
-	{
-		const float NewSpeed = FMath::Max(PriorSpeed - SlideFriction * PriorSpeed * DeltaSeconds, 0.f);
-		PriorVelocity        = PriorVelocity.GetSafeNormal() * NewSpeed;
-	}
 
-	// 坡度重力：取黑板最近地面结果，把重力投影到地面切平面，得到顺坡（切向）加速度
+	// 先查一次地面：既用于斜面判定（选摩擦系数），也用于坡度重力加速
+	bool    bOnSlope    = false;
+	FVector SlopeGravity = FVector::ZeroVector;
 	UMoverBlackboard* SimBlackboard = Simulation->GetBlackboard_Mutable();
 	FFloorCheckResult LastFloorResult;
 	if (SimBlackboard && SimBlackboard->TryGet(CommonBlackboard::LastFloorResult, LastFloorResult) && LastFloorResult.IsWalkableFloor())
 	{
 		const FVector FloorNormal  = LastFloorResult.HitResult.ImpactNormal.GetSafeNormal();
 		const FVector GravityAccel = DefaultSimInputs->Gravity;
-		// 去除法向分量，仅保留沿坡面向下的切向加速度
-		const FVector SlopeGravity = GravityAccel - FloorNormal * FVector::DotProduct(GravityAccel, FloorNormal);
-		if (!SlopeGravity.IsNearlyZero(0.01f))
+		const FVector UpDir        = DefaultSimInputs->UpDir;
+
+		// 法线与上方向夹角超过阈值即视为斜面（cos 单调递减，故用小于号比较）
+		if (!UpDir.IsNearlyZero())
 		{
-			PriorVelocity += SlopeGravity * DeltaSeconds;
+			const float CosThreshold = FMath::Cos(FMath::DegreesToRadians(SlopeAngleThreshold));
+			bOnSlope = FVector::DotProduct(FloorNormal, UpDir) < CosThreshold;
 		}
+
+		// 去除法向分量，仅保留沿坡面向下的切向加速度
+		SlopeGravity = GravityAccel - FloorNormal * FVector::DotProduct(GravityAccel, FloorNormal);
+	}
+
+	// 斜面上按"移动方向与下坡方向的夹角"在下坡/上坡摩擦间插值：正对下坡取 DownhillFriction，
+	// 正对上坡取 UphillFriction，沿等高线横向移动取两者中值；平地则用 SlideFriction
+	float ActiveFriction = SlideFriction;
+	if (bOnSlope && PriorSpeed > 0.f)
+	{
+		const FVector DownhillDir = SlopeGravity.GetSafeNormal();
+		const FVector MoveDir     = PriorVelocity.GetSafeNormal();
+		// Alpha：0 = 正对上坡，1 = 正对下坡
+		const float Alpha = (FVector::DotProduct(MoveDir, DownhillDir) + 1.f) * 0.5f;
+		ActiveFriction    = FMath::Lerp(UphillFriction, DownhillFriction, Alpha);
+	}
+
+	// 摩擦衰减：dV = ActiveFriction * |V| * dt（只减速，不反向）
+	if (PriorSpeed > 0.f)
+	{
+		const float NewSpeed = FMath::Max(PriorSpeed - ActiveFriction * PriorSpeed * DeltaSeconds, 0.f);
+		PriorVelocity        = PriorVelocity.GetSafeNormal() * NewSpeed;
+	}
+
+	// 坡度重力：将上面算出的切向加速度累加到速度上，使角色顺坡加速
+	if (!SlopeGravity.IsNearlyZero(0.01f))
+	{
+		PriorVelocity += SlopeGravity * DeltaSeconds;
 	}
 
 	OutProposedMove.bHasDirIntent          = false;

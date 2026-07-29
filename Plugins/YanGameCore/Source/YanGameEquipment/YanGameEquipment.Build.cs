@@ -10,16 +10,8 @@ public class YanGameEquipment : ModuleRules
             new string[]
             {
                 "Core",
-            }
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            new string[]
-            {
                 "CoreUObject",
                 "Engine",
-                "Slate",
-                "SlateCore"
             }
         );
     }

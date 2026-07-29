@@ -67,6 +67,6 @@ protected:
 	void OnRep_PawnData();
 
 	/** 生成或放置实例时指定的 PawnData（Replicated）。 */
-	UPROPERTY(EditInstanceOnly, ReplicatedUsing = OnRep_PawnData, Category = "Kula|Pawn")
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, ReplicatedUsing = OnRep_PawnData, Category = "Kula|Pawn")
 	TObjectPtr<const UModularPawnData> PawnData;
 };

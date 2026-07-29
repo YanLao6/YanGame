@@ -8,6 +8,7 @@
 #include "Engine/ActorChannel.h"
 #include "Equipment/EquipmentDefinition.h"
 #include "Equipment/EquipmentInstance.h"
+#include "Messages/VerbMessageHelpers.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -56,13 +57,14 @@ void FEquipmentList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 {
 	// 当前装备条目没有需要在普通变更时执行的额外客户端逻辑，保留扩展点。
 }
+
 //~End FFastArraySerializer Contract
 
 UAbilitySystemComponent* FEquipmentList::GetAbilitySystemComponent() const
 {
 	check(OwnerComponent);
 	AActor* OwningActor = OwnerComponent->GetOwner();
-	return Cast<UAbilitySystemComponent>(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor));
+	return Cast<UAbilitySystemComponent>(UVerbMessageHelpers::GetAbilitySystemComponentFromObject(OwningActor));
 }
 
 UEquipmentInstance* FEquipmentList::AddEntry(TSubclassOf<UEquipmentDefinition> EquipmentDefinition)
@@ -85,23 +87,21 @@ UEquipmentInstance* FEquipmentList::AddEntry(TSubclassOf<UEquipmentDefinition> E
 	FAppliedEquipmentEntry& NewEntry = Entries.AddDefaulted_GetRef();
 	NewEntry.EquipmentDefinition     = EquipmentDefinition;
 	// 这里仍以 Actor 作为 Outer，用于规避当前已知引擎问题。
-	NewEntry.Instance                = NewObject<UEquipmentInstance>(OwnerComponent->GetOwner(), InstanceType); // 待办：受 UE-127172 影响，暂时不能以组件作为 Outer。
-	Result                           = NewEntry.Instance;
+	NewEntry.Instance = NewObject<UEquipmentInstance>(OwnerComponent->GetOwner(), InstanceType); // 待办：受 UE-127172 影响，暂时不能以组件作为 Outer。
+	Result            = NewEntry.Instance;
 
-	/*
 	if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
 	{
-		for (const TObjectPtr<const UAbilitySet>& AbilitySet : EquipmentCDO->AbilitySetsToGrant)
+		for (const TObjectPtr<const UModularAbilitySet>& AbilitySet : EquipmentCDO->AbilitySetsToGrant)
 		{
-			AbilitySet->GiveToAbilitySystem(ASC, /*输入输出#1# &NewEntry.GrantedHandles, Result);
+			AbilitySet->GiveToAbilitySystem(Cast<UModularAbilitySystemComponent>(ASC), /*输入输出*/ &NewEntry.GrantedHandles, Result);
 		}
 	}
 	else
 	{
-	// 待办：这里后续可以补充警告日志。
+		// 待办：这里后续可以补充警告日志。
 	}
 
-	*/
 	// 按装备定义生成附属 Actor，例如武器模型或挂件。
 	Result->SpawnEquipmentActors(EquipmentCDO->ActorsToSpawn);
 
@@ -119,10 +119,10 @@ void FEquipmentList::RemoveEntry(UEquipmentInstance* Instance)
 		FAppliedEquipmentEntry& Entry = *EntryIt;
 		if (Entry.Instance == Instance)
 		{
-			/*if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
+			if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
 			{
-				Entry.GrantedHandles.TakeFromAbilitySystem(ASC);
-			}*/
+				Entry.GrantedHandles.TakeFromAbilitySystem(Cast<UModularAbilitySystemComponent>(ASC));
+			}
 
 			// 移除记录前先销毁该装备实例创建出的附属 Actor。
 			Instance->DestroyEquipmentActors();
@@ -155,6 +155,7 @@ void UEquipmentManagerComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 	// 同步整个快速数组结构，条目内部对象再由子对象复制补充。
 	DOREPLIFETIME(ThisClass, EquipmentList);
 }
+
 //~End UObject Interface
 
 UEquipmentInstance* UEquipmentManagerComponent::EquipItem(TSubclassOf<UEquipmentDefinition> EquipmentClass)
@@ -213,6 +214,7 @@ bool UEquipmentManagerComponent::ReplicateSubobjects(UActorChannel* Channel, cla
 
 	return WroteSomething;
 }
+
 //~End UObject Interface
 
 //~Begin UActorComponent Interface
@@ -257,6 +259,7 @@ void UEquipmentManagerComponent::ReadyForReplication()
 		}
 	}
 }
+
 //~End UActorComponent Interface
 
 UEquipmentInstance* UEquipmentManagerComponent::GetFirstInstanceOfType(TSubclassOf<UEquipmentInstance> InstanceType)

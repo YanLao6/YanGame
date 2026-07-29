@@ -18,6 +18,7 @@ public class YanGameMover : ModuleRules
 				"GameplayTags",
 				"ModularGameplay",
 				"ModularGameplayAbilities",
+				"YanGameAbility",
 				"GameplayAbilities",
 				"GameplayTags"
 			}

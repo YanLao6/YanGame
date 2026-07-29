@@ -9,6 +9,7 @@
 #include "GameFramework/GameplayMessageSubsystem.h"
 #include "Inventory/InventoryFragment_EquippableItem.h"
 #include "Inventory/InventoryItemInstance.h"
+#include "ItemDisplay/ItemDisplayTypes.h"
 #include "NativeGameplayTags.h"
 #include "Net/UnrealNetwork.h"
 
@@ -18,6 +19,9 @@
 
 UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_EM_QuickBar_Message_SlotsChanged, "EM.QuickBar.Message.SlotsChanged");
 UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_EM_QuickBar_Message_ActiveIndexChanged, "EM.QuickBar.Message.ActiveIndexChanged");
+
+// 槽位按键 Tag 的约定前缀，拼上槽位索引即为该槽位的输入 Tag。
+static const TCHAR* QuickBarSlotInputTagPrefix = TEXT("InputTag.QuickBar.Slot");
 
 UQuickBarComponent::UQuickBarComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -165,6 +169,18 @@ UInventoryItemInstance* UQuickBarComponent::GetActiveSlotItem() const
 	return Slots.IsValidIndex(ActiveSlotIndex) ? Slots[ActiveSlotIndex] : nullptr;
 }
 
+FGameplayTag UQuickBarComponent::GetSlotInputTag(int32 SlotIndex)
+{
+	if (SlotIndex < 0)
+	{
+		return FGameplayTag();
+	}
+
+	// 未定义该槽位按键时返回空 Tag，故不报错。
+	const FName SlotTagName(*FString::Printf(TEXT("%s.%d"), QuickBarSlotInputTagPrefix, SlotIndex));
+	return FGameplayTag::RequestGameplayTag(SlotTagName, /*ErrorIfNotFound=*/false);
+}
+
 int32 UQuickBarComponent::GetNextFreeItemSlot() const
 {
 	int32 SlotIndex = 0;
@@ -181,6 +197,53 @@ int32 UQuickBarComponent::GetNextFreeItemSlot() const
 	return INDEX_NONE;
 }
 
+void UQuickBarComponent::GatherItemSlotCategoryTags(const UInventoryItemInstance* Item, FGameplayTagContainer& OutTags)
+{
+	if (Item == nullptr)
+	{
+		return;
+	}
+
+	// 类别 Tag 配置在展示片段上，随物品定义读取，客户端与服务器读到的内容一致。
+	if (const UInventoryFragment_ItemDisplay* DisplayFragment = Item->FindFragmentByClass<UInventoryFragment_ItemDisplay>())
+	{
+		OutTags.AppendTags(DisplayFragment->SlotCategoryTags);
+	}
+}
+
+int32 UQuickBarComponent::GetNextFreeItemSlotForItem(const UInventoryItemInstance* Item) const
+{
+	for (int32 SlotIndex = 0; SlotIndex < Slots.Num(); ++SlotIndex)
+	{
+		if (CanAddItemToSlot(SlotIndex, Item))
+		{
+			return SlotIndex;
+		}
+	}
+
+	return INDEX_NONE;
+}
+
+bool UQuickBarComponent::CanAddItemToSlot(int32 SlotIndex, const UInventoryItemInstance* Item) const
+{
+	if (!Slots.IsValidIndex(SlotIndex) || (Item == nullptr) || (Slots[SlotIndex] != nullptr))
+	{
+		return false;
+	}
+
+	FGameplayTagContainer ItemCategoryTags;
+	GatherItemSlotCategoryTags(Item, ItemCategoryTags);
+
+	const bool bSlotHasRule = SlotRules.IsValidIndex(SlotIndex) && !SlotRules[SlotIndex].AcceptQuery.IsEmpty();
+	if (!bSlotHasRule)
+	{
+		// 未配置类别的槽位只接收同样未配置类别的物品，避免有归属的物品挤占通用槽位。
+		return ItemCategoryTags.IsEmpty();
+	}
+
+	return SlotRules[SlotIndex].AcceptQuery.Matches(ItemCategoryTags);
+}
+
 void UQuickBarComponent::AddItemToSlot(int32 SlotIndex, UInventoryItemInstance* Item)
 {
 	if (Slots.IsValidIndex(SlotIndex) && (Item != nullptr))
@@ -192,6 +255,19 @@ void UQuickBarComponent::AddItemToSlot(int32 SlotIndex, UInventoryItemInstance* 
 			OnRep_Slots();
 		}
 	}
+}
+
+bool UQuickBarComponent::TryAddItem(UInventoryItemInstance* Item)
+{
+	const int32 SlotIndex = GetNextFreeItemSlotForItem(Item);
+	if (SlotIndex == INDEX_NONE)
+	{
+		return false;
+	}
+
+	AddItemToSlot(SlotIndex, Item);
+
+	return true;
 }
 
 UInventoryItemInstance* UQuickBarComponent::RemoveItemFromSlot(int32 SlotIndex)

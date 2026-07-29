@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayAbilities/ModularAbilitySet.h"
 #include "UObject/Object.h"
 #include "EquipmentDefinition.generated.h"
 
@@ -53,9 +54,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category=Equipment)
 	TSubclassOf<UEquipmentInstance> InstanceType;
 
-	/*// 装备生效时准备授予的能力集合。
+	// 装备生效时准备授予的能力集合。
 	UPROPERTY(EditDefaultsOnly, Category=Equipment)
-	TArray<TObjectPtr<const ULyraAbilitySet>> AbilitySetsToGrant;*/
+	TArray<TObjectPtr<const UModularAbilitySet>> AbilitySetsToGrant;
 
 	/** 装备成功后需要同步生成并附着的附属 Actor 列表。 */
 	UPROPERTY(EditDefaultsOnly, Category=Equipment)

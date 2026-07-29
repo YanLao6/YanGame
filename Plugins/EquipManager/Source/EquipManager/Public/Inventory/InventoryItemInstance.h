@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagStack.h"
+#include "Templates/SubclassOf.h"
 #include "InventoryItemInstance.generated.h"
 
 #define UE_API EQUIPMANAGER_API

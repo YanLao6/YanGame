@@ -7,6 +7,7 @@
 #include "DefaultMovementSet/LayeredMoves/BasicLayeredMoves.h"
 #include "MoveLibrary/FloorQueryUtils.h"
 #include "DefaultMovementSet/InstantMovementEffects/BasicInstantMovementEffects.h"
+#include "ChaosMover/Character/Effects/ChaosCharacterApplyVelocityEffect.h"
 #include "UObject/UObjectIterator.h"
 #include "GameFramework/Pawn.h"
 #include "Actor/YanHookProjectile.h"
@@ -174,19 +175,20 @@ FVector UYanMoverAngelscriptLibrary::GetMoveInputWorldSpace(const FCharacterDefa
 	return Inputs.GetMoveInput_WorldSpace();
 }
 
-void UYanMoverAngelscriptLibrary::QueueVelocityImpulse(UMoverComponent* MoverComp, FVector WorldSpaceVelocity, bool bAdditive)
+void UYanMoverAngelscriptLibrary::QueueChaosCharacterApplyVelocityEffect(UMoverComponent* MoverComp, FVector WorldSpaceVelocity, bool bAdditive)
 {
 	if (!MoverComp)
 	{
 		return;
 	}
-	TSharedPtr<FApplyVelocityEffect> Effect = MakeShared<FApplyVelocityEffect>();
-	Effect->VelocityToApply                 = WorldSpaceVelocity;
-	Effect->bAdditiveVelocity               = bAdditive;
+
+	TSharedPtr<FChaosCharacterApplyVelocityEffect> Effect = MakeShared<FChaosCharacterApplyVelocityEffect>();
+	Effect->VelocityOrImpulseToApply                      = WorldSpaceVelocity;
+	Effect->Mode                                          = bAdditive ? EChaosMoverVelocityEffectMode::AdditiveVelocity : EChaosMoverVelocityEffectMode::OverrideVelocity;
 	MoverComp->QueueInstantMovementEffect(Effect);
 }
 
-void UYanMoverAngelscriptLibrary::QueueForceMovementMode(UMoverComponent* MoverComp, FName NewModeName)
+void UYanMoverAngelscriptLibrary::QueueApplyVelocityEffect(UMoverComponent* MoverComp, FName NewModeName)
 {
 	if (!MoverComp)
 	{
@@ -309,7 +311,7 @@ void UYanMoverAngelscriptLibrary::QueueLaunchMove(UMoverComponent* MoverComp, FV
 	MoverComp->QueueLayeredMove(LaunchMove);
 }
 
-void UYanMoverAngelscriptLibrary::QueueLinearVelocityMove(UMoverComponent* MoverComp, FVector Velocity, float DurationMs)
+void UYanMoverAngelscriptLibrary::QueueLinearVelocityMove(UMoverComponent* MoverComp, FVector Velocity, float DurationMs, bool bOverrideVelocity)
 {
 	if (!MoverComp)
 	{
@@ -319,6 +321,8 @@ void UYanMoverAngelscriptLibrary::QueueLinearVelocityMove(UMoverComponent* Mover
 	TSharedPtr<FLayeredMove_LinearVelocity> LinearMove = MakeShared<FLayeredMove_LinearVelocity>();
 	LinearMove->Velocity                               = Velocity;
 	LinearMove->DurationMs                             = DurationMs;
+	// Override 覆盖本帧提议速度（屏蔽方向输入与摩擦，直线冲刺）；否则默认叠加到正常移动上
+	LinearMove->MixMode = bOverrideVelocity ? EMoveMixMode::OverrideVelocity : EMoveMixMode::AdditiveVelocity;
 	MoverComp->QueueLayeredMove(LinearMove);
 }
 

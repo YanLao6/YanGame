@@ -2,8 +2,11 @@
 
 #pragma once
 
+#include "Engine/EngineTypes.h"
+#include "GameFramework/Actor.h"
 #include "Logging/LogMacros.h"
 
+enum ENetRole : int;
 /**
  * 生成用于日志前缀的 Client / Server / PIE 上下文字符串。
  *

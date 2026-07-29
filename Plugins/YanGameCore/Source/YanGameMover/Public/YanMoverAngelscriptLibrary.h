@@ -123,16 +123,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Data")
 	static FVector GetMoveInputWorldSpace(const FCharacterDefaultInputs& Inputs);
 
-	/** 向 MoverComponent 请求一次速度冲击（FApplyVelocityEffect）。
+	/** 向 MoverComponent 请求一次瞬时速度效果（Chaos 专用 FChaosCharacterApplyVelocityEffect）。
 	 *  AS 侧无法直接传 CustomThunk 通配结构体，通过此函数桥接。
-	 *  @param bAdditive true 则叠加到当前速度，false 则直接覆盖。 */
+	 *  用 Chaos 专用效果是因为通用 FApplyVelocityEffect 仅有同步实现、在 ChaosMover 异步仿真下不生效。
+	 *  @param bAdditive true 则叠加到当前速度（AdditiveVelocity），false 则覆盖（OverrideVelocity）。 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Dash")
-	static void QueueVelocityImpulse(UMoverComponent* MoverComp, FVector WorldSpaceVelocity, bool bAdditive);
+	static void QueueChaosCharacterApplyVelocityEffect(UMoverComponent* MoverComp, FVector WorldSpaceVelocity, bool bAdditive);
 
 	/** 强制切换 MovementMode（零速度叠加 + ForceMovementMode，保持当前速度不变）。
 	 *  钩锁激活时用于确保玩家进入 Falling 模式。 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Grappling")
-	static void QueueForceMovementMode(UMoverComponent* MoverComp, FName NewModeName);
+	static void QueueApplyVelocityEffect(UMoverComponent* MoverComp, FName NewModeName);
 
 	/** 从 UMoverBlackboard 的 Outer 推导重力加速度向量。
 	 *  ULayeredMoveLogic::GenerateMove 无直接 MoverComp 参数，通过此函数桥接。 */
@@ -154,10 +155,10 @@ public:
 	 * 使用 AlwaysSpawn 策略，Owner 设为 MoverComp 的拥有者。
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Grappling")
-	static AYanHookProjectile* SpawnHookProjectile(UMoverComponent* MoverComp,
-	                                                TSubclassOf<AYanHookProjectile> ProjectileClass,
-	                                                FVector SpawnLocation,
-	                                                FRotator SpawnRotation);
+	static AYanHookProjectile* SpawnHookProjectile(UMoverComponent*                MoverComp,
+	                                               TSubclassOf<AYanHookProjectile> ProjectileClass,
+	                                               FVector                         SpawnLocation,
+	                                               FRotator                        SpawnRotation);
 
 	/**
 	 * 从摄像机位置沿前向量做钩锁 LineTrace（WorldStatic 通道），返回是否命中及命中点。
@@ -179,11 +180,12 @@ public:
 	/**
 	 * 向目标 MoverComponent 施加 FLayeredMove_LinearVelocity 持续线速度效果。
 	 * AS 无法直接构造 TSharedPtr<FLayeredMoveBase>，通过此函数桥接。
-	 * @param Velocity   世界空间速度向量（cm/s），每帧叠加到角色速度上
-	 * @param DurationMs 持续时间（毫秒）；0 = 单帧，< 0 = 需手动结束
+	 * @param Velocity          世界空间速度向量（cm/s），持续时间内每帧施加
+	 * @param DurationMs        持续时间（毫秒）；0 = 单帧，< 0 = 需手动结束
+	 * @param bOverrideVelocity true 覆盖本帧提议速度（屏蔽方向输入/摩擦，直线冲刺）；false 叠加到正常移动
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Launch")
-	static void QueueLinearVelocityMove(UMoverComponent* MoverComp, FVector Velocity, float DurationMs);
+	static void QueueLinearVelocityMove(UMoverComponent* MoverComp, FVector Velocity, float DurationMs, bool bOverrideVelocity = false);
 
 	/** 获取 SyncState 世界空间位置（自动处理 MovementBase 坐标变换）。 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|SyncState")
@@ -222,9 +224,9 @@ public:
 	 * @param DurationMs      FLayeredMove_Launch 持续时间（毫秒）
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Mover|Launch")
-	static void ApplyLaunchEffectToTarget(UAbilitySystemComponent* InstigatorASC,
-	                                      UAbilitySystemComponent* TargetASC,
-	                                      TSubclassOf<UGameplayEffect>  LaunchEffectClass,
-	                                      FVector                       LaunchVelocity,
-	                                      float                         DurationMs);
+	static void ApplyLaunchEffectToTarget(UAbilitySystemComponent*     InstigatorASC,
+	                                      UAbilitySystemComponent*     TargetASC,
+	                                      TSubclassOf<UGameplayEffect> LaunchEffectClass,
+	                                      FVector                      LaunchVelocity,
+	                                      float                        DurationMs);
 };

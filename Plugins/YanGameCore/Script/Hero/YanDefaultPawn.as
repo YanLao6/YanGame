@@ -60,6 +60,22 @@ class AYanDefaultPawn : AYanPawn
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera|Person")
 	bool bThirdPerson = false;
 
+	/**
+	 * 蹲伏时相机相对站立姿态的高度偏移（负值为下降）。
+	 * 胶囊压低由物理线程即时完成，相机则在此按 CrouchCameraBlendSpeed 平滑跟随；
+	 * 取值应约等于胶囊半高的降幅，使视点与角色头部保持一致。
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera|Crouch")
+	float CrouchCameraOffsetZ = -44.f;
+
+	/** 相机高度在站立/蹲伏之间过渡的插值速度（越大越快） */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera|Crouch", meta = (ClampMin = "0"))
+	float CrouchCameraBlendSpeed = 8.f;
+
+	// 相机高度的当前值与目标值，仅由姿态变化驱动
+	private float CurrentCameraOffsetZ = 0.f;
+	private float TargetCameraOffsetZ  = 0.f;
+
 	//~Begin Actor Interface
 	UFUNCTION(BlueprintOverride)
 	void ConstructionScript()
@@ -76,8 +92,26 @@ class AYanDefaultPawn : AYanPawn
 		UMoverComponent MoverComp = GetComponentByClass(UMoverComponent);
 		MoverComp.RegisterMove(UGrapplingMoveLogic);
 
+		UCharacterMoverComponent CharMoverComp = Cast<UCharacterMoverComponent>(MoverComp);
+		if (CharMoverComp != nullptr)
+		{
+			CharMoverComp.OnStanceChanged.AddUFunction(this, n"HandleStanceChanged");
+		}
+
 		// FOV 等镜头参数由 Rig 内的 UYanCameraNode 驱动，此处仅初始化视角状态
 		SetThirdPerson(bThirdPerson);
+	}
+
+	UFUNCTION(BlueprintOverride)
+	void Tick(float DeltaSeconds)
+	{
+		if (CameraBoom == nullptr || CurrentCameraOffsetZ == TargetCameraOffsetZ)
+		{
+			return;
+		}
+
+		CurrentCameraOffsetZ = Math::FInterpTo(CurrentCameraOffsetZ, TargetCameraOffsetZ, DeltaSeconds, CrouchCameraBlendSpeed);
+		CameraBoom.SocketOffset = CameraSocketOffset + FVector(0.f, 0.f, CurrentCameraOffsetZ);
 	}
 
 	UFUNCTION(BlueprintOverride)
@@ -114,6 +148,13 @@ class AYanDefaultPawn : AYanPawn
 	void TogglePersonPerspective()
 	{
 		SetThirdPerson(!bThirdPerson);
+	}
+
+	// 姿态由物理线程裁决后经 Mover 事件回传，此处只更新相机高度目标值
+	UFUNCTION()
+	private void HandleStanceChanged(EStanceMode OldStance, EStanceMode NewStance)
+	{
+		TargetCameraOffsetZ = (NewStance == EStanceMode::Crouch) ? CrouchCameraOffsetZ : 0.f;
 	}
 
 	// 在拥有端激活 GameplayCamera；相机求值是本地视图行为，非本地代理无需激活

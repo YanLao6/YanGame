@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/PawnComponent.h"
+#include "GameplayAbilities/ModularAbilitySet.h"
 #include "Net/Serialization/FastArraySerializer.h"
 #include "EquipmentManagerComponent.generated.h"
 
@@ -44,8 +45,8 @@ private:
 	TObjectPtr<UEquipmentInstance> Instance = nullptr;
 
 	// 仅服务器持有的能力授予句柄列表，当前实现暂未启用。
-	//UPROPERTY(NotReplicated)
-	//FAbilitySet_GrantedHandles GrantedHandles;
+	UPROPERTY(NotReplicated)
+	FModularAbilitySet_GrantedHandles GrantedHandles;
 };
 
 /**

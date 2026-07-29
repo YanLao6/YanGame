@@ -105,8 +105,12 @@
       "Enabled": true
     },
     {
-      "Name" : "RealtimeDestruction",
-      "Enabled" : true
+      "Name": "RealtimeDestruction",
+      "Enabled": true
+    },
+    {
+      "Name": "EquipManager",
+      "Enabled": true
     }
   ]
 }

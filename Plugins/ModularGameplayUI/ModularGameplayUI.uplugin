@@ -77,6 +77,10 @@
 		{
 			"Name": "UIExtension",
 			"Enabled": true
-		}
+		},
+        {
+          "Name": "AsyncMixin",
+          "Enabled": true
+        }
 	]
 }
