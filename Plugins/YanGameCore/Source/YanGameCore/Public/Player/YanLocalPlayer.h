@@ -6,14 +6,18 @@
 #include "CommonLocalPlayer.h"
 #include "YanLocalPlayer.generated.h"
 
+#define UE_API YANGAMECORE_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMECORE_API UYanLocalPlayer : public UCommonLocalPlayer
+UCLASS(MinimalAPI)
+class UYanLocalPlayer : public UCommonLocalPlayer
 {
 	GENERATED_BODY()
 	
 public:
-	UYanLocalPlayer();
+	UE_API UYanLocalPlayer();
 };
+
+#undef UE_API

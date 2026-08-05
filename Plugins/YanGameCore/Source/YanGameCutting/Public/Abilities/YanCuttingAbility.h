@@ -4,6 +4,8 @@
 #include "GameplayAbilities/ModularGameplayAbility.h"
 #include "YanCuttingAbility.generated.h"
 
+#define UE_API YANGAMECUTTING_API
+
 class AYanCuttableActor;
 
 USTRUCT(BlueprintType)
@@ -28,17 +30,17 @@ struct FYanTargetActorHandle
  *   DragWorld = DragX * CameraRight + (-DragY) * CameraUp
  *   CutNormal = normalize(DragWorld × CameraForward)
  */
-UCLASS(Blueprintable, BlueprintType, EditInlineNew)
-class YANGAMECUTTING_API UYanCuttingAbility : public UModularGameplayAbility
+UCLASS(MinimalAPI, Blueprintable, BlueprintType, EditInlineNew)
+class UYanCuttingAbility : public UModularGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
-	UYanCuttingAbility();
+	UE_API UYanCuttingAbility();
 
 	//~Begin UGameplayAbility Interface
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-	virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
+	UE_API virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	UE_API virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
 	//~End UGameplayAbility Interface
 
 	/** Maximum line-trace distance to find a cuttable target (cm). */
@@ -50,13 +52,15 @@ public:
 	float MinDragPixels = 10.f;
 
 private:
-	void ScanForTargets(const FGameplayAbilityActorInfo* ActorInfo);
-	void ExecuteCut(const FGameplayAbilityActorInfo* ActorInfo);
+	UE_API void ScanForTargets(const FGameplayAbilityActorInfo* ActorInfo);
+	UE_API void ExecuteCut(const FGameplayAbilityActorInfo* ActorInfo);
 
-	FVector ComputeCutNormal(FVector2D DragScreen, FVector CameraRight, FVector CameraUp, FVector CameraForward) const;
+	UE_API FVector ComputeCutNormal(FVector2D DragScreen, FVector CameraRight, FVector CameraUp, FVector CameraForward) const;
 
 	FVector2D DragStartScreenPos = FVector2D::ZeroVector;
 	
 	UPROPERTY(Transient)
 	TArray<FYanTargetActorHandle> RecordedTargets;
 };
+
+#undef UE_API

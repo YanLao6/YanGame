@@ -18,6 +18,8 @@
 #include "GameMode/ModularExperienceGameState.h"
 #include "GameMode/ModularUserFacingExperienceDefinition.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ModularExperienceGameMode)
+
 
 AModularExperienceGameMode::AModularExperienceGameMode(const FObjectInitializer& ObjectInitializer)
 {
@@ -122,6 +124,14 @@ void AModularExperienceGameMode::InitGame(const FString& MapName, const FString&
 	GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ThisClass::HandleMatchAssignmentIfNotExpectingOne);
 }
 
+void AModularExperienceGameMode::SetPendingSpawnTransform(AController* Controller, const FTransform& SpawnTransform)
+{
+	if (Controller)
+	{
+		PendingSpawnTransforms.Add(FObjectKey(Controller), SpawnTransform);
+	}
+}
+
 APawn* AModularExperienceGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform)
 {
 	FActorSpawnParameters SpawnInfo;
@@ -129,9 +139,19 @@ APawn* AModularExperienceGameMode::SpawnDefaultPawnAtTransform_Implementation(AC
 	SpawnInfo.ObjectFlags        |= RF_Transient; // 默认玩家 Pawn 不落盘到地图
 	SpawnInfo.bDeferConstruction = true;
 
+	// 原地重生：消费一次性 Transform，覆盖出生点决议结果。
+	FTransform ActualSpawnTransform = SpawnTransform;
+	if (FTransform PendingTransform; PendingSpawnTransforms.RemoveAndCopyValue(FObjectKey(NewPlayer), PendingTransform))
+	{
+		ActualSpawnTransform = PendingTransform;
+
+		// 新 Pawn 的碰撞体尺寸未必与原 Pawn 相同，原位可能已容不下；此处优先微调而非放弃生成。
+		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	}
+
 	if (UClass* PawnClass = GetDefaultPawnClassForController(NewPlayer))
 	{
-		if (APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(PawnClass, SpawnTransform, SpawnInfo))
+		if (APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(PawnClass, ActualSpawnTransform, SpawnInfo))
 		{
 			if (UModularPawnComponent* PawnExtComp = UModularPawnComponent::FindModularPawnComponent(SpawnedPawn))
 			{
@@ -145,11 +165,11 @@ APawn* AModularExperienceGameMode::SpawnDefaultPawnAtTransform_Implementation(AC
 				}
 			}
 
-			SpawnedPawn->FinishSpawning(SpawnTransform);
+			SpawnedPawn->FinishSpawning(ActualSpawnTransform);
 
 			return SpawnedPawn;
 		}
-		UE_LOG(LogModularGameplayExperiences, Error, TEXT("Game mode was unable to spawn Pawn of class [%s] at [%s]."), *GetNameSafe(PawnClass), *SpawnTransform.ToHumanReadableString());
+		UE_LOG(LogModularGameplayExperiences, Error, TEXT("Game mode was unable to spawn Pawn of class [%s] at [%s]."), *GetNameSafe(PawnClass), *ActualSpawnTransform.ToHumanReadableString());
 	}
 	else
 	{

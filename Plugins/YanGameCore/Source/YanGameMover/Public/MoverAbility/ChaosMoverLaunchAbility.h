@@ -4,6 +4,8 @@
 #include "GameplayAbilities/ModularGameplayAbility.h"
 #include "ChaosMoverLaunchAbility.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 class AYanHookProjectile;
 class APawn;
 class UGameplayEffect;
@@ -14,17 +16,17 @@ class UAbilityTask_WaitInputRelease;
 /**
  * Chaos 版发射冲击弹丸技能（服务器权威发射 + LocalPredicted 表现）
  */
-UCLASS()
-class YANGAMEMOVER_API UChaosMoverLaunchAbility : public UModularGameplayAbility
+UCLASS(MinimalAPI)
+class UChaosMoverLaunchAbility : public UModularGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
-	UChaosMoverLaunchAbility(const FObjectInitializer& Initializer);
+	UE_API UChaosMoverLaunchAbility(const FObjectInitializer& Initializer);
 
 	//~Begin UGameplayAbility Interface
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+	UE_API virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	UE_API virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//~End UGameplayAbility Interface
 
 protected:
@@ -59,20 +61,20 @@ protected:
 
 private:
 	UFUNCTION()
-	void OnInputReleased(float TimeHeld);
+	UE_API void OnInputReleased(float TimeHeld);
 
 	UFUNCTION()
-	void HandleProjectileHit(AYanHookProjectile* Projectile, const FHitResult& Hit);
+	UE_API void HandleProjectileHit(AYanHookProjectile* Projectile, const FHitResult& Hit);
 
 	UFUNCTION()
-	void HandleProjectileMissed(AYanHookProjectile* Projectile);
+	UE_API void HandleProjectileMissed(AYanHookProjectile* Projectile);
 
 	// 由投射物前向与 Up 按 UpwardRatio 插值归一化后乘 LaunchSpeed，得到世界空间击飞速度
-	FVector ComputeLaunchVelocity(const AYanHookProjectile* Projectile) const;
+	UE_API FVector ComputeLaunchVelocity(const AYanHookProjectile* Projectile) const;
 
-	void SpawnAndLaunchProjectile();
+	UE_API void SpawnAndLaunchProjectile();
 
-	void PlayLocalFeedback(USoundBase* Sound, UAnimMontage* Montage) const;
+	UE_API void PlayLocalFeedback(USoundBase* Sound, UAnimMontage* Montage) const;
 
 private:
 	UPROPERTY()
@@ -81,3 +83,5 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAbilityTask_WaitInputRelease> WaitReleaseTask;
 };
+
+#undef UE_API

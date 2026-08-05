@@ -6,6 +6,8 @@
 #include "GameplayEffectTypes.h"
 #include "GameplayTagsAnimInstance.generated.h"
 
+#define UE_API MODULARGAMEPLAYABILITIES_API
+
 /**
  * 在 AnimInstance 上集成 GameplayTag → Blueprint 变量自动同步。
  *
@@ -17,14 +19,14 @@
  *
  * @see https://dev.epicgames.com/community/learning/tutorials/n2nJ/unreal-engine-fgameplaytagblueprintpropertymap-the-tag-watcher
  */
-UCLASS(Config = Game)
-class MODULARGAMEPLAYABILITIES_API UGameplayTagsAnimInstance : public UAnimInstance
+UCLASS(MinimalAPI, Config = Game)
+class UGameplayTagsAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造。 */
-	UGameplayTagsAnimInstance(const FObjectInitializer& ObjectInitializer);
+	UE_API UGameplayTagsAnimInstance(const FObjectInitializer& ObjectInitializer);
 
 	/**
 	 * 使用指定 ASC 初始化 Tag 属性映射。
@@ -33,15 +35,15 @@ public:
 	 *
 	 * @todo 与 NativeInitializeAnimation 的路径收敛，避免重复初始化。
 	 */
-	virtual void InitializeWithAbilitySystem(UAbilitySystemComponent* AbilityComponent);
+	UE_API virtual void InitializeWithAbilitySystem(UAbilitySystemComponent* AbilityComponent);
 
 protected:
 #if WITH_EDITOR
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
+	UE_API virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 #endif
 
-	virtual void NativeInitializeAnimation() override;
-	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+	UE_API virtual void NativeInitializeAnimation() override;
+	UE_API virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
 	// 可映射到 Blueprint 变量的 GameplayTag；增删 Tag 时自动刷新变量。
@@ -51,3 +53,5 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Character State Data")
 	float GroundDistance = -1.0f;
 };
+
+#undef UE_API

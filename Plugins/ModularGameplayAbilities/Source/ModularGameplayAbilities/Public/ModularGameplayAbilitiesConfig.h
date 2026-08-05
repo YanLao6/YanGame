@@ -10,7 +10,7 @@
 /**
  * DeveloperSettings：指向全局 UModularAbilityData 软引用路径。
  */
-UCLASS(Config = Game)
+UCLASS(MinimalAPI, Config = Game)
 class UModularGameplayAbilitiesConfig : public UDeveloperSettings
 {
 	GENERATED_BODY()

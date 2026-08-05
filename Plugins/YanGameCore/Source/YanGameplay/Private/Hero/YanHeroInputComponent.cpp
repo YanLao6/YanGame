@@ -5,8 +5,9 @@
 #include "MoverDataModelTypes.h"
 #include "ActorComponent/ModularAbilitySystemComponent.h"
 #include "ActorComponent/ModularInputConfigComponent.h"
-#include "ActorComponent/ModularPawnComponent.h"
 #include "ModularGameplayTags.h"
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanHeroInputComponent)
 
 
 UYanHeroInputComponent::UYanHeroInputComponent(const FObjectInitializer& ObjectInitializer)
@@ -26,19 +27,8 @@ void UYanHeroInputComponent::InitializePlayerInput(UInputComponent* PlayerInputC
 		return;
 	}
 
-	const UModularPawnComponent* PawnExtComp = UModularPawnComponent::FindModularPawnComponent(Pawn);
-	if (!PawnExtComp)
-	{
-		return;
-	}
-
-	const UModularPawnData* PawnData = PawnExtComp->GetPawnData<UModularPawnData>();
-	if (!PawnData || !PawnData->InputConfig)
-	{
-		return;
-	}
-
 	// 注册自身为 Mover 基础移动 InputProducer（写入方向/朝向/控制器旋转）。
+	// 该注册与 InputConfig 无关：PawnData 未配置输入 Fragment 时移动仍须可用。
 	// UInputComponent 晚于 UMoverComponent::BeginPlay 创建，BeginPlay 扫描无法找到本组件，需在此手动注册。
 	if (UMoverComponent* MoverComp = Pawn->FindComponentByClass<UMoverComponent>())
 	{

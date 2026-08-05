@@ -16,7 +16,7 @@ class UPhysicalMaterial;
  *
  * 表示一个被生成并附加到 Pawn 上的远程武器，负责管理散布、热量、距离衰减和物理材质伤害系数。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class URangedWeaponInstance : public UWeaponInstance, public IModularAbilitySourceInterface
 {
 	GENERATED_BODY()

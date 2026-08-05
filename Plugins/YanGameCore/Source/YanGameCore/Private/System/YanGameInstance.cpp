@@ -3,6 +3,8 @@
 
 #include "YanGameCore/Public/System/YanGameInstance.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanGameInstance)
+
 
 UYanGameInstance::UYanGameInstance(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

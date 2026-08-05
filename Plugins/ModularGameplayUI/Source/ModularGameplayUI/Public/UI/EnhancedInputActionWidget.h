@@ -13,7 +13,7 @@ class UInputAction;
  *
  * 根据当前输入映射，返回与 `AssociatedInputAction` 对应的按键图标。
  */
-UCLASS(BlueprintType, Blueprintable)
+UCLASS(MinimalAPI, BlueprintType, Blueprintable)
 class UEnhancedInputActionWidget : public UCommonActionWidget
 {
 	GENERATED_BODY()

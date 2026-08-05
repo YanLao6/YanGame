@@ -8,31 +8,33 @@
 
 #include "ModularExperienceGameState.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 /**
  * Experience 对应的 GameState。
  *
  * 承载 ExperienceComponent，并提供面向客户端的消息广播能力。
  */
-UCLASS(Config = Game)
-class MODULARGAMEPLAYEXPERIENCES_API AModularExperienceGameState : public AModularGameStateBase
+UCLASS(MinimalAPI, Config = Game)
+class AModularExperienceGameState : public AModularGameStateBase
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造 ExperienceGameState。 */
-	AModularExperienceGameState(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API AModularExperienceGameState(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	//~AActor interface
-	virtual void PreInitializeComponents() override;
-	virtual void PostInitializeComponents() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	virtual void Tick(float DeltaSeconds) override;
+	UE_API virtual void PreInitializeComponents() override;
+	UE_API virtual void PostInitializeComponents() override;
+	UE_API virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UE_API virtual void Tick(float DeltaSeconds) override;
 	//~End of AActor interface
 
 	//~AGameStateBase interface
-	virtual void AddPlayerState(APlayerState* PlayerState) override;
-	virtual void RemovePlayerState(APlayerState* PlayerState) override;
-	virtual void SeamlessTravelTransitionCheckpoint(bool bToTransitionMap) override;
+	UE_API virtual void AddPlayerState(APlayerState* PlayerState) override;
+	UE_API virtual void RemovePlayerState(APlayerState* PlayerState) override;
+	UE_API virtual void SeamlessTravelTransitionCheckpoint(bool bToTransitionMap) override;
 	//~End of AGameStateBase interface
 
 	/**
@@ -40,23 +42,23 @@ public:
 	 * 适用于淘汰提示、进房提示等可容忍丢失的通知。
 	 */
 	UFUNCTION(NetMulticast, Unreliable, BlueprintCallable, Category = "GameState")
-	void MulticastMessageToClients(const FModularVerbMessage Message);
+	UE_API void MulticastMessageToClients(const FModularVerbMessage Message);
 
 	/**
 	 * Reliable NetMulticast：向客户端保证送达的 VerbMessage。
 	 * 仅用于不可丢失的客户端通知。
 	 */
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "GameState")
-	void MulticastReliableMessageToClients(const FModularVerbMessage Message);
+	UE_API void MulticastReliableMessageToClients(const FModularVerbMessage Message);
 
 	/** 获取服务器端 FPS（Replicated 到客户端）。 */
-	float GetServerFPS() const;
+	UE_API float GetServerFPS() const;
 
 	/** 标记本地用于录制 Replay 的 PlayerState（通常仅录制端调用）。 */
-	void SetRecorderPlayerState(APlayerState* NewPlayerState);
+	UE_API void SetRecorderPlayerState(APlayerState* NewPlayerState);
 
 	/** 返回录制 Replay 时关联的 PlayerState（若有效）。 */
-	APlayerState* GetRecorderPlayerState() const;
+	UE_API APlayerState* GetRecorderPlayerState() const;
 
 	/** Replay 录制 PlayerState 变化时广播。 */
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnRecorderPlayerStateChanged, APlayerState*);
@@ -76,6 +78,8 @@ protected:
 	TObjectPtr<APlayerState> RecorderPlayerState;
 
 	UFUNCTION()
-	void OnRep_RecorderPlayerState();
+	UE_API void OnRep_RecorderPlayerState();
 
 };
+
+#undef UE_API

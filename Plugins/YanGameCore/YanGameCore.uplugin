@@ -53,6 +53,11 @@
       "Name": "YanGameCutting",
       "Type": "Runtime",
       "LoadingPhase": "Default"
+    },
+    {
+      "Name": "HeroAssignmentSystem",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
     }
   ],
   "Plugins": [

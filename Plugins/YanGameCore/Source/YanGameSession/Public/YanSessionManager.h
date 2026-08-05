@@ -8,6 +8,8 @@
 #include "YanSessionSearchResultData.h"       // 同模块，供 CachedResults 使用
 #include "YanSessionManager.generated.h"
 
+#define UE_API YANGAMESESSION_API
+
 class UModularUserFacingExperienceDefinition;
 struct FOnlineResultInformation;
 
@@ -31,15 +33,15 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FYanOnSessionJoined, bool, bSuccess
  *
  * AngelScript UI Widget 只需调用本类的接口，无需直接接触 FOnlineResultInformation。
  */
-UCLASS()
-class YANGAMESESSION_API UYanSessionManager : public UGameInstanceSubsystem
+UCLASS(MinimalAPI)
+class UYanSessionManager : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
 	//~UGameInstanceSubsystem interface
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	virtual void Deinitialize() override;
+	UE_API virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	UE_API virtual void Deinitialize() override;
 	//~End
 
 	// ── Lobby 信息（UI 便捷展示） ─────────────────────────────────────────────
@@ -52,7 +54,7 @@ public:
 	 * - 玩家数来自当前 World->GameState->PlayerArray.Num()（进入大厅后最直观）。
 	 */
 	UFUNCTION(BlueprintPure, Category = "Yan|Session")
-	FText GetLobbyInfoText() const;
+	UE_API FText GetLobbyInfoText() const;
 
 	// ── 主要操作 ──────────────────────────────────────────────────────────────
 
@@ -62,23 +64,23 @@ public:
 	 * 再转发给 UCommonSessionSubsystem::HostSession()。
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Session")
-	void HostSession(APlayerController* HostingPlayer, UModularUserFacingExperienceDefinition* ExperienceDef);
+	UE_API void HostSession(APlayerController* HostingPlayer, UModularUserFacingExperienceDefinition* ExperienceDef);
 
 	/** 搜索所有可见的 Steam 联机房间（Online + Lobby），结果存入 CachedResults */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Session")
-	void FindSessions(APlayerController* SearchingPlayer);
+	UE_API void FindSessions(APlayerController* SearchingPlayer);
 
 	/** 加入指定的 SearchResult 对应的房间 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Session")
-	void JoinSession(APlayerController* JoiningPlayer, UCommonSession_SearchResult* Result);
+	UE_API void JoinSession(APlayerController* JoiningPlayer, UCommonSession_SearchResult* Result);
 
 	/** AngelScript 便利重载：直接传入 CachedResults 中的条目 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Session")
-	void JoinSessionByData(APlayerController* JoiningPlayer, UYanSessionSearchResultData* Data);
+	UE_API void JoinSessionByData(APlayerController* JoiningPlayer, UYanSessionSearchResultData* Data);
 
 	/** 清理当前会话（例如返回主菜单时调用） */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Session")
-	void CleanUpSessions();
+	UE_API void CleanUpSessions();
 
 public:
 	// ── 搜索结果 ──────────────────────────────────────────────────────────────
@@ -106,14 +108,14 @@ public:
 
 private:
 	// 内部回调 —— 绑定到 UCommonSessionSubsystem 的 Native 事件
-	void HandleCreateComplete(const FOnlineResultInformation& Result);
-	void HandleJoinComplete(const FOnlineResultInformation& Result);
+	UE_API void HandleCreateComplete(const FOnlineResultInformation& Result);
+	UE_API void HandleJoinComplete(const FOnlineResultInformation& Result);
 
 	// 绑定到 UCommonSession_SearchSessionRequest::OnSearchFinished
-	void HandleSearchFinished(bool bSucceeded, const FText& ErrorMessage);
+	UE_API void HandleSearchFinished(bool bSucceeded, const FText& ErrorMessage);
 
 	// 监听 CommonUser 的“可展示会话信息”变化（Map/GameMode/State）
-	void HandleSessionInformationChanged(ECommonSessionInformationState SessionStatus, const FString& GameMode, const FString& MapName);
+	UE_API void HandleSessionInformationChanged(ECommonSessionInformationState SessionStatus, const FString& GameMode, const FString& MapName);
 
 	/** 最近一次 CommonSession 广播的可展示状态（主要用于 UI 文本） */
 	ECommonSessionInformationState CachedSessionState = ECommonSessionInformationState::OutOfGame;
@@ -132,3 +134,5 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UCommonSession_SearchSessionRequest> PendingSearchRequest;
 };
+
+#undef UE_API

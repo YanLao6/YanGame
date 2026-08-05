@@ -13,7 +13,8 @@
 #include "ActorComponent/ModularInputComponent.h"
 #include "ActorComponent/ModularInputConfigComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
-#include "DataAsset/IAbilityPawnDataInterface.h"
+#include "DataAsset/Fragments/PawnDataFragment_InputConfig.h"
+#include "Logging/MessageLog.h"
 #include "Misc/UObjectToken.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ModularAbilityExtensionComponent)
@@ -68,12 +69,7 @@ void UModularAbilityExtensionComponent::InitializeAbilitySystem(UModularAbilityS
 	AbilitySystemComponent = InASC;
 	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, Pawn);
 
-	const UModularPawnComponent* ModularPawnComponent = Pawn->GetComponentByClass<UModularPawnComponent>();
-	if (const IAbilityPawnDataInterface* PawnData = ModularPawnComponent->GetPawnData<IAbilityPawnDataInterface>();
-		ensure(PawnData))
-	{
-		InASC->SetTagRelationshipMapping(PawnData->GetTagRelationshipMapping());
-	}
+	// TagRelationshipMapping 由 PawnData 的 PlayerState 作用域 Fragment 写入 ASC，此处不再重复设置。
 
 	OnAbilitySystemInitialized.Broadcast();
 }
@@ -143,6 +139,63 @@ void UModularAbilityExtensionComponent::InitializePlayerInput(UInputComponent* P
 	}
 
 	InputActionMapping(PlayerInputComponent, Pawn);
+
+	bReadyToBindInputs = true;
+
+	// 本组件与 UModularInputComponent 同在 DataAvailable→DataInitialized 一跳内初始化，推进顺序不固定。
+	// 此处补发一次事件，确保监听方（GameFeatureAction_AddInputBinding）至少收到一次 IsReadyToBindInputs 为真的通知。
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APawn*>(Pawn), UModularInputConfigComponent::NAME_BindInputsNow);
+}
+
+void UModularAbilityExtensionComponent::AddAdditionalInputConfig(const UModularInputConfig* InputConfig)
+{
+	if (!InputConfig)
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return;
+	}
+
+	UModularInputConfigComponent* InputConfigComponent = Cast<UModularInputConfigComponent>(Pawn->InputComponent);
+	if (!ensureMsgf(InputConfigComponent, TEXT("Unexpected Input Component class! The Gameplay Abilities will not be bound to their inputs. Change the input component to UInputConfigComponent or a subclass of it.")))
+	{
+		return;
+	}
+
+	TArray<uint32>& BindHandles = AdditionalInputBindHandles.FindOrAdd(InputConfig);
+	if (!BindHandles.IsEmpty())
+	{
+		// 同一 InputConfig 已绑定，重复绑定会让一次按键触发多次技能输入。
+		return;
+	}
+
+	InputConfigComponent->RegisterInputConfig(InputConfig);
+	InputConfigComponent->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
+}
+
+void UModularAbilityExtensionComponent::RemoveAdditionalInputConfig(const UModularInputConfig* InputConfig)
+{
+	if (!InputConfig)
+	{
+		return;
+	}
+
+	TArray<uint32> BindHandles;
+	if (!AdditionalInputBindHandles.RemoveAndCopyValue(InputConfig, BindHandles))
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (UModularInputConfigComponent* InputConfigComponent = Pawn ? Cast<UModularInputConfigComponent>(Pawn->InputComponent) : nullptr)
+	{
+		InputConfigComponent->RemoveBinds(BindHandles);
+		InputConfigComponent->UnregisterInputConfig(InputConfig);
+	}
 }
 
 void UModularAbilityExtensionComponent::InputActionMapping(UInputComponent* PlayerInputComponent, const APawn* Pawn)
@@ -157,18 +210,29 @@ void UModularAbilityExtensionComponent::InputActionMapping(UInputComponent* Play
 	{
 		return;
 	}
-	const UModularInputConfig* InputConfig = PawnData->InputConfig;
-	if (!InputConfig)
+	const UPawnDataFragment_InputConfig* InputFragment = PawnData->FindFragment<UPawnDataFragment_InputConfig>();
+	if (!InputFragment)
 	{
 		return;
 	}
 
-	if (UModularInputConfigComponent* InputConfigComponent = Cast<UModularInputConfigComponent>(PlayerInputComponent);
-		ensureMsgf(InputConfigComponent, TEXT("Unexpected Input Component class! The Gameplay Abilities will not be bound to their inputs. Change the input component to UInputConfigComponent or a subclass of it.")))
+	UModularInputConfigComponent* InputConfigComponent = Cast<UModularInputConfigComponent>(PlayerInputComponent);
+	if (!ensureMsgf(InputConfigComponent, TEXT("Unexpected Input Component class! The Gameplay Abilities will not be bound to their inputs. Change the input component to UInputConfigComponent or a subclass of it.")))
+	{
+		return;
+	}
+
+	if (InputFragment->InputConfig)
 	{
 		// 将 InputAction 绑定到 GameplayTag，从而让 GameplayAbility Blueprint 能由 Trigger 事件直接驱动。
 		TArray<uint32> BindHandles;
-		InputConfigComponent->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
+		InputConfigComponent->RegisterInputConfig(InputFragment->InputConfig);
+		InputConfigComponent->BindAbilityActions(InputFragment->InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, /*out*/ BindHandles);
+	}
+
+	for (const UModularInputConfig* AdditionalConfig : InputFragment->AdditionalAbilityInputConfigs)
+	{
+		AddAdditionalInputConfig(AdditionalConfig);
 	}
 }
 

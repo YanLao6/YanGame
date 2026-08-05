@@ -12,7 +12,7 @@ struct FGameplayAbilitySpecHandle;
 struct FObjectKey;
 
 /** 周期性扫描附近可交互物，并将其携带的交互能力动态授予拥有者的 AbilityTask。 */
-UCLASS()
+UCLASS(MinimalAPI)
 class UAbilityTask_GrantNearbyInteraction : public UAbilityTask
 {
 	GENERATED_UCLASS_BODY()

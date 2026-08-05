@@ -8,6 +8,8 @@
 
 #include "ModularNotificationMessage.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 class UObject;
 
 MODULARGAMEPLAYEXPERIENCES_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Modular_AddNotification_Message);
@@ -18,7 +20,7 @@ class APlayerState;
  * 发往临时通知流的消息（如淘汰 Feed、拾取日志等 UI Channel）。
  */
 USTRUCT(BlueprintType)
-struct MODULARGAMEPLAYEXPERIENCES_API FModularNotificationMessage
+struct FModularNotificationMessage
 {
 	GENERATED_BODY()
 
@@ -42,3 +44,5 @@ struct MODULARGAMEPLAYEXPERIENCES_API FModularNotificationMessage
 	UPROPERTY(BlueprintReadWrite, Category=Notification)
 	TObjectPtr<UObject> PayloadObject = nullptr;
 };
+
+#undef UE_API

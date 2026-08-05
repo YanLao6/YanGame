@@ -68,9 +68,56 @@ void UModularPawnComponent::BeginPlay()
 
 void UModularPawnComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	RevokePawnDataFragments();
+
 	UnregisterInitStateFeature();
 
 	Super::EndPlay(EndPlayReason);
+}
+
+FPawnDataFragmentContext UModularPawnComponent::MakeFragmentContext() const
+{
+	APawn* Pawn = const_cast<UModularPawnComponent*>(this)->GetPawn<APawn>();
+
+	FPawnDataFragmentContext Context;
+	Context.TargetActor = Pawn;
+	Context.Pawn        = Pawn;
+	Context.Controller  = Pawn ? Pawn->GetController() : nullptr;
+
+	return Context;
+}
+
+void UModularPawnComponent::ApplyPawnDataFragments()
+{
+	if (AppliedPawnData || !PawnData)
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return;
+	}
+
+	PawnData->ApplyFragments(EPawnDataFragmentScope::Pawn, MakeFragmentContext(), Pawn->HasAuthority(), FragmentStates);
+
+	AppliedPawnData = PawnData;
+}
+
+void UModularPawnComponent::RevokePawnDataFragments()
+{
+	if (!AppliedPawnData)
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+
+	AppliedPawnData->RevokeFragments(EPawnDataFragmentScope::Pawn, MakeFragmentContext(), Pawn && Pawn->HasAuthority(), FragmentStates);
+
+	FragmentStates.Reset();
+	AppliedPawnData = nullptr;
 }
 
 void UModularPawnComponent::SetPawnData(const UModularPawnData* InPawnData)
@@ -186,7 +233,9 @@ void UModularPawnComponent::HandleChangeInitState(UGameFrameworkComponentManager
 {
 	if (DesiredState == ModularGameplayTags::InitState_DataInitialized)
 	{
-		// 具体初始化逻辑由监听该状态的其它组件完成
+		// PawnData 已可用且 Controller 已配对，此时注入 Pawn 作用域 Fragment。
+		// 其余初始化逻辑由监听该状态的其它组件完成。
+		ApplyPawnDataFragments();
 	}
 }
 

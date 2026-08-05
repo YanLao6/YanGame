@@ -6,6 +6,8 @@
 #include "UObject/SoftObjectPtr.h"
 #include "GameFeatureAction_AddInputContextMapping.generated.h"
 
+#define UE_API MODULARGAMEPLAYDATA_API
+
 class AActor;
 class UInputMappingContext;
 class UPlayer;
@@ -39,26 +41,26 @@ struct FInputMappingContextAndPriority
  * 将配置的 `InputMappingContext` 注入到本地玩家的 EnhancedInput 系统。
  * 要求目标项目已经启用并正确配置 EnhancedInput。
  */
-UCLASS(meta = (DisplayName = "Add Input Mapping"))
-class MODULARGAMEPLAYDATA_API UGameFeatureAction_AddInputContextMapping final : public UGameFeatureAction_WorldActionBase
+UCLASS(MinimalAPI, meta = (DisplayName = "Add Input Mapping"))
+class UGameFeatureAction_AddInputContextMapping final : public UGameFeatureAction_WorldActionBase
 {
 	GENERATED_BODY()
 
 public:
 	//~ UGameFeatureAction 接口
 	/** 注册 GameFeature 时注册输入映射上下文。 */
-	virtual void OnGameFeatureRegistering() override;
+	UE_API virtual void OnGameFeatureRegistering() override;
 	/** 激活 GameFeature 时向目标 World 注入输入映射。 */
-	virtual void OnGameFeatureActivating(FGameFeatureActivatingContext& Context) override;
+	UE_API virtual void OnGameFeatureActivating(FGameFeatureActivatingContext& Context) override;
 	/** 反激活 GameFeature 时回收输入映射。 */
-	virtual void OnGameFeatureDeactivating(FGameFeatureDeactivatingContext& Context) override;
+	UE_API virtual void OnGameFeatureDeactivating(FGameFeatureDeactivatingContext& Context) override;
 	/** 注销 GameFeature 时解绑注册状态。 */
-	virtual void OnGameFeatureUnregistering() override;
+	UE_API virtual void OnGameFeatureUnregistering() override;
 	//~ UGameFeatureAction 接口结束
 
 	//~ UObject 接口
 #if WITH_EDITOR
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
+	UE_API virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 #endif
 	//~ UObject 接口结束
 
@@ -79,33 +81,35 @@ private:
 	FDelegateHandle RegisterInputContextMappingsForGameInstanceHandle;
 
 	/** 将全部配置的 IMC 登记到 UserSettings，并监听 GameInstance/LocalPlayer 增删。 */
-	void RegisterInputMappingContexts();
+	UE_API void RegisterInputMappingContexts();
 	
 	/** 为指定 GameInstance 绑定 LocalPlayer 事件并在已存在 LocalPlayer 上登记 IMC。 */
-	void RegisterInputContextMappingsForGameInstance(UGameInstance* GameInstance);
+	UE_API void RegisterInputContextMappingsForGameInstance(UGameInstance* GameInstance);
 
 	/** 为指定 LocalPlayer 把需登记 Settings 的 IMC Register 到 UEnhancedInputUserSettings。 */
-	void RegisterInputMappingContextsForLocalPlayer(ULocalPlayer* LocalPlayer);
+	UE_API void RegisterInputMappingContextsForLocalPlayer(ULocalPlayer* LocalPlayer);
 
 	/** 解除 RegisterInputMappingContexts 绑定的全局与逐实例监听。 */
-	void UnregisterInputMappingContexts();
+	UE_API void UnregisterInputMappingContexts();
 
 	/** 对指定 GameInstance 解绑本 Action 的 LocalPlayer 回调。 */
-	void UnregisterInputContextMappingsForGameInstance(UGameInstance* GameInstance);
+	UE_API void UnregisterInputContextMappingsForGameInstance(UGameInstance* GameInstance);
 
 	/** LocalPlayer 移除时从 UserSettings 反注册对应 IMC。 */
-	void UnregisterInputMappingContextsForLocalPlayer(ULocalPlayer* LocalPlayer);
+	UE_API void UnregisterInputMappingContextsForLocalPlayer(ULocalPlayer* LocalPlayer);
 
 	//~ UGameFeatureAction_WorldActionBase 接口
-	virtual void AddToWorld(const FWorldContext& WorldContext, const FGameFeatureStateChangeContext& ChangeContext) override;
+	UE_API virtual void AddToWorld(const FWorldContext& WorldContext, const FGameFeatureStateChangeContext& ChangeContext) override;
 	//~ UGameFeatureAction_WorldActionBase 接口结束
 
 	// 清空 Extension 请求句柄并从各 PlayerController 移除 IMC。
-	void Reset(FPerContextData& ActiveData);
+	UE_API void Reset(FPerContextData& ActiveData);
 	// UGameFrameworkComponentManager 扩展回调：PlayerController 增删或 BindInputsNow 时增删 Mapping。
-	void HandleControllerExtension(AActor* Actor, FName EventName, FGameFeatureStateChangeContext ChangeContext);
+	UE_API void HandleControllerExtension(AActor* Actor, FName EventName, FGameFeatureStateChangeContext ChangeContext);
 	// 向 LocalPlayer 的 UEnhancedInputLocalPlayerSubsystem 逐个 AddMappingContext。
-	void AddInputMappingForPlayer(UPlayer* Player, FPerContextData& ActiveData);
+	UE_API void AddInputMappingForPlayer(UPlayer* Player, FPerContextData& ActiveData);
 	// 从指定 PlayerController 的 LocalPlayer 子系统 RemoveMappingContext。
-	void RemoveInputMapping(APlayerController* PlayerController, FPerContextData& ActiveData);
+	UE_API void RemoveInputMapping(APlayerController* PlayerController, FPerContextData& ActiveData);
 };
+
+#undef UE_API

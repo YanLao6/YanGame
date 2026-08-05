@@ -19,7 +19,7 @@ struct FInteractionQuery;
  * 放置于场景中的可交互 / 可拾取 Actor：靠近时提供交互选项，拾取时向背包注入 StaticInventory。
  * 自带一个默认对 Interaction 通道 Overlap 的碰撞体，可直接被交互扫描命中。
  */
-UCLASS(Abstract, Blueprintable)
+UCLASS(MinimalAPI, Abstract, Blueprintable)
 class AWorldCollectable : public AActor, public IInteractableTarget, public IPickupable
 {
 	GENERATED_BODY()

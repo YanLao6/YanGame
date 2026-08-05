@@ -11,8 +11,9 @@
  * 典型接入：
  * 1. 在 PlayerState 上挂载 UModularAbilitySystemComponent。
  * 2. 在 ModularExperienceCharacter（Pawn）上挂载 UModularAbilityExtensionComponent。
- * 3. 在游戏的 PawnData 上实现 IAbilityPawnDataInterface。
- * 4. 像往常一样配置 Experience 的 PawnData，并包含 Ability 相关资产。
+ * 3. 在 PawnData 的 Fragments 中加入 UPawnDataFragment_AbilitySets 配置要授予的技能，
+ *    需要 Tag 阻塞/取消关系时再加入 UPawnDataFragment_TagRelationship。
+ * 4. 将该 PawnData 配置为 Experience 的默认值或角色目录中的候选项。
  */
 class FModularGameplayAbilitiesModule final : public IModuleInterface
 {

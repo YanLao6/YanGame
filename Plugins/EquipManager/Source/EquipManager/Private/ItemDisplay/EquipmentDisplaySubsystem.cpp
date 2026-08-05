@@ -10,6 +10,8 @@
 #include "Engine/StreamableManager.h"
 #include "Inventory/InventoryItemInstance.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(EquipmentDisplaySubsystem)
+
 template <typename RowType>
 const RowType* UEquipmentDisplaySubsystem::GetCachedItem(const FDataRegistryId& ItemId) const
 {

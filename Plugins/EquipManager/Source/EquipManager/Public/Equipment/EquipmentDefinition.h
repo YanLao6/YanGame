@@ -41,7 +41,7 @@ struct FEquipmentActorToSpawn
  *
  * 用于描述某个可装备对象在运行时应创建哪种装备实例，以及装备时需要派生出的附属 Actor。
  */
-UCLASS(Blueprintable, Const, Abstract, BlueprintType)
+UCLASS(MinimalAPI, Blueprintable, Const, Abstract, BlueprintType)
 class UEquipmentDefinition : public UObject
 {
 	GENERATED_BODY()

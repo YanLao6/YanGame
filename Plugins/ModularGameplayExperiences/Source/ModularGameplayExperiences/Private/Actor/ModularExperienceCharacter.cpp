@@ -4,6 +4,8 @@
 #include "Actor/ModularExperienceCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ModularExperienceCharacter)
+
 AModularExperienceCharacter::AModularExperienceCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {

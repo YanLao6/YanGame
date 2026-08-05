@@ -5,6 +5,8 @@
 #include "Abilities/GameplayAbilityTargetTypes.h"
 #include "MoverLaunchAbility.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 class AYanHookProjectile;
 class APawn;
 
@@ -19,17 +21,17 @@ class APawn;
  *
  * 投射物为本地 cosmetic，服务器不 Spawn、不以其碰撞作为命中真相；命中真相由回传的 TargetData 承载。
  */
-UCLASS()
-class YANGAMEMOVER_API UMoverLaunchAbility : public UModularGameplayAbility
+UCLASS(MinimalAPI)
+class UMoverLaunchAbility : public UModularGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
-	UMoverLaunchAbility(const FObjectInitializer& Initializer);
+	UE_API UMoverLaunchAbility(const FObjectInitializer& Initializer);
 
 	//~Begin UGameplayAbility Interface
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+	UE_API virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	UE_API virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//~End UGameplayAbility Interface
 
 protected:
@@ -59,20 +61,20 @@ protected:
 private:
 	/** 投射物命中回调（本地受控端）：命中 Pawn 时回传 TargetData，随后结束技能 */
 	UFUNCTION()
-	void HandleProjectileHit(AYanHookProjectile* Projectile, const FHitResult& Hit);
+	UE_API void HandleProjectileHit(AYanHookProjectile* Projectile, const FHitResult& Hit);
 
 	/** 投射物超出射程回调（本地受控端）：结束技能 */
 	UFUNCTION()
-	void HandleProjectileMissed(AYanHookProjectile* Projectile);
+	UE_API void HandleProjectileMissed(AYanHookProjectile* Projectile);
 
 	// 服务器收到客户端回传命中数据后施加击飞并结束技能
-	void OnLaunchTargetDataReceived(const FGameplayAbilityTargetDataHandle& Data, FGameplayTag ActivationTag);
+	UE_API void OnLaunchTargetDataReceived(const FGameplayAbilityTargetDataHandle& Data, FGameplayTag ActivationTag);
 
 	// 从回传数据中取出命中 Pawn，对其 MoverComponent 施加击飞 LayeredMove（服务器权威）
-	void ApplyLaunchFromTargetData(const FGameplayAbilityTargetDataHandle& Data) const;
+	UE_API void ApplyLaunchFromTargetData(const FGameplayAbilityTargetDataHandle& Data) const;
 
 	// 销毁 cosmetic 投射物并结束技能
-	void CleanupAndEnd();
+	UE_API void CleanupAndEnd();
 
 	UPROPERTY()
 	TObjectPtr<AYanHookProjectile> PendingProjectile;
@@ -80,3 +82,5 @@ private:
 	// 服务器侧 TargetData 委托句柄，EndAbility 时反注册
 	FDelegateHandle TargetDataDelegateHandle;
 };
+
+#undef UE_API

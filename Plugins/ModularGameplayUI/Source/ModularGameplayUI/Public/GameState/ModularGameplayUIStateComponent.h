@@ -11,6 +11,8 @@
 
 #include "ModularGameplayUIStateComponent.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 /**
  * 可扩展的 GameStateComponent：用属性配置驱动一套 UI 流程（Press Start / Join Session / Main）。
  *
@@ -22,39 +24,39 @@
  *
  * @todo Layout 缺少某 Layer Tag 时当前可能崩溃，需在 Layer 注册侧补齐校验。
  */
-UCLASS(Abstract)
-class MODULARGAMEPLAYUI_API UModularGameplayUIStateComponent : public UGameStateComponent, public ILoadingProcessInterface
+UCLASS(MinimalAPI, Abstract)
+class UModularGameplayUIStateComponent : public UGameStateComponent, public ILoadingProcessInterface
 {
 	GENERATED_BODY()
 
 public:
 
 	/** 构造并初始化默认 UI Flow 状态。 */
-	UModularGameplayUIStateComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API UModularGameplayUIStateComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	//~ UActorComponent 接口
 	/** 启动时订阅 Experience 加载完成。 */
-	virtual void BeginPlay() override;
+	UE_API virtual void BeginPlay() override;
 	/** 组件结束时与基类一致清理（当前无额外解绑，Experience Delegate 随 Component 销毁）。 */
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UE_API virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	//~
 
 	//~ ILoadingProcessInterface 接口
 	/** Loading Screen 是否仍应显示（UI Flow 未完成时返回 true）。 */
-	virtual bool ShouldShowLoadingScreen(FString& OutReason) const override;
+	UE_API virtual bool ShouldShowLoadingScreen(FString& OutReason) const override;
 	//~
 
 private:
 	// Experience 加载完成：构建并执行 ControlFlow
-	void OnExperienceLoaded(const UModularExperienceDefinition* Experience);
+	UE_API void OnExperienceLoaded(const UModularExperienceDefinition* Experience);
 
 	UFUNCTION()
-	void OnUserInitialized(const UCommonUserInfo* UserInfo, bool bSuccess, FText Error, ECommonUserPrivilege RequestedPrivilege, ECommonUserOnlineContext OnlineContext);
+	UE_API void OnUserInitialized(const UCommonUserInfo* UserInfo, bool bSuccess, FText Error, ECommonUserPrivilege RequestedPrivilege, ECommonUserOnlineContext OnlineContext);
 
-	void FlowStep_WaitForUserInitialization(const FControlFlowNodeRef SubFlow);
-	void FlowStep_TryShowPressStartScreen(FControlFlowNodeRef SubFlow);
-	void FlowStep_TryJoinRequestedSession(FControlFlowNodeRef SubFlow);
-	void FlowStep_TryShowMainScreen(FControlFlowNodeRef SubFlow);
+	UE_API void FlowStep_WaitForUserInitialization(const FControlFlowNodeRef SubFlow);
+	UE_API void FlowStep_TryShowPressStartScreen(FControlFlowNodeRef SubFlow);
+	UE_API void FlowStep_TryJoinRequestedSession(FControlFlowNodeRef SubFlow);
+	UE_API void FlowStep_TryShowMainScreen(FControlFlowNodeRef SubFlow);
 
 	// UI Flow 未完成前保持 Loading Screen
 	bool bShouldShowLoadingScreen = true;
@@ -72,3 +74,5 @@ private:
 
 	FDelegateHandle OnJoinSessionCompleteEventHandle;
 };
+
+#undef UE_API

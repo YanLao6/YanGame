@@ -7,6 +7,8 @@
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputSubsystems.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(EnhancedInputActionWidget)
+
 FSlateBrush UEnhancedInputActionWidget::GetIcon() const
 {
 	// 若绑定了 EnhancedInput Action，则查询映射到的按键并以 CommonInput 图标绘制，

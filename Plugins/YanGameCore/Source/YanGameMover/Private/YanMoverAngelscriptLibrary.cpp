@@ -8,14 +8,34 @@
 #include "MoveLibrary/FloorQueryUtils.h"
 #include "DefaultMovementSet/InstantMovementEffects/BasicInstantMovementEffects.h"
 #include "ChaosMover/Character/Effects/ChaosCharacterApplyVelocityEffect.h"
+#include "ChaosMover/ChaosMoverActionTypes.h"
 #include "UObject/UObjectIterator.h"
 #include "GameFramework/Pawn.h"
 #include "Actor/YanHookProjectile.h"
 #include "AbilitySystemComponent.h"
 #include "GameFeature/GameFeatureAction_AddMoverAbilities.h"
 #include "GE/MoverLaunchExecutionCalculation.h"
+#include "MoverLayeredMove/YanNoLandingMove.h"
+#include "MoverLayeredMove/YanRadialAttractionMove.h"
+#include "Physics/NetworkPhysicsComponent.h"
+#include "Physics/NetworkPhysicsSettingsComponent.h"
+#include "PhysicsEngine/PhysicsSettings.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(YanMoverAngelscriptLibrary)
+
+namespace
+{
+	// sim action 的调度延迟：须大于最大 RTT，各端才能在同一物理帧应用而不触发修正
+	float GetEventSchedulingDelaySeconds(AActor* Owner)
+	{
+		if (UNetworkPhysicsSettingsComponent* SettingsComp = Owner->FindComponentByClass<UNetworkPhysicsSettingsComponent>())
+		{
+			return SettingsComp->GetSettings().GeneralSettings.EventSchedulingMinDelaySeconds;
+		}
+
+		return UPhysicsSettings::Get()->PhysicsPrediction.MaxSupportedLatencyPrediction;
+	}
+}
 
 bool UYanMoverAngelscriptLibrary::GetDefaultSyncState(const FMoverDataCollection& Collection, FMoverDefaultSyncState& OutSyncState)
 {
@@ -354,7 +374,7 @@ ULayeredMoveLogic* UYanMoverAngelscriptLibrary::FindRegisteredMoveLogic(UMoverCo
 	}
 	// Logic 对象以 MoverComponent 为 Outer 创建，遍历其子对象即可找到
 	TArray<UObject*> Children;
-	GetObjectsWithOuter(MoverComp, Children, /*bIncludeNestedObjects=*/false);
+	GetObjectsWithOuter(MoverComp, Children, /*EGtObjectsFlags*/EGetObjectsFlags::None);
 	for (UObject* Child : Children)
 	{
 		if (ULayeredMoveLogic* Logic = Cast<ULayeredMoveLogic>(Child))
@@ -366,6 +386,106 @@ ULayeredMoveLogic* UYanMoverAngelscriptLibrary::FindRegisteredMoveLogic(UMoverCo
 		}
 	}
 	return nullptr;
+}
+
+bool UYanMoverAngelscriptLibrary::ApplyAuthoritativeVelocityToTarget(UMoverComponent* MoverComp,
+                                                                     FVector          WorldSpaceVelocity,
+                                                                     bool             bOverrideVelocity,
+                                                                     bool             bScheduleForSync)
+{
+	AActor* Owner = MoverComp ? MoverComp->GetOwner() : nullptr;
+	if (!Owner || !Owner->HasAuthority())
+	{
+		return false;
+	}
+
+	UNetworkPhysicsComponent* NetPhysics = Owner->FindComponentByClass<UNetworkPhysicsComponent>();
+	if (!NetPhysics)
+	{
+		return false;
+	}
+
+	FChaosCharacterApplyVelocityEffect VelocityEffect;
+	VelocityEffect.VelocityOrImpulseToApply = WorldSpaceVelocity;
+	VelocityEffect.Mode                     = bOverrideVelocity ? EChaosMoverVelocityEffectMode::OverrideVelocity : EChaosMoverVelocityEffectMode::AdditiveVelocity;
+
+	// Authority 风格是跨 Pawn 施力的前提：默认的 Proposed 风格会把本次效果当作目标端的提议去校验，
+	// 而目标端根本没有产生过它。
+	FChaosMoverInstantMovementEffectAction Action;
+	Action.AuthorStyle = FNetworkPhysicsActionPayload::EActionAuthorStyle::Authority;
+	Action.Effect.InitializeAsScriptStruct(FChaosCharacterApplyVelocityEffect::StaticStruct(), reinterpret_cast<const uint8*>(&VelocityEffect));
+
+	const float DelaySeconds = bScheduleForSync ? GetEventSchedulingDelaySeconds(Owner) : 0.f;
+	NetPhysics->EnqueueScheduledAction_External(Action, /*SourceId=*/0u, DelaySeconds, /*bReliable=*/true);
+
+	return true;
+}
+
+bool UYanMoverAngelscriptLibrary::ApplyRadialAttractionToTarget(UMoverComponent* MoverComp,
+                                                                FVector          AttractionCenter,
+                                                                float            Radius,
+                                                                float            Magnitude,
+                                                                float            FalloffExponent,
+                                                                float            DurationMs,
+                                                                bool             bIsPush)
+{
+	AActor* Owner = MoverComp ? MoverComp->GetOwner() : nullptr;
+	if (!Owner || !Owner->HasAuthority())
+	{
+		return false;
+	}
+
+	UNetworkPhysicsComponent* NetPhysics = Owner->FindComponentByClass<UNetworkPhysicsComponent>();
+	if (!NetPhysics)
+	{
+		return false;
+	}
+
+	FYanLayeredMove_RadialAttraction Move;
+	Move.Location        = AttractionCenter;
+	Move.Radius          = Radius;
+	Move.Magnitude       = Magnitude;
+	Move.FalloffExponent = FalloffExponent;
+	Move.bIsPush         = bIsPush;
+	Move.DurationMs      = DurationMs;
+
+	// 同 ApplyAuthoritativeVelocityToTarget：牵引作用于他人，默认的 Proposed 风格
+	// 会把它当作目标端的提议去校验，而目标端根本没有产生过它
+	FChaosMoverLayeredMoveAction Action;
+	Action.AuthorStyle = FNetworkPhysicsActionPayload::EActionAuthorStyle::Authority;
+	Action.Move.InitializeAsScriptStruct(FYanLayeredMove_RadialAttraction::StaticStruct(), reinterpret_cast<const uint8*>(&Move));
+
+	NetPhysics->EnqueueScheduledAction_External(Action, /*SourceId=*/0u, GetEventSchedulingDelaySeconds(Owner), /*bReliable=*/true);
+
+	return true;
+}
+
+bool UYanMoverAngelscriptLibrary::ApplyNoLandingToTarget(UMoverComponent* MoverComp, float DurationSeconds)
+{
+	AActor* Owner = MoverComp ? MoverComp->GetOwner() : nullptr;
+	if (!Owner || !Owner->HasAuthority() || DurationSeconds <= 0.f)
+	{
+		return false;
+	}
+
+	UNetworkPhysicsComponent* NetPhysics = Owner->FindComponentByClass<UNetworkPhysicsComponent>();
+	if (!NetPhysics)
+	{
+		return false;
+	}
+
+	FYanLayeredMove_NoLanding Move;
+	Move.DurationMs = DurationSeconds * 1000.f;
+
+	// 同 ApplyAuthoritativeVelocityToTarget：效果作用于他人，默认的 Proposed 风格
+	// 会把它当作目标端的提议去校验，而目标端根本没有产生过它
+	FChaosMoverLayeredMoveAction Action;
+	Action.AuthorStyle = FNetworkPhysicsActionPayload::EActionAuthorStyle::Authority;
+	Action.Move.InitializeAsScriptStruct(FYanLayeredMove_NoLanding::StaticStruct(), reinterpret_cast<const uint8*>(&Move));
+
+	NetPhysics->EnqueueScheduledAction_External(Action, /*SourceId=*/0u, GetEventSchedulingDelaySeconds(Owner), /*bReliable=*/true);
+
+	return true;
 }
 
 void UYanMoverAngelscriptLibrary::ApplyLaunchEffectToTarget(UAbilitySystemComponent*     InstigatorASC,

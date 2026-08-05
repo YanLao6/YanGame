@@ -6,6 +6,8 @@
 #include "ChaosMover/ChaosMovementModeTransition.h"
 #include "ChaosCharacterDashCheck.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 USTRUCT()
 struct FDashEventData : public FMoverSimulationEventData
 {
@@ -33,13 +35,13 @@ struct FDashEventData : public FMoverSimulationEventData
  * FLayeredMove_LinearVelocity 以 OverrideVelocity 施加，玩家在此期间
  * 仍可转向但无法改变速率。
  */
-UCLASS(Blueprintable, EditInlineNew, DefaultToInstanced)
-class YANGAMEMOVER_API UChaosCharacterDashCheck : public UChaosMovementModeTransition
+UCLASS(MinimalAPI, Blueprintable, EditInlineNew, DefaultToInstanced)
+class UChaosCharacterDashCheck : public UChaosMovementModeTransition
 {
 	GENERATED_BODY()
 
 public:
-	UChaosCharacterDashCheck(const FObjectInitializer& ObjectInitializer);
+	UE_API UChaosCharacterDashCheck(const FObjectInitializer& ObjectInitializer);
 
 	/** 冲刺速度大小（cm/s），持续期间覆盖正常移动速度 */
 	UPROPERTY(EditDefaultsOnly, Category = "Dash", meta = (ClampMin = "0", UIMin = "0", ForceUnits = "cm/s"))
@@ -50,7 +52,9 @@ public:
 	float DashDurationMs = 100.0f;
 
 	//~Begin UBaseMovementModeTransition Interface
-	virtual FTransitionEvalResult Evaluate_Implementation(const FSimulationTickParams& Params) const override;
-	virtual void                  Trigger_Implementation(const FSimulationTickParams& Params) override;
+	UE_API virtual FTransitionEvalResult Evaluate_Implementation(const FSimulationTickParams& Params) const override;
+	UE_API virtual void                  Trigger_Implementation(const FSimulationTickParams& Params) override;
 	//~End UBaseMovementModeTransition Interface
 };
+
+#undef UE_API

@@ -8,6 +8,8 @@
 #include "ModularWidgetController.h"
 #include "ModularGameplayHUD.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 
 class UAttributeSet;
 class UModularAbilitySystemComponent;
@@ -28,23 +30,23 @@ struct FTimerHandle;
  * 在标准 HUD 基础上承载 GameplayLayout 与 OverlayWidgetController，
  * 用于 Experience 驱动的 UI 装配流程。
  */
-UCLASS(Config = Game)
-class MODULARGAMEPLAYUI_API AModularGameplayHUD : public AHUD, public IModularLayoutInterface
+UCLASS(MinimalAPI, Config = Game)
+class AModularGameplayHUD : public AHUD, public IModularLayoutInterface
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造 HUD 并初始化基础 UI 状态。 */
-	explicit AModularGameplayHUD(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API explicit AModularGameplayHUD(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	UPROPERTY()
 	TObjectPtr<UModularUserWidget> OverlayWidget;
 	
 	/** 获取并初始化 Overlay 的 WidgetController。 */
-	UModularWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
+	UE_API UModularWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 
 	/** 初始化 Overlay Widget 与其能力系统上下文。 */
-	void InitOverlay(AModularPlayerController* PC, AModularPlayerState* PS, UModularAbilitySystemComponent* ASC,const UAttributeSet* AS);
+	UE_API void InitOverlay(AModularPlayerController* PC, AModularPlayerState* PS, UModularAbilitySystemComponent* ASC,const UAttributeSet* AS);
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UModularUserWidget> OverlayWidgetClass;
@@ -58,21 +60,21 @@ public:
 	/** 获取当前挂载的 GameplayLayout。 */
 	virtual UModularGameplayLayout* GetModularGameplayLayout() const override { return ModularGameplayLayout; }
 	/** 设置当前 HUD 使用的 GameplayLayout。 */
-	virtual void SetModularGameplayLayout(UModularGameplayLayout* InLayout) override;
+	UE_API virtual void SetModularGameplayLayout(UModularGameplayLayout* InLayout) override;
 
 protected:
 
 	//~ UObject 接口
-	virtual void PreInitializeComponents() override;
+	UE_API virtual void PreInitializeComponents() override;
 	//~
 
 	//~ AActor 接口
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UE_API virtual void BeginPlay() override;
+	UE_API virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	//~
 
 	//~ AHUD 接口
-	virtual void GetDebugActorList(TArray<AActor*>& InOutList) override;
+	UE_API virtual void GetDebugActorList(TArray<AActor*>& InOutList) override;
 	//~
 
 	UPROPERTY()
@@ -83,3 +85,5 @@ private:
 	FTimerHandle OverlayInitRetryTimerHandle;
 	
 };
+
+#undef UE_API

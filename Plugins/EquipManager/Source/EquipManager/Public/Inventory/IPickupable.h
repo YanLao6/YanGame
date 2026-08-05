@@ -9,6 +9,8 @@
 #include "UObject/ObjectPtr.h"
 #include "IPickupable.generated.h"
 
+#define UE_API EQUIPMANAGER_API
+
 template <typename InterfaceType>
 
 class TScriptInterface;
@@ -76,20 +78,22 @@ public:
 };
 
 /** 可拾取相关的静态工具库。 */
-UCLASS()
-class EQUIPMANAGER_API UPickupableStatics: public UBlueprintFunctionLibrary
+UCLASS(MinimalAPI)
+class UPickupableStatics: public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
-	UPickupableStatics();
+	UE_API UPickupableStatics();
 
 public:
 	/** 从 Actor 上获取第一个可拾取接口（Actor 自身或其组件）。 */
 	UFUNCTION(BlueprintPure)
-	static TScriptInterface<IPickupable> GetFirstPickupableFromActor(const AActor* Actor);
+	static UE_API TScriptInterface<IPickupable> GetFirstPickupableFromActor(const AActor* Actor);
 
 	/** 将可拾取内容加入指定背包组件，仅服务器可调用。 */
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, meta = (WorldContext = "Ability"))
-	static void AddPickupToInventory(UInventoryManagerComponent* InventoryComponent, TScriptInterface<IPickupable> Pickup);
+	static UE_API void AddPickupToInventory(UInventoryManagerComponent* InventoryComponent, TScriptInterface<IPickupable> Pickup);
 };
+
+#undef UE_API

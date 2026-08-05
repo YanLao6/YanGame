@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "YanCuttableActor.generated.h"
 
+#define UE_API YANGAMECUTTING_API
+
 class UGeometryCollectionComponent;
 class UGeometryCollection;
 class UMaterialInterface;
@@ -27,20 +29,20 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMeshCutSignature, AYanCuttableAct
  * The actor is NOT destroyed on cut — GeoCollectionComp owns all fragment physics.
  * Recursive cuts are supported by passing the transform index of the specific piece to cut.
  */
-UCLASS()
-class YANGAMECUTTING_API AYanCuttableActor : public AActor
+UCLASS(MinimalAPI)
+class AYanCuttableActor : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AYanCuttableActor();
+	UE_API AYanCuttableActor();
 
 	/**
 	 * Convert a StaticMesh into a transient UGeometryCollection and assign it to the
 	 * component. Must be called before any CutByPlane() invocation.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Cutting")
-	void InitializeFromStaticMesh(UStaticMesh* StaticMesh);
+	UE_API void InitializeFromStaticMesh(UStaticMesh* StaticMesh);
 
 	/**
 	 * Slice the geometry piece at InTransformIdx with a world-space plane.
@@ -53,7 +55,7 @@ public:
 	 *                       use Hit.Item from a line-trace result for recursive cuts)
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Cutting")
-	void CutByPlane(FVector WorldOrigin, FVector WorldNormal, int32 InTransformIdx = 0);
+	UE_API void CutByPlane(FVector WorldOrigin, FVector WorldNormal, int32 InTransformIdx = 0);
 
 	/** Broadcast after each successful cut. The actor continues to exist. */
 	UPROPERTY(BlueprintAssignable, Category = "Cutting")
@@ -91,3 +93,5 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UGeometryCollection> RuntimeCollection;
 };
+
+#undef UE_API

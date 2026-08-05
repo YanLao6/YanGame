@@ -11,7 +11,7 @@ class UObject;
 class USkeletalMesh;
 
 /** 拾取图标片段：描述地上拾取物的展示外观（骨骼网格、名称、底座颜色）。 */
-UCLASS()
+UCLASS(MinimalAPI)
 class UInventoryFragment_PickupIcon : public UInventoryItemFragment
 {
 	GENERATED_BODY()

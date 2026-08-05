@@ -6,6 +6,8 @@
 #include "ChaosMover/ChaosMovementModeTransition.h"
 #include "ChaosCharacterSprintCheck.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 /**
  * 疾跑的进入/退出裁决。
  *
@@ -19,13 +21,13 @@
  * FCharacterDefaultInputs 的移动输入、视角朝向），不读取任何 game-thread 状态。
  * 服务器重模拟时用相同的 InputCmd 得到相同结论，不产生状态回滚抖动。
  */
-UCLASS(Blueprintable, EditInlineNew, DefaultToInstanced)
-class YANGAMEMOVER_API UChaosCharacterSprintCheck : public UChaosMovementModeTransition
+UCLASS(MinimalAPI, Blueprintable, EditInlineNew, DefaultToInstanced)
+class UChaosCharacterSprintCheck : public UChaosMovementModeTransition
 {
 	GENERATED_BODY()
 
 public:
-	UChaosCharacterSprintCheck(const FObjectInitializer& ObjectInitializer);
+	UE_API UChaosCharacterSprintCheck(const FObjectInitializer& ObjectInitializer);
 
 	/** 疾跑期间的最大水平速度（cm/s），覆盖当前移动模式的原值 */
 	UPROPERTY(EditDefaultsOnly, Category = "Sprint", meta = (ClampMin = "0", UIMin = "0", ForceUnits = "cm/s"))
@@ -43,21 +45,23 @@ public:
 	float MinFacingDot = 0.0f;
 
 	//~Begin UBaseMovementModeTransition Interface
-	virtual FTransitionEvalResult Evaluate_Implementation(const FSimulationTickParams& Params) const override;
-	virtual void                  Trigger_Implementation(const FSimulationTickParams& Params) override;
+	UE_API virtual FTransitionEvalResult Evaluate_Implementation(const FSimulationTickParams& Params) const override;
+	UE_API virtual void                  Trigger_Implementation(const FSimulationTickParams& Params) override;
 	//~End UBaseMovementModeTransition Interface
 
 protected:
 	/** 进入脉冲：疾跑键在本帧刚按下 */
-	bool WantsToStartSprint(const FSimulationTickParams& Params) const;
+	UE_API bool WantsToStartSprint(const FSimulationTickParams& Params) const;
 
 	/**
 	 * 疾跑维持条件：脚踩可行走地面、未处于蹲伏、且移动意愿未背离视线。
 	 * 刻意不含按键状态——按键只负责进入，维持与否与手是否还按着无关。
 	 */
-	bool CanSustainSprint(const FSimulationTickParams& Params) const;
+	UE_API bool CanSustainSprint(const FSimulationTickParams& Params) const;
 
 	// Evaluate 为 const，判定结果经此传递给同帧的 Trigger
 	mutable bool bTriggerSprint     = false;
 	mutable bool bTriggerStopSprint = false;
 };
+
+#undef UE_API

@@ -6,11 +6,15 @@
 #include "GameMode/ModularWorldSettings.h"
 #include "YanWorldSettings.generated.h"
 
+#define UE_API YANGAMECORE_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMECORE_API AYanWorldSettings : public AModularWorldSettings
+UCLASS(MinimalAPI)
+class AYanWorldSettings : public AModularWorldSettings
 {
 	GENERATED_BODY()
 };
+
+#undef UE_API

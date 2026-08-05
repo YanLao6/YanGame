@@ -20,7 +20,9 @@ public class YanGameMover : ModuleRules
 				"ModularGameplayAbilities",
 				"YanGameAbility",
 				"GameplayAbilities",
-				"GameplayTags"
+				"GameplayTags",
+				"UMG",
+				"ModularGameplayUI"
 			}
 		);
 
@@ -38,5 +40,7 @@ public class YanGameMover : ModuleRules
 				"GameplayTasks"
 			}
 		);
+
+		SetupModulePhysicsSupport(Target);
 	}
 }

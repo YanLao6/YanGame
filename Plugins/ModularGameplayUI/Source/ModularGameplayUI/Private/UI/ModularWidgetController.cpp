@@ -3,6 +3,8 @@
 
 #include "UI/ModularWidgetController.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ModularWidgetController)
+
 void UModularWidgetController::SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams)
 {
 		PlayerController = WidgetControllerParams.PlayerController;

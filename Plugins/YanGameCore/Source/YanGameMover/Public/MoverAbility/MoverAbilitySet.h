@@ -8,6 +8,8 @@
 
 #include "MoverAbilitySet.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 class UMoverComponent;
 
 /**
@@ -64,18 +66,18 @@ struct FRegisteredModeTransitionEntry
  * 记录 MoverAbilitySet 已授予内容的句柄，用于后续统一撤销。
  */
 USTRUCT(BlueprintType)
-struct YANGAMEMOVER_API FMoverAbilitySet_GrantedHandles
+struct FMoverAbilitySet_GrantedHandles
 {
 	GENERATED_BODY()
 
 public:
 	/** 记录已注册的 LayeredMoveLogic 类（按类撤销） */
-	void AddRegisteredLayer(TSubclassOf<ULayeredMoveLogic> LayerClass);
+	UE_API void AddRegisteredLayer(TSubclassOf<ULayeredMoveLogic> LayerClass);
 	/** 记录已注册的 ModeTransition 实例及其目标 Mode 名称 */
-	void AddRegisteredTransition(UBaseMovementModeTransition* Transition, FName TargetModeName);
+	UE_API void AddRegisteredTransition(UBaseMovementModeTransition* Transition, FName TargetModeName);
 
 	/** 从 MoverComp 移除已注册的 Layer 与 Transition */
-	void TakeFrom(UMoverComponent* MoverComp);
+	UE_API void TakeFrom(UMoverComponent* MoverComp);
 
 protected:
 	UPROPERTY()
@@ -94,20 +96,20 @@ protected:
  *   Experience 激活时 → GiveTo 注册全部条目
  *   Experience 停用时 → FMoverAbilitySet_GrantedHandles::TakeFrom 撤销
  */
-UCLASS(BlueprintType, Const)
-class YANGAMEMOVER_API UMoverAbilitySet : public UPrimaryDataAsset
+UCLASS(MinimalAPI, BlueprintType, Const)
+class UMoverAbilitySet : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
 public:
-	UMoverAbilitySet(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API UMoverAbilitySet(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	/**
 	 * 将本 Set 注册到目标移动组件。
 	 * @param MoverComp   目标移动组件
 	 * @param OutHandles  可选；记录本次注册的句柄，供后续 TakeFrom 撤销
 	 */
-	void GiveTo(UMoverComponent* MoverComp, FMoverAbilitySet_GrantedHandles* OutHandles) const;
+	UE_API void GiveTo(UMoverComponent* MoverComp, FMoverAbilitySet_GrantedHandles* OutHandles) const;
 
 protected:
 	/** 要向 MoverComponent 注册的分层移动逻辑列表 */
@@ -118,3 +120,5 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Mode Transitions", meta = (TitleProperty = "TransitionClass"))
 	TArray<FMoverAbilitySet_ModeTransition> GrantedTransitions;
 };
+
+#undef UE_API

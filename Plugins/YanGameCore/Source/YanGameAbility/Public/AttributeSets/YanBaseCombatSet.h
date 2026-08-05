@@ -5,18 +5,20 @@
 
 #include "YanBaseCombatSet.generated.h"
 
+#define UE_API YANGAMEABILITY_API
+
 struct FGameplayEffectModCallbackData;
 
 /**
  * 战斗基础属性集。
  */
-UCLASS(BlueprintType)
-class YANGAMEABILITY_API UYanBaseCombatSet : public UYanAttributeSet
+UCLASS(MinimalAPI, BlueprintType)
+class UYanBaseCombatSet : public UYanAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UYanBaseCombatSet();
+	UE_API UYanBaseCombatSet();
 
 	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, CursedEnergy);
 	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, MaxCursedEnergy);
@@ -44,43 +46,43 @@ public:
 	mutable FYanAttributeEvent OnOutOfPoise;
 
 	//~Begin UObject Interface
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	UE_API virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	//~End UObject Interface
 
 protected:
 	UFUNCTION()
-	void OnRep_CursedEnergy(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_CursedEnergy(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	void OnRep_MaxCursedEnergy(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_MaxCursedEnergy(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	void OnRep_Poise(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_Poise(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	void OnRep_MaxPoise(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_MaxPoise(const FGameplayAttributeData& OldValue);
 
 	//~Begin UAttributeSet Interface
-	virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
-	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
-	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+	UE_API virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+	UE_API virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	UE_API virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 	//~End UAttributeSet Interface
 
-	void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const;
+	UE_API void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const;
 
 private:
-	// 当前咒力，上限由 MaxCursedEnergy 约束；隐藏于 Modifier，仅 Execution 可改
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CursedEnergy, Category = "Yan|CursedEnergy", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	// 当前咒力，上限由 MaxCursedEnergy 约束
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CursedEnergy, Category = "Yan|CursedEnergy", Meta = ( AllowPrivateAccess = true))
 	FGameplayAttributeData CursedEnergy;
 
 	// 最大咒力，可被 GameplayEffect 修改
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxCursedEnergy, Category = "Yan|CursedEnergy", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData MaxCursedEnergy;
 
-	// 当前韧性（0-3），归零触发晕眩；隐藏于 Modifier，仅 Execution 可改
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Poise, Category = "Yan|Poise", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	// 当前韧性（0-3），归零触发晕眩；
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Poise, Category = "Yan|Poise", Meta = ( AllowPrivateAccess = true))
 	FGameplayAttributeData Poise;
 
 	// 最大韧性，可被 GameplayEffect 修改
@@ -95,7 +97,7 @@ private:
 	float PoiseBeforeAttributeChange        = 0.0f;
 
 	// meta：咒力消耗，映射为 -CursedEnergy
-	UPROPERTY(BlueprintReadOnly, Category = "Yan|CursedEnergy", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|CursedEnergy", Meta = ( AllowPrivateAccess = true))
 	FGameplayAttributeData CursedEnergyCost;
 
 	// meta：咒力恢复，映射为 +CursedEnergy
@@ -103,10 +105,12 @@ private:
 	FGameplayAttributeData CursedEnergyRegen;
 
 	// meta：韧性打断，映射为 -Poise
-	UPROPERTY(BlueprintReadOnly, Category = "Yan|Poise", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|Poise", Meta = ( AllowPrivateAccess = true))
 	FGameplayAttributeData PoiseDamage;
 
 	// meta：韧性恢复，映射为 +Poise
 	UPROPERTY(BlueprintReadOnly, Category = "Yan|Poise", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData PoiseRegen;
 };
+
+#undef UE_API

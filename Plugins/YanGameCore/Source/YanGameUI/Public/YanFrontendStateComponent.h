@@ -5,6 +5,8 @@
 
 #include "YanFrontendStateComponent.generated.h"
 
+#define UE_API YANGAMEUI_API
+
 
 class UModularExperienceDefinition;
 class UCommonActivatableWidget;
@@ -22,12 +24,14 @@ class UCommonUserInfo;
  * - 通过 `ILoadingProcessInterface` 控制是否展示 Loading Screen。
  * - Flow 的每一步在 `FlowStep_*` 中完成，必要时可异步等待 UI/网络回调后再推进。
  */
-UCLASS(Abstract)
-class YANGAMEUI_API UYanFrontendStateComponent : public UModularGameplayUIStateComponent
+UCLASS(MinimalAPI, Abstract)
+class UYanFrontendStateComponent : public UModularGameplayUIStateComponent
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造函数。通常由 `AGameStateBase` 挂载并随其生命周期存在。 */
-	UYanFrontendStateComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API UYanFrontendStateComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 };
+
+#undef UE_API

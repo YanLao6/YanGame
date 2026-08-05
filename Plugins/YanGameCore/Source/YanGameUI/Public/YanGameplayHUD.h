@@ -7,11 +7,15 @@
 
 #include "YanGameplayHUD.generated.h"
 
+#define UE_API YANGAMEUI_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMEUI_API AYanGameplayHUD : public AModularGameplayHUD
+UCLASS(MinimalAPI)
+class AYanGameplayHUD : public AModularGameplayHUD
 {
 	GENERATED_BODY()
 };
+
+#undef UE_API

@@ -11,7 +11,7 @@
  *
  * 由 UModularExperienceDefinition 引用，用于拆分 Experience 的动作与 Feature 依赖。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UModularExperienceActionSet : public UPrimaryDataAsset
 {
 	GENERATED_BODY()

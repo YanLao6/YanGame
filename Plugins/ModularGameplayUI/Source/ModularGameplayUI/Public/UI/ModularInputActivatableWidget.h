@@ -4,6 +4,8 @@
 
 #include "ModularInputActivatableWidget.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 struct FUIInputConfig;
 
 UENUM(BlueprintType)
@@ -20,24 +22,24 @@ enum class EModularInputWidgetInputMode : uint8
 };
 
 // 可激活 Widget：激活时自动应用期望输入配置。
-UCLASS(Abstract, Blueprintable)
-class MODULARGAMEPLAYUI_API UModularInputActivatableWidget : public UCommonActivatableWidget
+UCLASS(MinimalAPI, Abstract, Blueprintable)
+class UModularInputActivatableWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造可激活输入 Widget。 */
-	UModularInputActivatableWidget(const FObjectInitializer& ObjectInitializer);
+	UE_API UModularInputActivatableWidget(const FObjectInitializer& ObjectInitializer);
 
 public:
 	//~ UCommonActivatableWidget 接口
 	/** 返回激活期间应使用的输入配置。 */
-	virtual TOptional<FUIInputConfig> GetDesiredInputConfig() const override;
+	UE_API virtual TOptional<FUIInputConfig> GetDesiredInputConfig() const override;
 	//~
 
 #if WITH_EDITOR
 	/** Editor：编译 Widget 树时提示是否实现 BP_GetDesiredFocusTarget（Gamepad Focus）。 */
-	virtual void ValidateCompiledWidgetTree(const UWidgetTree& BlueprintWidgetTree, class IWidgetCompilerLog& CompileLog) const override;
+	UE_API virtual void ValidateCompiledWidgetTree(const UWidgetTree& BlueprintWidgetTree, class IWidgetCompilerLog& CompileLog) const override;
 #endif
 
 protected:
@@ -49,3 +51,5 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	EMouseCaptureMode GameMouseCaptureMode = EMouseCaptureMode::CapturePermanently;
 };
+
+#undef UE_API

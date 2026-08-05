@@ -7,28 +7,30 @@
 
 #include "ModularTaggedWidget.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 /**
  * 受 GameplayTag 控制显隐的布局控件。
  *
  * 当拥有者玩家携带 `HiddenByTags` 中的任意标签时，该控件切换为 `HiddenVisibility`。
  * 注意：标签变化的监听尚未接入，当前 `HiddenByTags` 不会实际触发隐藏。
  */
-UCLASS(Abstract, Blueprintable)
-class MODULARGAMEPLAYUI_API UModularTaggedWidget : public UCommonUserWidget
+UCLASS(MinimalAPI, Abstract, Blueprintable)
+class UModularTaggedWidget : public UCommonUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UModularTaggedWidget(const FObjectInitializer& ObjectInitializer);
+	UE_API UModularTaggedWidget(const FObjectInitializer& ObjectInitializer);
 
 	//~Begin UWidget Interface
 	/** 记录调用方期望的显隐意图，再结合标签状态决定最终可见性。 */
-	virtual void SetVisibility(ESlateVisibility InVisibility) override;
+	UE_API virtual void SetVisibility(ESlateVisibility InVisibility) override;
 	//~End UWidget Interface
 
 	//~Begin UUserWidget Interface
-	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
+	UE_API virtual void NativeConstruct() override;
+	UE_API virtual void NativeDestruct() override;
 	//~End UUserWidget Interface
 
 protected:
@@ -49,8 +51,10 @@ protected:
 
 private:
 	// 监听的标签发生变化时重新计算可见性。
-	void OnWatchedTagsChanged();
+	UE_API void OnWatchedTagsChanged();
 
 	// 结合显隐意图与标签状态，应用最终可见性。
-	void ApplyDesiredVisibility();
+	UE_API void ApplyDesiredVisibility();
 };
+
+#undef UE_API

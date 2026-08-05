@@ -9,7 +9,7 @@
  *
  * 用于挂入 PrimaryGameLayout 的各个 Layer，支持 Escape 菜单等常驻交互入口。
  */
-UCLASS(Abstract, BlueprintType, Blueprintable, Meta = (DisplayName = "Modular Gameplay Layout", Category = "HUD"))
+UCLASS(MinimalAPI, Abstract, BlueprintType, Blueprintable, Meta = (DisplayName = "Modular Gameplay Layout", Category = "HUD"))
 class UModularGameplayLayout : public UModularUserWidget
 {
 	GENERATED_BODY()

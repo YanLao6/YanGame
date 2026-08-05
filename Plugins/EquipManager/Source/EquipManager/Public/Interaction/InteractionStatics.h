@@ -16,7 +16,7 @@ struct FHitResult;
 struct FOverlapResult;
 
 /** 交互相关的静态工具库：在 Actor / 命中 / 重叠结果中提取可交互目标。 */
-UCLASS()
+UCLASS(MinimalAPI)
 class UInteractionStatics : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

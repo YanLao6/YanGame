@@ -5,6 +5,8 @@
 #include "CommonUserTypes.h"
 #include "GameFramework/GameStateBase.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanSessionManager)
+
 // ── 初始化 / 反初始化 ─────────────────────────────────────────────────────────
 
 void UYanSessionManager::Initialize(FSubsystemCollectionBase& Collection)

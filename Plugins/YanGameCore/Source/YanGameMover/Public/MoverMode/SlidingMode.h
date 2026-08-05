@@ -5,6 +5,8 @@
 #include "ChaosMover/Character/Modes/ChaosCharacterMovementMode.h"
 #include "SlidingMode.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 /**
  * USlidingMode - slide locomotion mode, inherits from UYanMovementMode (-> UWalkingMode).
  *
@@ -14,13 +16,13 @@
  *
  * SimulationTick: delegates entirely to UWalkingMode (sweep / floor-stick / step / landing / CaptureFinalState).
  */
-UCLASS(Blueprintable)
-class YANGAMEMOVER_API USlidingMode : public UChaosCharacterMovementMode
+UCLASS(MinimalAPI, Blueprintable)
+class USlidingMode : public UChaosCharacterMovementMode
 {
 	GENERATED_BODY()
 
 public:
-	USlidingMode(const FObjectInitializer& ObjectInitializer);
+	UE_API USlidingMode(const FObjectInitializer& ObjectInitializer);
 
 	/** Ground friction coefficient (lower = more slippery), analogous to GroundFriction */
 	UPROPERTY(EditDefaultsOnly, Category = "Slide")
@@ -44,6 +46,8 @@ public:
 
 	//~Begin UBaseMovementMode Interface
 	/** Computes friction-decayed velocity; does NOT call Super to suppress input-driven acceleration */
-	virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
+	UE_API virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
 	//~End UBaseMovementMode Interface
 };
+
+#undef UE_API

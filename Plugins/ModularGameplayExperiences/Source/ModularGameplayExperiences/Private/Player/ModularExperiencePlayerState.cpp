@@ -43,7 +43,107 @@ void AModularExperiencePlayerState::SetPawnData(const UModularPawnData* InPawnDa
 	MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, PawnData, this);
 	PawnData = InPawnData;
 
+	ApplyPawnDataFragments();
+
 	ForceNetUpdate();
+}
+
+void AModularExperiencePlayerState::ChangePawnData(const UModularPawnData* InPawnData)
+{
+	check(InPawnData);
+
+	if (GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
+
+	if (PawnData == InPawnData)
+	{
+		return;
+	}
+
+	RevokePawnDataFragments();
+
+	MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, PawnData, this);
+	PawnData = InPawnData;
+
+	ApplyPawnDataFragments();
+
+	ForceNetUpdate();
+}
+
+FPawnDataFragmentContext AModularExperiencePlayerState::MakeFragmentContext(AActor* TargetActor) const
+{
+	FPawnDataFragmentContext Context;
+	Context.TargetActor = TargetActor;
+	Context.Pawn        = GetPawn();
+	Context.Controller  = GetOwningController();
+
+	return Context;
+}
+
+void AModularExperiencePlayerState::ApplyPawnDataFragments()
+{
+	if (AppliedPawnData)
+	{
+		// 上一份注入尚未撤销，继续应用会产生无法回收的残留。
+		UE_LOG(LogModularGameplayExperiences,
+		       Error,
+		       TEXT("PlayerState [%s] 在未撤销 PawnData [%s] 的情况下重复应用注入。"),
+		       *GetNameSafe(this),
+		       *GetNameSafe(AppliedPawnData));
+		return;
+	}
+
+	if (!PawnData)
+	{
+		return;
+	}
+
+	const bool bHasAuthority = HasAuthority();
+
+	PawnData->ApplyFragments(EPawnDataFragmentScope::PlayerState, MakeFragmentContext(this), bHasAuthority, FragmentStates);
+
+	// Controller 作用域同样跨重生存活，由 PlayerState 一并托管其生命周期。
+	if (AController* OwningController = GetOwningController())
+	{
+		PawnData->ApplyFragments(EPawnDataFragmentScope::Controller, MakeFragmentContext(OwningController), bHasAuthority, FragmentStates);
+	}
+	else if (bHasAuthority && PawnData->HasFragmentInScope(EPawnDataFragmentScope::Controller))
+	{
+		// 仅在 Authority 上告警：客户端持有的远端玩家 PlayerState 本就没有 Controller。
+		UE_LOG(LogModularGameplayExperiences,
+		       Warning,
+		       TEXT("PlayerState [%s] 应用 PawnData [%s] 时尚无 Controller，其 Controller 作用域 Fragment 未生效。"),
+		       *GetNameSafe(this),
+		       *GetNameSafe(PawnData));
+	}
+
+	AppliedPawnData = PawnData;
+
+	PostApplyPawnData();
+}
+
+void AModularExperiencePlayerState::RevokePawnDataFragments()
+{
+	if (!AppliedPawnData)
+	{
+		return;
+	}
+
+	PreRevokePawnData();
+
+	const bool bHasAuthority = HasAuthority();
+
+	if (AController* OwningController = GetOwningController())
+	{
+		AppliedPawnData->RevokeFragments(EPawnDataFragmentScope::Controller, MakeFragmentContext(OwningController), bHasAuthority, FragmentStates);
+	}
+
+	AppliedPawnData->RevokeFragments(EPawnDataFragmentScope::PlayerState, MakeFragmentContext(this), bHasAuthority, FragmentStates);
+
+	FragmentStates.Reset();
+	AppliedPawnData = nullptr;
 }
 
 FRotator AModularExperiencePlayerState::GetReplicatedViewRotation() const
@@ -63,7 +163,18 @@ void AModularExperiencePlayerState::SetReplicatedViewRotation(const FRotator& Ne
 }
 
 void AModularExperiencePlayerState::OnRep_PawnData()
-{}
+{
+	// 换装时复制到达客户端，此处先撤销旧注入再应用新注入；撤销以 AppliedPawnData 为准。
+	RevokePawnDataFragments();
+	ApplyPawnDataFragments();
+}
+
+void AModularExperiencePlayerState::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	RevokePawnDataFragments();
+
+	Super::EndPlay(EndPlayReason);
+}
 
 // Replication：注册 PawnData、连接类型、观战视角与 StatTags
 void AModularExperiencePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

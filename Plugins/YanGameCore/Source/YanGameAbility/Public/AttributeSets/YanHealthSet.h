@@ -5,18 +5,20 @@
 
 #include "YanHealthSet.generated.h"
 
+#define UE_API YANGAMEABILITY_API
+
 struct FGameplayEffectModCallbackData;
 
 /**
  * 生命属性集。
  */
-UCLASS(BlueprintType)
-class YANGAMEABILITY_API UYanHealthSet : public UYanAttributeSet
+UCLASS(MinimalAPI, BlueprintType)
+class UYanHealthSet : public UYanAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UYanHealthSet();
+	UE_API UYanHealthSet();
 
 	ATTRIBUTE_ACCESSORS(UYanHealthSet, Health);
 	ATTRIBUTE_ACCESSORS(UYanHealthSet, MaxHealth);
@@ -33,30 +35,30 @@ public:
 	mutable FYanAttributeEvent OnOutOfHealth;
 
 	//~Begin UObject Interface
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	UE_API virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	//~End UObject Interface
 
 protected:
 	UFUNCTION()
-	void OnRep_Health(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_Health(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
+	UE_API void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
 
 	//~Begin UAttributeSet Interface
-	virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
-	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
-	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+	UE_API virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+	UE_API virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	UE_API virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 	//~End UAttributeSet Interface
 
 	// 将属性值 clamp 到合法区间
-	void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const;
+	UE_API void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const;
 
 private:
-	// 当前生命值，上限由 MaxHealth 约束；隐藏于 Modifier，仅 Execution 可改
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Yan|Health", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	// 当前生命值，上限由 MaxHealth 约束
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Yan|Health", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData Health;
 
 	// 最大生命值，可被 GameplayEffect 修改
@@ -75,6 +77,8 @@ private:
 	FGameplayAttributeData Healing;
 
 	// meta：传入伤害，直接映射为 -Health
-	UPROPERTY(BlueprintReadOnly, Category = "Yan|Health", Meta = (HideFromModifiers, AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|Health", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData Damage;
 };
+
+#undef UE_API

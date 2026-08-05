@@ -7,13 +7,15 @@
 #include "Abilities/GameplayAbility.h"
 #include "ModularAbilityCost.generated.h"
 
+#define UE_API MODULARGAMEPLAYABILITIES_API
+
 class UModularGameplayAbility;
 
 /**
  * UModularGameplayAbility 的可实例化 Cost 基类（弹药、层数等）。
  */
-UCLASS(DefaultToInstanced, EditInlineNew, Abstract)
-class MODULARGAMEPLAYABILITIES_API UModularAbilityCost : public UObject
+UCLASS(MinimalAPI, DefaultToInstanced, EditInlineNew, Abstract)
+class UModularAbilityCost : public UObject
 {
 	GENERATED_BODY()
 
@@ -61,3 +63,5 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Costs)
 	bool bOnlyApplyCostOnHit = false;
 };
+
+#undef UE_API

@@ -7,11 +7,13 @@
 
 #include "ModularUserFacingExperienceDefinition.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 /**
  * 面向玩家 UI 的 Experience 描述：地图、GameplayExperience、会话参数与展示文案。
  */
-UCLASS(BlueprintType)
-class MODULARGAMEPLAYEXPERIENCES_API UModularUserFacingExperienceDefinition : public UPrimaryDataAsset
+UCLASS(MinimalAPI, BlueprintType)
+class UModularUserFacingExperienceDefinition : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
@@ -67,5 +69,7 @@ public:
 public:
 	/** 构造 UCommonSession_HostSessionRequest，用于真正发起 Hosting。 */
 	UFUNCTION(BlueprintCallable, BlueprintPure=false)
-	UCommonSession_HostSessionRequest* CreateHostingRequest(const UObject* WorldContextObject) const;
+	UE_API UCommonSession_HostSessionRequest* CreateHostingRequest(const UObject* WorldContextObject) const;
 };
+
+#undef UE_API

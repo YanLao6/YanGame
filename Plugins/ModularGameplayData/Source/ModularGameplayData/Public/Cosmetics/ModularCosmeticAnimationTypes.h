@@ -7,6 +7,8 @@
 
 #include "ModularCosmeticAnimationTypes.generated.h"
 
+#define UE_API MODULARGAMEPLAYDATA_API
+
 class UAnimInstance;
 class UPhysicsAsset;
 class USkeletalMesh;
@@ -28,7 +30,7 @@ struct FModularAnimLayerSelectionEntry
 };
 
 USTRUCT(BlueprintType)
-struct MODULARGAMEPLAYDATA_API FModularAnimLayerSelectionSet
+struct FModularAnimLayerSelectionSet
 {
 	GENERATED_BODY()
 		
@@ -41,7 +43,7 @@ struct MODULARGAMEPLAYDATA_API FModularAnimLayerSelectionSet
 	TSubclassOf<UAnimInstance> DefaultLayer;
 
 	/** 根据当前 CosmeticTags 选择最合适的 Layer Class。 */
-	TSubclassOf<UAnimInstance> SelectBestLayer(const FGameplayTagContainer& CosmeticTags) const;
+	UE_API TSubclassOf<UAnimInstance> SelectBestLayer(const FGameplayTagContainer& CosmeticTags) const;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -80,3 +82,5 @@ struct FModularAnimBodyStyleSelectionSet
 	/** 根据 CosmeticTags 选择 BodyStyle 对应的 USkeletalMesh。 */
 	USkeletalMesh* SelectBestBodyStyle(const FGameplayTagContainer& CosmeticTags) const;
 };
+
+#undef UE_API

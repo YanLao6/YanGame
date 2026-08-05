@@ -4,6 +4,8 @@
 #include "MoverTypes.h"
 #include "YanMoverDataModelTypes.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 /**
  * 项目自定义 Mover 输入包，是 Ability 与 Mover 之间唯一的通信接口。
  *
@@ -24,7 +26,7 @@
  * Merge/Interpolate；无需修改 FCharacterDefaultInputs。
  */
 USTRUCT(BlueprintType)
-struct YANGAMEMOVER_API FYanCharacterInputs : public FMoverDataStructBase
+struct FYanCharacterInputs : public FMoverDataStructBase
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -59,15 +61,30 @@ struct YANGAMEMOVER_API FYanCharacterInputs : public FMoverDataStructBase
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Yan|Mover|Input")
 	float GrappleRopeLength = 0.f;
 
+	/**
+	 * 主动脱墙意图（下蹲键按住）。写入：MoverSlideAbility（与滑铲、蹲伏共用同一按键，
+	 * 各意图由 sim 侧各自的 Transition 裁决）；读取：UChaosWallClimbExitCheck。
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Yan|Mover|Input")
+	bool bWantsToDetachFromWall = false;
+
+	/**
+	 * 空中冲刺意图（单帧脉冲）。写入：UAS_CharacterDash；读取：UChaosCharacterAirDashCheck。
+	 * 冲刺方向与速度均不随本结构上传：方向由 FCharacterDefaultInputs 推导，
+	 * 速度取自 Transition 的配置值，两端各自求得同一结果。
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Yan|Mover|Input")
+	bool bWantsToAirDash = false;
+
 	//~Begin FMoverDataStructBase Interface
-	virtual FMoverDataStructBase* Clone() const override;
-	virtual bool NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess) override;
-	virtual UScriptStruct* GetScriptStruct() const override;
-	virtual bool ShouldReconcile(const FMoverDataStructBase& AuthorityState) const override;
-	virtual void Interpolate(const FMoverDataStructBase& From, const FMoverDataStructBase& To, float Pct) override;
-	virtual void Merge(const FMoverDataStructBase& From) override;
-	virtual void ToString(FAnsiStringBuilderBase& Out) const override;
-	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
+	UE_API virtual FMoverDataStructBase* Clone() const override;
+	UE_API virtual bool NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess) override;
+	UE_API virtual UScriptStruct* GetScriptStruct() const override;
+	UE_API virtual bool ShouldReconcile(const FMoverDataStructBase& AuthorityState) const override;
+	UE_API virtual void Interpolate(const FMoverDataStructBase& From, const FMoverDataStructBase& To, float Pct) override;
+	UE_API virtual void Merge(const FMoverDataStructBase& From) override;
+	UE_API virtual void ToString(FAnsiStringBuilderBase& Out) const override;
+	UE_API virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 	//~End FMoverDataStructBase Interface
 };
 
@@ -79,3 +96,5 @@ struct TStructOpsTypeTraits<FYanCharacterInputs> : public TStructOpsTypeTraitsBa
 		WithNetSerializer = true
 	};
 };
+
+#undef UE_API

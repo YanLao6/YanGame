@@ -19,7 +19,7 @@ template <typename InterfaceType> class TScriptInterface;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableObjectsChangedEvent, const TArray<FInteractionOption>&, InteractableOptions);
 
 /** 持续检测可交互目标并在选项集合变化时广播的 AbilityTask 基类。 */
-UCLASS(Abstract)
+UCLASS(MinimalAPI, Abstract)
 class UAbilityTask_WaitForInteractableTargets : public UAbilityTask
 {
 	GENERATED_UCLASS_BODY()

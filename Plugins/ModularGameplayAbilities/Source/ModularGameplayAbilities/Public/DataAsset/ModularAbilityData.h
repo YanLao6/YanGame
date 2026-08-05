@@ -10,7 +10,7 @@
 /**
  * 全局 Modular Ability 数据资产（伤害 / 治疗 / 动态 Tag 等默认 GE 引用）。
  */
-UCLASS(BlueprintType, Const, meta=(DisplayName="Modular Ability 数据", ShortTooltip="全局 Modular Ability 数据：默认 GameplayEffect 引用等。"))
+UCLASS(MinimalAPI, BlueprintType, Const, meta=(DisplayName="Modular Ability 数据", ShortTooltip="全局 Modular Ability 数据：默认 GameplayEffect 引用等。"))
 class UModularAbilityData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()

@@ -1,5 +1,7 @@
 #include "YanMoverDataModelTypes.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanMoverDataModelTypes)
+
 FMoverDataStructBase* FYanCharacterInputs::Clone() const
 {
 	return new FYanCharacterInputs(*this);
@@ -14,6 +16,8 @@ bool FYanCharacterInputs::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOu
 	Ar.SerializeBits(&bIsSprintJustPressed, 1);
 	Ar.SerializeBits(&bIsSprintPressed, 1);
 	Ar.SerializeBits(&bIsGrapplingActive, 1);
+	Ar.SerializeBits(&bWantsToDetachFromWall, 1);
+	Ar.SerializeBits(&bWantsToAirDash, 1);
 	// 锚点仅在钩锁激活时有意义，始终随输入上传以支持服务器 re-simulation
 	Ar << GrappleAnchorPoint;
 	Ar << GrappleRopeLength;
@@ -33,6 +37,8 @@ bool FYanCharacterInputs::ShouldReconcile(const FMoverDataStructBase& AuthorityS
 	       || Auth.bIsSprintJustPressed != bIsSprintJustPressed
 	       || Auth.bIsSprintPressed != bIsSprintPressed
 	       || Auth.bIsGrapplingActive != bIsGrapplingActive
+	       || Auth.bWantsToDetachFromWall != bWantsToDetachFromWall
+	       || Auth.bWantsToAirDash != bWantsToAirDash
 	       || !Auth.GrappleAnchorPoint.Equals(GrappleAnchorPoint)
 	       || !FMath::IsNearlyEqual(Auth.GrappleRopeLength, GrappleRopeLength);
 }
@@ -45,6 +51,8 @@ void FYanCharacterInputs::Interpolate(const FMoverDataStructBase& From, const FM
 	bIsSprintJustPressed           = Src.bIsSprintJustPressed;
 	bIsSprintPressed               = Src.bIsSprintPressed;
 	bIsGrapplingActive             = Src.bIsGrapplingActive;
+	bWantsToDetachFromWall         = Src.bWantsToDetachFromWall;
+	bWantsToAirDash                = Src.bWantsToAirDash;
 	GrappleAnchorPoint             = Src.GrappleAnchorPoint;
 	GrappleRopeLength              = Src.GrappleRopeLength;
 }
@@ -57,6 +65,8 @@ void FYanCharacterInputs::Merge(const FMoverDataStructBase& From)
 	bIsSprintJustPressed           |= Src.bIsSprintJustPressed;
 	bIsSprintPressed               |= Src.bIsSprintPressed;
 	bIsGrapplingActive             |= Src.bIsGrapplingActive;
+	bWantsToDetachFromWall         |= Src.bWantsToDetachFromWall;
+	bWantsToAirDash                |= Src.bWantsToAirDash;
 	// 锚点只由钩锁 Ability 写入，取来源中处于激活状态的值
 	if (Src.bIsGrapplingActive)
 	{
@@ -68,8 +78,8 @@ void FYanCharacterInputs::Merge(const FMoverDataStructBase& From)
 void FYanCharacterInputs::ToString(FAnsiStringBuilderBase& Out) const
 {
 	Super::ToString(Out);
-	Out.Appendf("bWantsToSlide: %i | bIsSprintJustPressed: %i | bIsSprintPressed: %i | bIsGrapplingActive: %i | GrappleAnchor: (%.1f,%.1f,%.1f) | GrappleRope: %.1f\n",
-	            bWantsToSlide, bIsSprintJustPressed, bIsSprintPressed, bIsGrapplingActive,
+	Out.Appendf("bWantsToSlide: %i | bIsSprintJustPressed: %i | bIsSprintPressed: %i | bIsGrapplingActive: %i | bWantsToDetachFromWall: %i | bWantsToAirDash: %i | GrappleAnchor: (%.1f,%.1f,%.1f) | GrappleRope: %.1f\n",
+	            bWantsToSlide, bIsSprintJustPressed, bIsSprintPressed, bIsGrapplingActive, bWantsToDetachFromWall, bWantsToAirDash,
 	            GrappleAnchorPoint.X, GrappleAnchorPoint.Y, GrappleAnchorPoint.Z, GrappleRopeLength);
 }
 

@@ -11,7 +11,7 @@
 /**
  * 
  */
-UCLASS(Abstract, HideCategories = Input)
+UCLASS(MinimalAPI, Abstract, HideCategories = Input)
 class UModularGamePhaseAbility : public UModularGameplayAbility
 {
 	GENERATED_BODY()

@@ -2,6 +2,8 @@
 
 #include "ActorComponent/ModularAbilitySystemComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanAttributeSet)
+
 UYanAttributeSet::UYanAttributeSet()
 {}
 

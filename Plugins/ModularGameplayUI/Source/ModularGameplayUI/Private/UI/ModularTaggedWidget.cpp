@@ -2,6 +2,8 @@
 
 #include "UI/ModularTaggedWidget.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ModularTaggedWidget)
+
 UModularTaggedWidget::UModularTaggedWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {

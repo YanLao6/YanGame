@@ -5,6 +5,8 @@
 
 #include "YanAttributeSet.generated.h"
 
+#define UE_API YANGAMEABILITY_API
+
 class UModularAbilitySystemComponent;
 struct FGameplayEffectSpec;
 
@@ -30,18 +32,20 @@ DECLARE_MULTICAST_DELEGATE_SixParams(FYanAttributeEvent, AActor* /*EffectInstiga
  *
  * 提供 GetWorld 与项目 ASC 访问入口，供各具体 AttributeSet 复用。
  */
-UCLASS()
-class YANGAMEABILITY_API UYanAttributeSet : public UAttributeSet
+UCLASS(MinimalAPI)
+class UYanAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UYanAttributeSet();
+	UE_API UYanAttributeSet();
 
 	//~Begin UObject Interface
-	virtual UWorld* GetWorld() const override;
+	UE_API virtual UWorld* GetWorld() const override;
 	//~End UObject Interface
 
 	/** 获取拥有本 AttributeSet 的项目 ASC。 */
-	UModularAbilitySystemComponent* GetModularAbilitySystemComponent() const;
+	UE_API UModularAbilitySystemComponent* GetModularAbilitySystemComponent() const;
 };
+
+#undef UE_API

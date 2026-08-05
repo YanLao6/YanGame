@@ -9,6 +9,8 @@
 
 #include "ModularGameplayMessageProcessor.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 namespace EEndPlayReason { enum Type : int; }
 
 class UObject;
@@ -19,26 +21,28 @@ class UObject;
  * 注意：处理器通常在 Server 上全局生成一份（非每玩家），需自行按 Owner/Role 过滤受众。
  */
 
-UCLASS(BlueprintType, Blueprintable, meta=(BlueprintSpawnableComponent))
-class MODULARGAMEPLAYEXPERIENCES_API UModularGameplayMessageProcessor : public UActorComponent
+UCLASS(MinimalAPI, BlueprintType, Blueprintable, meta=(BlueprintSpawnableComponent))
+class UModularGameplayMessageProcessor : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 	//~UActorComponent interface
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UE_API virtual void BeginPlay() override;
+	UE_API virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	//~End of UActorComponent interface
 
 	/** 开始注册 UGameplayMessageSubsystem 监听（子类实现）。 */
-	virtual void StartListening();
+	UE_API virtual void StartListening();
 	/** 停止监听（子类可覆盖）；EndPlay 会清理 Handle。 */
-	virtual void StopListening();
+	UE_API virtual void StopListening();
 
 protected:
-	void AddListenerHandle(FGameplayMessageListenerHandle&& Handle);
-	double GetServerTime() const;
+	UE_API void AddListenerHandle(FGameplayMessageListenerHandle&& Handle);
+	UE_API double GetServerTime() const;
 
 private:
 	TArray<FGameplayMessageListenerHandle> ListenerHandles;
 };
+
+#undef UE_API

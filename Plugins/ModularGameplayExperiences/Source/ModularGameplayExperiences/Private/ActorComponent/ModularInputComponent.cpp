@@ -13,8 +13,10 @@
 #include "ActorComponent/ModularInputConfigComponent.h"
 #include "ActorComponent/ModularPawnComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
+#include "DataAsset/Fragments/PawnDataFragment_InputConfig.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/PlayerState.h"
+#include "Logging/MessageLog.h"
 #include "Misc/UObjectToken.h"
 #include "UserSettings/EnhancedInputUserSettings.h"
 
@@ -235,25 +237,31 @@ void UModularInputComponent::InputActionMapping(UInputComponent* PlayerInputComp
 
 	Subsystem->ClearAllMappings();
 
-	for (const auto& [InputMapping, Priority, bRegisterWithSettings] : DefaultInputMappings)
+	// IMC 必须在 ClearAllMappings 之后注册，故组件默认映射与 PawnData 映射统一在此处理。
+	auto RegisterInputMappings = [Subsystem](const TArray<FInputMappingContextAndPriority>& Mappings)
 	{
-		// 使用 LoadSynchronous 确保软引用在此帧可用（对齐 Lyra LyraHeroComponent 实现）
-		UInputMappingContext* InputMappingContext = InputMapping.LoadSynchronous();
-		if (!InputMappingContext || !bRegisterWithSettings)
+		for (const auto& [InputMapping, Priority, bRegisterWithSettings] : Mappings)
 		{
-			continue;
-		}
+			// 使用 LoadSynchronous 确保软引用在此帧可用（对齐 Lyra LyraHeroComponent 实现）
+			UInputMappingContext* InputMappingContext = InputMapping.LoadSynchronous();
+			if (!InputMappingContext || !bRegisterWithSettings)
+			{
+				continue;
+			}
 
-		if (UEnhancedInputUserSettings* Settings = Subsystem->GetUserSettings())
-		{
-			Settings->RegisterInputMappingContext(InputMappingContext);
-		}
+			if (UEnhancedInputUserSettings* Settings = Subsystem->GetUserSettings())
+			{
+				Settings->RegisterInputMappingContext(InputMappingContext);
+			}
 
-		FModifyContextOptions Options             = {};
-		Options.bIgnoreAllPressedKeysUntilRelease = false;
-		// 将 MappingContext 加入本地玩家的 Enhanced Input 子系统
-		Subsystem->AddMappingContext(InputMappingContext, Priority, Options);
-	}
+			FModifyContextOptions Options             = {};
+			Options.bIgnoreAllPressedKeysUntilRelease = false;
+			// 将 MappingContext 加入本地玩家的 Enhanced Input 子系统
+			Subsystem->AddMappingContext(InputMappingContext, Priority, Options);
+		}
+	};
+
+	RegisterInputMappings(DefaultInputMappings);
 
 	const UModularPawnComponent* PawnExtComp = UModularPawnComponent::FindModularPawnComponent(Pawn);
 	if (!PawnExtComp)
@@ -265,7 +273,15 @@ void UModularInputComponent::InputActionMapping(UInputComponent* PlayerInputComp
 	{
 		return;
 	}
-	const UModularInputConfig* InputConfig = PawnData->InputConfig;
+	const UPawnDataFragment_InputConfig* InputFragment = PawnData->FindFragment<UPawnDataFragment_InputConfig>();
+	if (!InputFragment)
+	{
+		return;
+	}
+
+	RegisterInputMappings(InputFragment->InputMappings);
+
+	const UModularInputConfig* InputConfig = InputFragment->InputConfig;
 	if (!InputConfig)
 	{
 		return;
@@ -276,10 +292,77 @@ void UModularInputComponent::InputActionMapping(UInputComponent* PlayerInputComp
 		// 合并玩家自定义键位映射
 		InputConfigComponent->AddInputMappings(InputConfig, Subsystem);
 
-		InputConfigComponent->BindNativeAction(InputConfig, ModularGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move, /*bLogIfNotFound=*/ false);
-		InputConfigComponent->BindNativeAction(InputConfig, ModularGameplayTags::InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ThisClass::Input_LookMouse, /*bLogIfNotFound=*/ false);
-		InputConfigComponent->BindNativeAction(InputConfig, ModularGameplayTags::InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ThisClass::Input_LookStick, /*bLogIfNotFound=*/ false);
-		InputConfigComponent->BindNativeAction(InputConfig, ModularGameplayTags::InputTag_Crouch, ETriggerEvent::Triggered, this, &ThisClass::Input_Crouch, /*bLogIfNotFound=*/ false);
+		// PawnData 自带的绑定与 Pawn 同生命周期，无需记录句柄，登记亦无需对称注销。
+		InputConfigComponent->RegisterInputConfig(InputConfig);
+		BindNativeInputActions(InputConfigComponent, InputConfig, /*OutHandles=*/ nullptr);
+	}
+}
+
+void UModularInputComponent::BindNativeInputActions(UModularInputConfigComponent* InputConfigComponent, const UModularInputConfig* InputConfig, TArray<uint32>* OutHandles)
+{
+	auto BindTag = [this, InputConfigComponent, InputConfig, OutHandles](const FGameplayTag& InputTag, auto Func)
+	{
+		const uint32 Handle = InputConfigComponent->BindNativeAction(InputConfig, InputTag, ETriggerEvent::Triggered, this, Func, /*bLogIfNotFound=*/ false);
+		if (OutHandles && Handle != 0)
+		{
+			OutHandles->Add(Handle);
+		}
+	};
+
+	BindTag(ModularGameplayTags::InputTag_Move, &ThisClass::Input_Move);
+	BindTag(ModularGameplayTags::InputTag_Look_Mouse, &ThisClass::Input_LookMouse);
+	BindTag(ModularGameplayTags::InputTag_Look_Stick, &ThisClass::Input_LookStick);
+	BindTag(ModularGameplayTags::InputTag_Crouch, &ThisClass::Input_Crouch);
+}
+
+void UModularInputComponent::AddAdditionalInputConfig(const UModularInputConfig* InputConfig)
+{
+	if (!InputConfig)
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return;
+	}
+
+	UModularInputConfigComponent* InputConfigComponent = Cast<UModularInputConfigComponent>(Pawn->InputComponent);
+	if (!ensureMsgf(InputConfigComponent, TEXT("Unexpected Input Component class! The native inputs will not be bound to their actions. Change the input component to UInputConfigComponent or a subclass of it.")))
+	{
+		return;
+	}
+
+	TArray<uint32>& BindHandles = AdditionalInputBindHandles.FindOrAdd(InputConfig);
+	if (!BindHandles.IsEmpty())
+	{
+		// 同一 InputConfig 已绑定，重复绑定会让一次按键触发多次回调。
+		return;
+	}
+
+	InputConfigComponent->RegisterInputConfig(InputConfig);
+	BindNativeInputActions(InputConfigComponent, InputConfig, &BindHandles);
+}
+
+void UModularInputComponent::RemoveAdditionalInputConfig(const UModularInputConfig* InputConfig)
+{
+	if (!InputConfig)
+	{
+		return;
+	}
+
+	TArray<uint32> BindHandles;
+	if (!AdditionalInputBindHandles.RemoveAndCopyValue(InputConfig, BindHandles))
+	{
+		return;
+	}
+
+	const APawn* Pawn = GetPawn<APawn>();
+	if (UModularInputConfigComponent* InputConfigComponent = Pawn ? Cast<UModularInputConfigComponent>(Pawn->InputComponent) : nullptr)
+	{
+		InputConfigComponent->RemoveBinds(BindHandles);
+		InputConfigComponent->UnregisterInputConfig(InputConfig);
 	}
 }
 

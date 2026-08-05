@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "YanHookProjectile.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 class USphereComponent;
 class UStaticMeshComponent;
 class UProjectileMovementComponent;
@@ -22,17 +24,17 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHookMissedSignature, AYanHookProj
  *   客户端收到后在本地启动 ProjectileMovementComponent 进行弹道模拟，实现流畅视觉效果。
  * 超出 MaxTravelDistance 仍未命中时，服务器广播 OnHookMissed 并销毁；Destroy 复制到客户端。
  */
-UCLASS()
-class YANGAMEMOVER_API AYanHookProjectile : public AActor
+UCLASS(MinimalAPI)
+class AYanHookProjectile : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AYanHookProjectile();
+	UE_API AYanHookProjectile();
 
 	/** 沿 Direction 方向以 Speed（cm/s）发射钩锁头，调用前须先完成 SpawnActor */
 	UFUNCTION(BlueprintCallable, Category = "Grappling")
-	void Launch(FVector Direction, float Speed);
+	UE_API void Launch(FVector Direction, float Speed);
 
 	/** 命中世界几何体时广播（命中结果含世界坐标 ImpactPoint） */
 	UPROPERTY(BlueprintAssignable, Category = "Grappling")
@@ -68,19 +70,19 @@ public:
 
 protected:
 	//~Begin AActor Interface
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	virtual void Destroyed() override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	UE_API virtual void BeginPlay() override;
+	UE_API virtual void Tick(float DeltaSeconds) override;
+	UE_API virtual void Destroyed() override;
+	UE_API virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	//~End AActor Interface
 
 private:
 	UFUNCTION()
-	void HandleHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	UE_API void HandleHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	// 收到初速度复制后，在客户端启动本地弹道模拟
 	UFUNCTION()
-	void OnRep_InitialVelocity();
+	UE_API void OnRep_InitialVelocity();
 
 	// 复制初速度：服务器 Launch() 后写入，客户端经 RepNotify 驱动本地 ProjectileMovement
 	UPROPERTY(ReplicatedUsing = OnRep_InitialVelocity)
@@ -90,3 +92,5 @@ private:
 	FVector LaunchLocation = FVector::ZeroVector;
 	bool    bLaunched      = false;
 };
+
+#undef UE_API

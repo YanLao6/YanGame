@@ -21,7 +21,7 @@ class UModularLayoutInterface : public UInterface
  * 用于让 HUD/Widget 获取或设置 `UModularGameplayLayout`，
  * 以便与 GameFeature 注入流程协同。
  */
-class MODULARGAMEPLAYUI_API IModularLayoutInterface
+class IModularLayoutInterface
 {
 	GENERATED_BODY()
 

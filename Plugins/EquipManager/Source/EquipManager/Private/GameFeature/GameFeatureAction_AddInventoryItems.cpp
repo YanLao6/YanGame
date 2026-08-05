@@ -175,18 +175,17 @@ void UGameFeatureAction_AddInventoryItems::HandleActorExtension(AActor* Actor, F
 		return;
 	}
 
-	if (ActiveData->ActiveExtensions.Contains(Actor))
+	FActorExtensions& Extensions = ActiveData->ActiveExtensions.FindOrAdd(Actor);
+
+	// 同一控制器可能收到多次扩展事件，而同一控制器类又可配置多条条目，因此去重要精确到条目。
+	if (Extensions.GrantedEntries.Contains(EntryIndex) || Extensions.PendingEntries.Contains(EntryIndex))
 	{
-		// 同一控制器可能收到多次扩展事件，已登记则不再重复发放。
 		return;
 	}
 
-	const FGameFeatureInventoryEntry& Entry      = ItemsList[EntryIndex];
-	FActorExtensions&                 Extensions = ActiveData->ActiveExtensions.Add(Actor);
-
 	if (Controller->GetPawn() != nullptr)
 	{
-		GrantItems(Controller, Entry, Extensions);
+		GrantItems(Controller, EntryIndex, Extensions);
 	}
 	else
 	{
@@ -199,7 +198,8 @@ void UGameFeatureAction_AddInventoryItems::WaitForPawn(AController* Controller, 
 {
 	TWeakObjectPtr<AController> WeakController(Controller);
 
-	Extensions.PawnChangedHandle = Controller->GetOnNewPawnNotifier().AddWeakLambda(this,
+	Extensions.PendingEntries.Add(EntryIndex);
+	Extensions.PawnChangedHandles.Add(Controller->GetOnNewPawnNotifier().AddWeakLambda(this,
 		[this, WeakController, EntryIndex, ChangeContext](APawn* NewPawn)
 		{
 			if ((NewPawn == nullptr) || !WeakController.IsValid())
@@ -215,16 +215,18 @@ void UGameFeatureAction_AddInventoryItems::WaitForPawn(AController* Controller, 
 
 			if (FActorExtensions* PendingExtensions = ActiveData->ActiveExtensions.Find(WeakController.Get()))
 			{
-				if (!PendingExtensions->bGranted)
+				if (!PendingExtensions->GrantedEntries.Contains(EntryIndex))
 				{
-					GrantItems(WeakController.Get(), ItemsList[EntryIndex], *PendingExtensions);
+					GrantItems(WeakController.Get(), EntryIndex, *PendingExtensions);
 				}
 			}
-		});
+		}));
 }
 
-void UGameFeatureAction_AddInventoryItems::GrantItems(AController* Controller, const FGameFeatureInventoryEntry& Entry, FActorExtensions& Extensions)
+void UGameFeatureAction_AddInventoryItems::GrantItems(AController* Controller, int32 EntryIndex, FActorExtensions& Extensions)
 {
+	const FGameFeatureInventoryEntry& Entry = ItemsList[EntryIndex];
+
 	UInventoryManagerComponent* Inventory = Controller->FindComponentByClass<UInventoryManagerComponent>();
 	if (Inventory == nullptr)
 	{
@@ -276,7 +278,8 @@ void UGameFeatureAction_AddInventoryItems::GrantItems(AController* Controller, c
 		SlotToEquip = (SlotToEquip == INDEX_NONE) ? Grant.QuickBarSlot : FMath::Min(SlotToEquip, Grant.QuickBarSlot);
 	}
 
-	Extensions.bGranted = true;
+	Extensions.PendingEntries.Remove(EntryIndex);
+	Extensions.GrantedEntries.Add(EntryIndex);
 
 	if (Entry.bActivateFirstOccupiedSlot && (QuickBar != nullptr) && (SlotToEquip != INDEX_NONE))
 	{
@@ -295,9 +298,12 @@ void UGameFeatureAction_AddInventoryItems::RemoveItems(AActor* Actor, FPerContex
 
 	if (AController* Controller = Cast<AController>(Actor))
 	{
-		if (Extensions->PawnChangedHandle.IsValid())
+		for (const FDelegateHandle& PawnChangedHandle : Extensions->PawnChangedHandles)
 		{
-			Controller->GetOnNewPawnNotifier().Remove(Extensions->PawnChangedHandle);
+			if (PawnChangedHandle.IsValid())
+			{
+				Controller->GetOnNewPawnNotifier().Remove(PawnChangedHandle);
+			}
 		}
 
 		// 先清空槽位，激活中的槽位会在此过程中自动卸下对应装备。

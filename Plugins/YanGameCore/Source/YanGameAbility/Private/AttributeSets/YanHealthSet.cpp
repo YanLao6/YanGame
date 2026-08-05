@@ -5,6 +5,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanHealthSet)
+
 UYanHealthSet::UYanHealthSet()
 	: Health(100.0f)
 	  , MaxHealth(100.0f)

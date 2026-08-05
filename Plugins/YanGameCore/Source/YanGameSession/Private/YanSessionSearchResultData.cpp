@@ -3,6 +3,8 @@
 #include "YanSessionSearchResultData.h"
 #include "CommonSessionSubsystem.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanSessionSearchResultData)
+
 FText UYanSessionSearchResultData::GetPlayerCountText() const
 {
 	if (!SearchResult)

@@ -6,12 +6,16 @@
 #include "ActorComponent/ModularAbilityExtensionComponent.h"
 #include "YanHeroAbilityComponent.generated.h"
 
+#define UE_API YANGAMEPLAY_API
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class YANGAMEPLAY_API UYanHeroAbilityComponent : public UModularAbilityExtensionComponent
+
+UCLASS(MinimalAPI, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class UYanHeroAbilityComponent : public UModularAbilityExtensionComponent
 {
 	GENERATED_BODY()
 
 public:
-	UYanHeroAbilityComponent(const FObjectInitializer& ObjectInitializer);
+	UE_API UYanHeroAbilityComponent(const FObjectInitializer& ObjectInitializer);
 };
+
+#undef UE_API

@@ -2,10 +2,10 @@
 
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
+#include "YanMoverAngelscriptLibrary.h"
 #include "GameFramework/Actor.h"
 #include "DefaultMovementSet/LayeredMoves/LaunchMove.h"
 #include "ChaosMover/Character/ChaosCharacterMoverComponent.h"
-#include "ChaosMover/Character/Effects/ChaosCharacterApplyVelocityEffect.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(MoverLaunchExecutionCalculation)
 
@@ -37,15 +37,12 @@ void UMoverLaunchExecutionCalculation::Execute_Implementation(const FGameplayEff
 		{
 			if (UMoverComponent* TargetMover = TargetActor->FindComponentByClass<UMoverComponent>())
 			{
-				if (UChaosCharacterMoverComponent* ChaosMover = Cast<UChaosCharacterMoverComponent>(TargetMover))
+				if (Cast<UChaosCharacterMoverComponent>(TargetMover))
 				{
-					// ChaosMover 后端不消费 LayeredMove。单次发力改用 OverrideVelocity 瞬时速度效果，
-					// 经 InjectInstantMovementEffectsIntoSim 注入；向上分量足够时由默认 FallingCheck 切 Falling。
+					// 效果作用于他人：必须以 Authority sim action 下发，目标端才不会因未预测此次速度
+					// 变更而被物理修正。向上分量足够时由默认 FallingCheck 切 Falling。
 					// 瞬时速度无持续语义，DurationMs 在此忽略。
-					TSharedPtr<FChaosCharacterApplyVelocityEffect> LaunchEffect = MakeShared<FChaosCharacterApplyVelocityEffect>();
-					LaunchEffect->VelocityOrImpulseToApply                      = LaunchVelocity;
-					LaunchEffect->Mode                                          = EChaosMoverVelocityEffectMode::OverrideVelocity;
-					ChaosMover->QueueInstantMovementEffect(LaunchEffect);
+					UYanMoverAngelscriptLibrary::ApplyAuthoritativeVelocityToTarget(TargetMover, LaunchVelocity, /*bOverrideVelocity=*/true, /*bScheduleForSync=*/true);
 				}
 				else
 				{

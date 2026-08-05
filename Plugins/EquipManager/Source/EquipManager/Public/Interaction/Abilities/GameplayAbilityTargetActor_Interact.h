@@ -11,7 +11,7 @@ class UObject;
 
 
 /** 交互类目标 Actor 的中间基类，实现按视线单线检测的 PerformTrace。 */
-UCLASS(Blueprintable)
+UCLASS(MinimalAPI, Blueprintable)
 class AGameplayAbilityTargetActor_Interact : public AGameplayAbilityTargetActor_Trace
 {
 	GENERATED_BODY()

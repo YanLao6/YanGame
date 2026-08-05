@@ -5,13 +5,15 @@
 
 #include "ChaosGrapplingMode.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 /**
  * UChaosGrapplingMode - 钩锁牵引的 ChaosMover 运动模式，继承 UChaosFallingMode。
  *
  * 范式背景：
- *  ChaosMover 未接通 layered move 的游戏线程入队链路（UChaosMoverSimulation 未暴露
- *  QueueLayeredMove），故钩锁以独立 Movement Mode 实现——ChaosMover 原生支持模式在
- *  物理线程驱动 GenerateMove / SimulationTick。
+ *  钩锁以独立 Movement Mode 实现，由 ChaosMover 在物理线程驱动 GenerateMove / SimulationTick。
+ *  ChaosMover 亦支持 layered move（QueueLayeredMove / QueueLayeredMoveInstance），但仅限
+ *  SupportsAsync() 为 true 的实现；该标志是纯 C++ virtual，AngelScript 侧无法重写。
  *
  * 设计要点：
  *  - 继承 UChaosFallingMode，复用其空中积分 SimulationTick 与 PhysicsObjectGravity 重力补偿，
@@ -21,13 +23,13 @@
  *  - 进入由 MoverGrapplingAbility 通过 SuggestedMovementMode 触发；退出由构造函数挂入的
  *    UChaosGrapplingExitCheck 依据 bIsGrapplingActive 判定。
  */
-UCLASS(Blueprintable, BlueprintType, EditInlineNew, DefaultToInstanced)
-class YANGAMEMOVER_API UChaosGrapplingMode : public UChaosFallingMode
+UCLASS(MinimalAPI, Blueprintable, BlueprintType, EditInlineNew, DefaultToInstanced)
+class UChaosGrapplingMode : public UChaosFallingMode
 {
 	GENERATED_BODY()
 
 public:
-	UChaosGrapplingMode(const FObjectInitializer& ObjectInitializer);
+	UE_API UChaosGrapplingMode(const FObjectInitializer& ObjectInitializer);
 
 	/** 向锚点方向施加的主动拉力加速度（cm/s^2） */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grappling", meta = (ClampMin = "0", UIMin = "0", ForceUnits = "cm/s^2"))
@@ -39,9 +41,11 @@ public:
 
 	//~Begin UBaseMovementMode Interface
 	/** 重力 + 朝锚点拉力 + 合速度限速；屏蔽方向输入，覆盖式写入提议移动 */
-	virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
+	UE_API virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
 	//~End UBaseMovementMode Interface
 	
 protected:
-	void UpdateFloorSweep_Internal(FProposedMove& OutProposedMove, const FChaosMoverSimulationDefaultInputs* DefaultSimInputs, float DeltaSeconds, FVector CurrentPos) const;
+	UE_API void UpdateFloorSweep_Internal(FProposedMove& OutProposedMove, const FChaosMoverSimulationDefaultInputs* DefaultSimInputs, float DeltaSeconds, FVector CurrentPos) const;
 };
+
+#undef UE_API

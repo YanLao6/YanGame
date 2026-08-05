@@ -14,6 +14,8 @@
 #include "Engine/Engine.h"
 #include "ActorComponent/ModularAbilitySystemComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanGASCheatExtension)
+
 DEFINE_LOG_CATEGORY_STATIC(LogYanGASDebug, Log, All);
 
 UAbilitySystemComponent* UYanGASCheatExtension::ResolveAbilitySystemComponent() const

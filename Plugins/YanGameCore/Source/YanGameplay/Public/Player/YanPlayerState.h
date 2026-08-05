@@ -6,11 +6,15 @@
 #include "ModularAbilityPlayerState.h"
 #include "YanPlayerState.generated.h"
 
+#define UE_API YANGAMEPLAY_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMEPLAY_API AYanPlayerState : public AModularAbilityPlayerState
+UCLASS(MinimalAPI)
+class AYanPlayerState : public AModularAbilityPlayerState
 {
 	GENERATED_BODY()
 };
+
+#undef UE_API

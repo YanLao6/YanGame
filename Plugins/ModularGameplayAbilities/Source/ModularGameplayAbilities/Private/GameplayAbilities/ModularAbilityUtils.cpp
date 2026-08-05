@@ -5,6 +5,8 @@
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(ModularAbilityUtils)
+
 FGameplayTagContainer UModularAbilityUtils::GetAbilityAssetTags(const UGameplayAbility* Ability)
 {
 	return Ability != nullptr ? Ability->GetAssetTags() : FGameplayTagContainer();

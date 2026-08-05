@@ -3,6 +3,8 @@
 #include "YanSessionEntryWidgetBase.h"
 #include "YanSessionSearchResultData.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanSessionEntryWidgetBase)
+
 void UYanSessionEntryWidgetBase::NativeOnListItemObjectSet(UObject* ListItemObject)
 {
 	// 先调用基类（处理内部 IUserObjectListEntry 状态）

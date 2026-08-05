@@ -56,7 +56,7 @@ struct FGameFeatureInventoryEntry
 
 	/** 发放完成后是否自动激活序号最小的已占用槽位，使对应物品立即装备到 Pawn 上。 */
 	UPROPERTY(EditAnywhere, Category=Inventory)
-	bool bActivateFirstOccupiedSlot = true;
+	bool bActivateFirstOccupiedSlot = false;
 };
 
 /**
@@ -88,16 +88,19 @@ public:
 
 private:
 	// 单个控制器上已发放的内容，用于失效时精确回滚。
+	// 同一控制器类可以配置多条条目，此结构按控制器汇总它们的发放结果。
 	struct FActorExtensions
 	{
 		// 已写入背包的物品实例，使用弱引用避免物品在别处被销毁后产生悬垂指针。
 		TArray<TWeakObjectPtr<UInventoryItemInstance>> Items;
 		// 本次发放实际占用的快捷栏槽位。
 		TArray<int32>                                  OccupiedSlots;
-		// 等待 Pawn 就绪的委托句柄。
-		FDelegateHandle                                PawnChangedHandle;
-		// 是否已完成发放，用于保证同一控制器只发一次。
-		bool                                           bGranted = false;
+		// 等待 Pawn 就绪的委托句柄，每条待发放条目各持有一个。
+		TArray<FDelegateHandle>                        PawnChangedHandles;
+		// 已受理但仍在等待 Pawn 的条目序号。
+		TSet<int32>                                    PendingEntries;
+		// 已完成发放的条目序号，保证同一控制器的同一条目只发一次。
+		TSet<int32>                                    GrantedEntries;
 	};
 
 	struct FPerContextData
@@ -117,8 +120,8 @@ private:
 
 	// 控制器尚未控制 Pawn 时，先登记条目并订阅 Pawn 变更通知。
 	void WaitForPawn(AController* Controller, FActorExtensions& Extensions, int32 EntryIndex, FGameFeatureStateChangeContext ChangeContext);
-	// 向控制器身上的背包与快捷栏写入配置的物品。
-	void GrantItems(AController* Controller, const FGameFeatureInventoryEntry& Entry, FActorExtensions& Extensions);
+	// 向控制器身上的背包与快捷栏写入指定条目配置的物品。
+	void GrantItems(AController* Controller, int32 EntryIndex, FActorExtensions& Extensions);
 	// 撤销此前发放的物品并解除 Pawn 变更订阅。
 	void RemoveItems(AActor* Actor, FPerContextData& ActiveData);
 };

@@ -7,14 +7,22 @@
 
 #include "YanGameMode.generated.h"
 
+#define UE_API YANGAMEPLAY_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMEPLAY_API AYanGameMode : public AModularExperienceGameMode
+UCLASS(MinimalAPI)
+class AYanGameMode : public AModularExperienceGameMode
 {
 	GENERATED_BODY()
 
 public:
-	explicit AYanGameMode(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API explicit AYanGameMode(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	//~Begin AModularExperienceGameMode Interface
+	UE_API virtual const UModularPawnData* GetPawnDataForController(const AController* InController) const override;
+	//~End AModularExperienceGameMode Interface
 };
+
+#undef UE_API

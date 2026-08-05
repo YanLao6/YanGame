@@ -15,7 +15,7 @@ class UEquipmentDefinition;
  *
  * 用于把物品定义映射到具体的装备定义，使背包物品能够被快捷栏和装备系统识别并生成对应装备实例。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UInventoryFragment_EquippableItem : public UInventoryItemFragment
 {
 	GENERATED_BODY()

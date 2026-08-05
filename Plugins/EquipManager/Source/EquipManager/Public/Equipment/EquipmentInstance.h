@@ -16,7 +16,7 @@ struct FEquipmentActorToSpawn;
  * 每次角色装备某个装备定义时都会生成一个实例，用于保存运行时状态、生成附属 Actor，
  * 并向蓝图暴露装备生命周期事件。
  */
-UCLASS(Blueprintable,BlueprintType)
+UCLASS(MinimalAPI, Blueprintable,BlueprintType)
 class UEquipmentInstance : public UObject
 {
 	GENERATED_BODY()

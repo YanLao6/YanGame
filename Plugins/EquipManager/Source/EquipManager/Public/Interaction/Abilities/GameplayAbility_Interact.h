@@ -20,7 +20,7 @@ struct FGameplayEventData;
  * 常驻授予（OnSpawn），周期性扫描附近可交互物并生成屏幕指示器，
  * 在玩家确认时触发当前选项对应的交互能力。
  */
-UCLASS(Abstract)
+UCLASS(MinimalAPI, Abstract)
 class UGameplayAbility_Interact : public UModularGameplayAbility
 {
 	GENERATED_BODY()

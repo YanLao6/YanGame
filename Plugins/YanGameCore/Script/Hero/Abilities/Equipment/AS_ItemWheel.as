@@ -9,19 +9,20 @@
  * 与术式轮盘的关键差别在于长按路径的终点：改选只把物品替换进快捷栏槽位，
  * 并不顺带装备，装备留给随后的一次短按。一次长按改选、多次短按取用。
  *
- * 轮盘与槽位由 QuickBarSlotIndex 绑定：该槽位的准入类别在 UQuickBarComponent 的
+ * 轮盘与槽位由 SetSlotEventTag 绑定：该槽位的准入类别在 UQuickBarComponent 的
  * SlotRules 上配置，轮盘收录的物品类别须与之一致，长按落位才会落回同一槽位。
- * 短按只按索引激活，不读槽内物品，因此不受落位后的槽位复制延迟影响；
+ * 短按只广播切换事件，不读槽内物品，因此不受落位后的槽位复制延迟影响；
  * 槽位为空时等同于卸下当前装备。
  *
- * 落位为服务器权威操作，经 UYanQuickBarRequestComponent 转交服务器；该组件需挂在 Pawn 上。
+ * 短按不直接触碰快捷栏，切换由 UAS_QuickBarInputHost 按事件标签统一执行；
+ * 落位为服务器权威操作，经 UYanQuickBarRequestComponent 转交服务器，该组件需挂在 Pawn 上。
  *
  * 轮盘为 All + NoCapture 输入模式，游戏侧通路不断，按键释放仍由本技能接收，
  * 因此轮盘无需参与开合判定。
  *
  * 蓝图默认值需设置：
- *   WheelWidgetClass  → 你的 YanItemWheelWidget 蓝图子类
- *   QuickBarSlotIndex → 该类物品所属的快捷栏槽位索引
+ *   WheelWidgetClass → 你的 YanItemWheelWidget 蓝图子类
+ *   SetSlotEventTag  → 该类物品所属快捷栏槽位对应的带编号子标签
  */
 class UAS_ItemWheel : UYanGameplayAbility
 {
@@ -37,9 +38,9 @@ class UAS_ItemWheel : UYanGameplayAbility
 	UPROPERTY(EditDefaultsOnly, Category = "Wheel", Meta = (Categories = "UI.Layer"))
 	FGameplayTag WheelLayerTag = FGameplayTag::RequestGameplayTag(n"UI.Layer.Game");
 
-	/** 本轮盘绑定的快捷栏槽位索引，短按激活该槽位 */
-	UPROPERTY(EditDefaultsOnly, Category = "Wheel", Meta = (ClampMin = "0"))
-	int32 QuickBarSlotIndex = 3;
+	/** 短按广播的切换事件，末段编号即本轮盘绑定的槽位索引 */
+	UPROPERTY(EditDefaultsOnly, Category = "Wheel", Meta = (Categories = "Event.QuickBar.SetSlot"))
+	FGameplayTag SetSlotEventTag = FGameplayTag::RequestGameplayTag(n"Event.QuickBar.SetSlot.3");
 
 	private FTimerHandle HoldTimer;
 	private UYanItemWheelWidget ActiveWheel;
@@ -114,13 +115,14 @@ class UAS_ItemWheel : UYanGameplayAbility
 		ActiveWheel = Wheel;
 	}
 
-	// SetActiveSlotIndex 为 Server Reliable RPC，客户端持有 Controller 所有权，可直接调用
+	// 事件在本地 ASC 上广播，由同侧常驻的 UAS_QuickBarInputHost 收取并转交服务器
 	private void ActivateQuickBarSlot()
 	{
-		UQuickBarComponent QuickBar = GetQuickBar();
-		if (QuickBar != nullptr)
+		UAbilitySystemComponent ASC = GetAbilitySystemComponentFromActorInfo();
+		if (ASC != nullptr && SetSlotEventTag.IsValid())
 		{
-			QuickBar.SetActiveSlotIndex(QuickBarSlotIndex);
+			FGameplayEventData Payload;
+			ASC.SendGameplayEvent(SetSlotEventTag, Payload);
 		}
 	}
 
@@ -131,13 +133,6 @@ class UAS_ItemWheel : UYanGameplayAbility
 		{
 			Request.ServerPlaceItemInQuickBar(Item);
 		}
-	}
-
-	// 快捷栏挂在 Controller 上，且控制器复制有延迟，故每次按需惰性获取
-	private UQuickBarComponent GetQuickBar() const
-	{
-		APlayerController PlayerController = GetOwningPlayerController();
-		return PlayerController != nullptr ? UQuickBarComponent::Get(PlayerController) : nullptr;
 	}
 
 	private APlayerController GetOwningPlayerController() const

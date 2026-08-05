@@ -7,6 +7,8 @@
 #include "Blueprint/IUserObjectListEntry.h"
 #include "YanSessionEntryWidgetBase.generated.h"
 
+#define UE_API YANGAMESESSION_API
+
 class UYanSessionSearchResultData;
 
 /**
@@ -19,15 +21,15 @@ class UYanSessionSearchResultData;
  * AngelScript 端继承此类（class UYanSessionEntryWidget : UYanSessionEntryWidgetBase），
  * 重写 OnSessionDataSet 来更新 TextBlock 等控件。
  */
-UCLASS(Abstract, Blueprintable)
-class YANGAMESESSION_API UYanSessionEntryWidgetBase : public UUserWidget, public IUserObjectListEntry
+UCLASS(MinimalAPI, Abstract, Blueprintable)
+class UYanSessionEntryWidgetBase : public UUserWidget, public IUserObjectListEntry
 {
 	GENERATED_BODY()
 
 protected:
 	//~IUserObjectListEntry interface
 	/** UListView 将 ListItem 对象传给此 Widget 时自动调用 */
-	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	UE_API virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
 	//~End
 
 	/**
@@ -35,5 +37,7 @@ protected:
 	 * 在此函数中更新 PlayerCountText、PingText 等绑定控件。
 	 */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Session")
-	void OnSessionDataSet(UYanSessionSearchResultData* Data);
+	UE_API void OnSessionDataSet(UYanSessionSearchResultData* Data);
 };
+
+#undef UE_API

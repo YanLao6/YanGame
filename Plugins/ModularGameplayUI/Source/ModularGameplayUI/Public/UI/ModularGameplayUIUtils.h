@@ -8,14 +8,16 @@
 
 #include "ModularGameplayUIUtils.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 class APlayerController;
 struct FSlateBrush;
 
 /**
  * UI 表现层查询工具：转发脚本与蓝图无法直接访问的 CommonUI 内部状态。
  */
-UCLASS()
-class MODULARGAMEPLAYUI_API UModularGameplayUIUtils : public UBlueprintFunctionLibrary
+UCLASS(MinimalAPI)
+class UModularGameplayUIUtils : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -26,5 +28,7 @@ public:
 	 * 与 UCommonActionWidget 内部解析不同，此处用显式传入的 PlayerController 定位本地玩家，避免动态生成子控件 owning-player 缺失导致解析失败。
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ModularGameplayUI|Input")
-	static bool GetKeyBrush(const APlayerController* PlayerController, FKey Key, FSlateBrush& OutBrush);
+	static UE_API bool GetKeyBrush(const APlayerController* PlayerController, FKey Key, FSlateBrush& OutBrush);
 };
+
+#undef UE_API

@@ -47,7 +47,7 @@ struct FGlobalAppliedEffectList
 /**
  * WorldSubsystem：向所有已注册的 Modular ASC 统一施加/回收全局 Ability 与 GameplayEffect。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UModularGlobalAbilitySystem : public UWorldSubsystem
 {
 	GENERATED_BODY()

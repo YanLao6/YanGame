@@ -6,6 +6,8 @@
 
 #include "ModularGameplayAbility_Reset.generated.h"
 
+#define UE_API MODULARGAMEPLAYABILITIES_API
+
 class AActor;
 class UObject;
 struct FGameplayAbilityActorInfo;
@@ -16,18 +18,18 @@ struct FGameplayEventData;
  *
  * 默认通过 GameplayEvent（如 GameplayEvent.RequestReset）在 Server 上自动触发激活。
  */
-UCLASS()
-class MODULARGAMEPLAYABILITIES_API UModularGameplayAbility_Reset : public UModularGameplayAbility
+UCLASS(MinimalAPI)
+class UModularGameplayAbility_Reset : public UModularGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造并配置 Trigger 与网络策略。 */
-	UModularGameplayAbility_Reset(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API UModularGameplayAbility_Reset(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 protected:
 	
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	UE_API virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 };
 
 
@@ -42,3 +44,5 @@ struct FModularPlayerResetMessage
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AActor> OwnerPlayerState = nullptr;
 };
+
+#undef UE_API

@@ -35,7 +35,8 @@ public class EquipManager : ModuleRules
 				"GameplayTasks",  // UGameplayTask/UAbilityTask 基类符号（AbilityTask_* 交互任务直接继承并重写）
 				"AngelscriptGAS", // UAngelscriptGASAbility 基类 vtable 符号（GameplayAbility_Interact 继承链的根，K2_*GameplayCue_* 实现在此模块）
 				"GameFeatures",
-				"DataRegistry"    // FDataRegistryId 出现在 ItemDisplayTypes.h 的 UPROPERTY 上，下游模块需能解析
+				"DataRegistry",   // FDataRegistryId 出现在 ItemDisplayTypes.h 的 UPROPERTY 上，下游模块需能解析
+				"ModularGameplayData" // UPawnDataFragment 作为公开头中的基类，下游模块需能解析
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -53,7 +54,6 @@ public class EquipManager : ModuleRules
 				"GameplayMessageRuntime",
 				"Niagara",
 				"ModalCamera",                   // UModalCameraComponent::FindCameraComponent, GetBlendInfo
-				"ModularGameplayData",           // UPhysicalMaterialWithTags, FModularAnimLayerSelectionSet
 				"ModularGameplayExperiences",    // FGameplayTagStackContainer (StatTags 网络复制)
 				"ModularGameplayUI",             // GA_Interact 对接 IndicatorSystem（UIndicatorManagerComponent / UIndicatorDescriptor）
 				// ... add private dependencies that you statically link with here ...

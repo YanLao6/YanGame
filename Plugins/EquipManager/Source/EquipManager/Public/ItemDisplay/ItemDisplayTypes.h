@@ -10,6 +10,8 @@
 #include "Inventory/InventoryItemDefinition.h"
 #include "ItemDisplayTypes.generated.h"
 
+#define UE_API EQUIPMANAGER_API
+
 class UTexture2D;
 
 /**
@@ -50,8 +52,8 @@ struct FItemDisplayData : public FTableRowBase
  * 挂在物品定义上，把物品逻辑桥接到展示注册表，并声明其快捷栏归属类别。
  * 未挂本片段（或 Id 无效）的物品不会进入快捷栏/背包 UI。
  */
-UCLASS(meta = (DisplayName = "Item Display"))
-class EQUIPMANAGER_API UInventoryFragment_ItemDisplay : public UInventoryItemFragment
+UCLASS(MinimalAPI, meta = (DisplayName = "Item Display"))
+class UInventoryFragment_ItemDisplay : public UInventoryItemFragment
 {
 	GENERATED_BODY()
 
@@ -96,3 +98,5 @@ struct FItemDisplayView
 	UPROPERTY(BlueprintReadOnly, Category = Display)
 	bool bReady = false;
 };
+
+#undef UE_API

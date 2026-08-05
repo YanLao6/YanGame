@@ -7,6 +7,8 @@
 #include "InputAction.h"
 #include "ModularInputConfig.generated.h"
 
+#define UE_API MODULARGAMEPLAYDATA_API
+
 /** 将一条 UInputAction 映射到 GameplayTag（InputTag）。 */
 USTRUCT(BlueprintType)
 struct FModularInputConfigAction
@@ -21,21 +23,21 @@ public:
 	FGameplayTag InputTag;
 };
 
-UCLASS(BlueprintType, Const)
-class MODULARGAMEPLAYDATA_API UModularInputConfig : public UDataAsset
+UCLASS(MinimalAPI, BlueprintType, Const)
+class UModularInputConfig : public UDataAsset
 {
 	GENERATED_BODY()
 
 public:
-	explicit UModularInputConfig(const FObjectInitializer& ObjectInitializer);
+	UE_API explicit UModularInputConfig(const FObjectInitializer& ObjectInitializer);
 
 	/** 在 NativeInputActions 中按 InputTag 查找 UInputAction；未找到时可打日志。 */
 	UFUNCTION(BlueprintCallable, Category = "Pawn")
-	const UInputAction* FindNativeInputActionForTag(const FGameplayTag& InputGameplayTag, bool bLogNotFound = true) const;
+	UE_API const UInputAction* FindNativeInputActionForTag(const FGameplayTag& InputGameplayTag, bool bLogNotFound = true) const;
 
 	/** 在 AbilityInputActions 中按 InputTag 查找供 UGameplayAbility 绑定的 UInputAction。 */
 	UFUNCTION(BlueprintCallable, Category = "Pawn")
-	const UInputAction* FindAbilityInputActionForTag(const FGameplayTag& InputGameplayTag, bool bLogNotFound = true) const;
+	UE_API const UInputAction* FindAbilityInputActionForTag(const FGameplayTag& InputGameplayTag, bool bLogNotFound = true) const;
 
 	/**
 	 * Native 输入：UInputAction 与 GameplayTag 对应表。
@@ -51,3 +53,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (TitleProperty = "InputAction"))
 	TArray<FModularInputConfigAction> AbilityInputActions;
 };
+
+#undef UE_API

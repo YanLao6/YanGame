@@ -6,14 +6,18 @@
 #include "UI/ModularUserWidget.h"
 #include "YanUserWidget.generated.h"
 
+#define UE_API YANGAMEUI_API
+
 /**
  * 
  */
-UCLASS(Abstract, Blueprintable)
-class YANGAMEUI_API UYanUserWidget : public UModularUserWidget
+UCLASS(MinimalAPI, Abstract, Blueprintable)
+class UYanUserWidget : public UModularUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	UYanUserWidget(const FObjectInitializer& ObjectInitializer);
+	UE_API UYanUserWidget(const FObjectInitializer& ObjectInitializer);
 };
+
+#undef UE_API

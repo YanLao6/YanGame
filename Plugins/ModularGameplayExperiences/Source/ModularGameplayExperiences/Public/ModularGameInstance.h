@@ -6,25 +6,29 @@
 
 #include "ModularGameInstance.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 /**
  * Modular GameInstance 基类。
  *
  * 在 `UCommonGameInstance` 基础上补充 Experience/Session 相关的项目级通用能力。
  */
-UCLASS(Config="Game")
-class MODULARGAMEPLAYEXPERIENCES_API UModularGameInstance : public UCommonGameInstance
+UCLASS(MinimalAPI, Config="Game")
+class UModularGameInstance : public UCommonGameInstance
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造 GameInstance。 */
-	explicit UModularGameInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API explicit UModularGameInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 protected:
 	/** 客户端准备加入会话前可修改 URL 参数。 */
-	void OnPreClientTravelToSession(FString& URL);
+	UE_API void OnPreClientTravelToSession(FString& URL);
 
 public:
 	/** 初始化 GameInstance 并注册运行期回调（@ingroup UCommonGameInstance）。 */
-	virtual void Init() override;
+	UE_API virtual void Init() override;
 };
+
+#undef UE_API

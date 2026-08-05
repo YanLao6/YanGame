@@ -30,7 +30,7 @@ public:
  *
  * 只保存静态配置数据，运行时会根据它创建对应的物品实例。
  */
-UCLASS(Blueprintable, Const, Abstract)
+UCLASS(MinimalAPI, Blueprintable, Const, Abstract)
 class UInventoryItemDefinition : public UObject
 {
 	GENERATED_BODY()

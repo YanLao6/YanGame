@@ -5,6 +5,8 @@
 #include "MoverSimulationTypes.h"
 #include "YanHeroInputComponent.generated.h"
 
+#define UE_API YANGAMEPLAY_API
+
 /**
  * 角色朝向模式：决定 ProduceInput 写入 Mover 的 OrientationIntent（世界空间）。
  *
@@ -31,26 +33,26 @@ enum class EYanOrientationMode : uint8
  * 技能性输入（跳跃、冲刺、滑铲、钩锁等）路由至 UModularAbilitySystemComponent，
  * 由 GAS ProcessAbilityInput 驱动 UMoverInputAbility 的激活与结束。
  */
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class YANGAMEPLAY_API UYanHeroInputComponent : public UModularInputComponent, public IMoverInputProducerInterface
+UCLASS(MinimalAPI, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class UYanHeroInputComponent : public UModularInputComponent, public IMoverInputProducerInterface
 {
 	GENERATED_BODY()
 
 public:
-	UYanHeroInputComponent(const FObjectInitializer& ObjectInitializer);
+	UE_API UYanHeroInputComponent(const FObjectInitializer& ObjectInitializer);
 
 	//~Begin IMoverInputProducerInterface
 	/** 将本帧基础移动输入（方向/朝向/控制旋转）写入 Mover 命令包。 */
-	virtual void ProduceInput_Implementation(int32 SimTimeMs, FMoverInputCmdContext& InputCmdResult) override;
+	UE_API virtual void ProduceInput_Implementation(int32 SimTimeMs, FMoverInputCmdContext& InputCmdResult) override;
 	//~End IMoverInputProducerInterface
 
 	/** 设置朝向模式（运行时可切换）。 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Orientation")
-	void SetOrientationMode(EYanOrientationMode NewMode);
+	UE_API void SetOrientationMode(EYanOrientationMode NewMode);
 
 	/** 在面朝镜头与面朝移动方向之间切换。 */
 	UFUNCTION(BlueprintCallable, Category = "Yan|Orientation")
-	void ToggleOrientationMode();
+	UE_API void ToggleOrientationMode();
 
 	/** 当前朝向模式，决定 ProduceInput 写入的 OrientationIntent。默认面朝镜头（可后退/横移）。 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Yan|Orientation")
@@ -58,5 +60,7 @@ public:
 
 protected:
 	/** 将技能输入路由至 ASC，并注册自身为 MoverComponent 的基础移动 InputProducer。 */
-	virtual void InitializePlayerInput(UInputComponent* PlayerInputComponent) override;
+	UE_API virtual void InitializePlayerInput(UInputComponent* PlayerInputComponent) override;
 };
+
+#undef UE_API

@@ -4,6 +4,8 @@
 
 #include "Engine/Texture2D.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(AbilityVisualData)
+
 bool UAbilityVisualData::MatchesAbilityTag(FGameplayTag InAbilityTag) const
 {
 	return AbilityTag.IsValid() && AbilityTag.MatchesTag(InAbilityTag);

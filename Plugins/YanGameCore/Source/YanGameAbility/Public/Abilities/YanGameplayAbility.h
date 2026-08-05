@@ -7,6 +7,8 @@
 
 #include "YanGameplayAbility.generated.h"
 
+#define UE_API YANGAMEABILITY_API
+
 /**
  * 项目技能基类，为 AngelScript 子类提供统一的激活流程钩子。
  *
@@ -15,25 +17,27 @@
  * 那次结束早于冷却标记建立，不会进入冷却。对按住型技能而言，
  * 冷却从松手起算也比从按下起算更符合手感。
  */
-UCLASS()
-class YANGAMEABILITY_API UYanGameplayAbility : public UModularGameplayAbility
+UCLASS(MinimalAPI)
+class UYanGameplayAbility : public UModularGameplayAbility
 {
 	GENERATED_BODY()
 
 public:
-	UYanGameplayAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API UYanGameplayAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	//~Begin UGameplayAbility Interface
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
-	virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
+	UE_API virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	UE_API virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+	UE_API virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
 	//~End UGameplayAbility Interface
 
 	/** 输入松开时转发，子类通常在此调用 K2_EndAbility()。 */
 	UFUNCTION(BlueprintNativeEvent, Category = Ability)
-	void K2_InputReleased();
+	UE_API void K2_InputReleased();
 
 private:
 	// 本次激活是否需要在结束时施加冷却；仅当技能真正运行起来后才置位
 	bool bCooldownPendingOnEnd = false;
 };
+
+#undef UE_API

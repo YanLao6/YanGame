@@ -2,13 +2,12 @@
 
 #include "ModularExperienceUtils.h"
 
-#include "ActorComponent/ModularPawnComponent.h"
+#include "ActorComponent/ModularInputConfigComponent.h"
 #include "CommonInputBaseTypes.h"
 #include "CommonInputSubsystem.h"
-#include "DataAsset/ModularInputConfig.h"
-#include "DataAsset/ModularPawnData.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
+#include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "InputAction.h"
 
@@ -16,28 +15,23 @@
 
 namespace
 {
-	// 沿当前 Pawn 的 PawnData→InputConfig 解析 Tag：Ability 表优先，其次 Native 表；未配置时返回 nullptr。
+	// 向 Pawn 的输入组件解析 Tag：PawnData 与 GameFeature 注入的 InputConfig 都在该组件上登记，
+	// 故此处不经 PawnData，PawnData 是否配置输入 Fragment 与查询结果无关。
 	const UInputAction* FindInputActionForTag(const APlayerController* PlayerController, const FGameplayTag& InputTag)
 	{
-		const UModularPawnComponent* PawnComponent = UModularPawnComponent::FindModularPawnComponent(PlayerController->GetPawn());
-		if (PawnComponent == nullptr)
+		const APawn* Pawn = PlayerController->GetPawn();
+		if (Pawn == nullptr)
 		{
 			return nullptr;
 		}
 
-		const UModularPawnData* PawnData = PawnComponent->GetPawnData<UModularPawnData>();
-		const UModularInputConfig* InputConfig = (PawnData != nullptr) ? PawnData->InputConfig : nullptr;
-		if (InputConfig == nullptr)
+		const UModularInputConfigComponent* InputConfigComponent = Cast<UModularInputConfigComponent>(Pawn->InputComponent);
+		if (InputConfigComponent == nullptr)
 		{
 			return nullptr;
 		}
 
-		if (const UInputAction* AbilityAction = InputConfig->FindAbilityInputActionForTag(InputTag, /*bLogNotFound=*/false))
-		{
-			return AbilityAction;
-		}
-
-		return InputConfig->FindNativeInputActionForTag(InputTag, /*bLogNotFound=*/false);
+		return InputConfigComponent->FindInputActionForTag(InputTag);
 	}
 }
 

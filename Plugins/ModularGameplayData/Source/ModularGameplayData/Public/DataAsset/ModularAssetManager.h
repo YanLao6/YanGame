@@ -9,6 +9,8 @@
 #include "Templates/SubclassOf.h"
 #include "ModularAssetManager.generated.h"
 
+#define UE_API MODULARGAMEPLAYDATA_API
+
 /**
  * UModularAssetManager
  *
@@ -16,17 +18,17 @@
  *	多数项目会重载 AssetManager，便于统一 Primary Asset 与加载策略。
  *	在 DefaultEngine.ini 中设置 AssetManagerClassName 指向本类。
  */
-UCLASS(Config="Game")
-class MODULARGAMEPLAYDATA_API UModularAssetManager : public UAssetManager
+UCLASS(MinimalAPI, Config="Game")
+class UModularAssetManager : public UAssetManager
 {
 	GENERATED_BODY()
 
 public:
 
-	UModularAssetManager();
+	UE_API UModularAssetManager();
 
 	/** 返回 UAssetManager 单例（实际类型为本类）。 */
-	static UModularAssetManager& Get();
+	static UE_API UModularAssetManager& Get();
 
 	/**
 	 * 根据 TSoftObjectPtr 解析资源；若未加载则同步加载。
@@ -43,12 +45,12 @@ public:
 	static TSubclassOf<AssetType> GetSubclass(const TSoftClassPtr<AssetType>& AssetPointer, bool bKeepInMemory = true);
 
 	/** 将当前由本 Manager 跟踪、已加载的资源 Dump 到日志。 */
-	static void DumpLoadedAssets();
+	static UE_API void DumpLoadedAssets();
 
 	/** 获取全局 ModularGameData（会按需加载）。 */
-	virtual const UModularGameData& GetModularGameData();
+	UE_API virtual const UModularGameData& GetModularGameData();
 	/** 获取默认 PawnData（PlayerState 未指定时使用）。 */
-	virtual const UModularPawnData* GetDefaultPawnData();
+	UE_API virtual const UModularPawnData* GetDefaultPawnData();
 
 	/**
 	 * 从 GameDataMap 取已缓存的指定类 GameData，否则按 DataPath 同步加载并注册。
@@ -67,22 +69,22 @@ public:
 
 protected:
 	// 同步解析 SoftObjectPath（优先 StreamableManager，未初始化则 TryLoad）。
-	static UObject* SynchronousLoadAsset(const FSoftObjectPath& AssetPath);
+	static UE_API UObject* SynchronousLoadAsset(const FSoftObjectPath& AssetPath);
 	// 命令行 -LogAssetLoads 时打印单次同步加载耗时。
-	static bool ShouldLogAssetLoads();
+	static UE_API bool ShouldLogAssetLoads();
 
 	// 线程安全：将已加载资源加入常驻跟踪集合。
-	virtual void AddLoadedAsset(const UObject* Asset);
+	UE_API virtual void AddLoadedAsset(const UObject* Asset);
 
 	//~ UAssetManager 接口
-	virtual void StartInitialLoading() override;
+	UE_API virtual void StartInitialLoading() override;
 #if WITH_EDITOR
-	virtual void PreBeginPIE(bool bStartSimulate) override;
+	UE_API virtual void PreBeginPIE(bool bStartSimulate) override;
 #endif
 	//~ UAssetManager 接口结束
 
 	/** 加载指定 PrimaryAssetType 的 GameData 并写入 GameDataMap（失败则 Fatal）。 */
-	virtual UPrimaryDataAsset* LoadGameDataOfClass(TSubclassOf<UPrimaryDataAsset> DataClass, const TSoftObjectPtr<UPrimaryDataAsset>& DataClassPath, FPrimaryAssetType PrimaryAssetType);
+	UE_API virtual UPrimaryDataAsset* LoadGameDataOfClass(TSubclassOf<UPrimaryDataAsset> DataClass, const TSoftObjectPtr<UPrimaryDataAsset>& DataClassPath, FPrimaryAssetType PrimaryAssetType);
 
 protected:
 
@@ -100,10 +102,10 @@ protected:
 
 private:
 	// 顺序执行 StartupJobs 队列中的启动任务。
-	virtual void DoAllStartupJobs();
+	UE_API virtual void DoAllStartupJobs();
 
 	// 加载进度回调；可接到 Loading Screen 或自定义 UI。
-	static void UpdateInitialGameContentLoadPercent(float GameContentPercent);
+	static UE_API void UpdateInitialGameContentLoadPercent(float GameContentPercent);
 
 	// 启动阶段任务列表（含权重，用于汇总进度）。
 	TArray<FModularAssetManagerStartupJob> StartupJobs;
@@ -166,3 +168,5 @@ TSubclassOf<AssetType> UModularAssetManager::GetSubclass(const TSoftClassPtr<Ass
 
 	return LoadedSubclass;
 }
+
+#undef UE_API

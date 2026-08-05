@@ -13,7 +13,7 @@ class UObject;
  * 带 GameplayTag 的 PhysicalMaterial。
  * 物理材质除命中反馈外，可由逻辑层根据 Tags 判断表面类型（如脚步、弹痕音效）。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UPhysicalMaterialWithTags : public UPhysicalMaterial
 {
 	GENERATED_BODY()

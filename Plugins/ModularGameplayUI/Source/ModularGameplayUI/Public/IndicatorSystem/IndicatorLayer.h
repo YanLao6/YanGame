@@ -15,7 +15,7 @@ class UObject;
  *
  * 承载 SActorCanvas，将所有屏幕指示器统一绘制在该图层上。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UIndicatorLayer : public UWidget
 {
 	GENERATED_UCLASS_BODY()

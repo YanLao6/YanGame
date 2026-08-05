@@ -4,6 +4,8 @@
 #include "GameplayCueNotify_Static.h"
 #include "YanMoverLaunchHitCue.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 class USoundBase;
 class UParticleSystem;
 
@@ -17,14 +19,14 @@ class UParticleSystem;
  * 纯原生类不会被自动发现。需为本类创建一个 data-only 蓝图子类，设置其 GameplayCueTag 与音效/特效
  * 资产并置于 GameplayCue 内容路径；本类只承载播放逻辑，资产与 Tag 由蓝图子类绑定。
  */
-UCLASS()
-class YANGAMEMOVER_API UYanMoverLaunchHitCue : public UGameplayCueNotify_Static
+UCLASS(MinimalAPI)
+class UYanMoverLaunchHitCue : public UGameplayCueNotify_Static
 {
 	GENERATED_BODY()
 
 public:
 	//~Begin UGameplayCueNotify_Static Interface
-	virtual bool OnExecute_Implementation(AActor* MyTarget, const FGameplayCueParameters& Parameters) const override;
+	UE_API virtual bool OnExecute_Implementation(AActor* MyTarget, const FGameplayCueParameters& Parameters) const override;
 	//~End UGameplayCueNotify_Static Interface
 
 protected:
@@ -36,3 +38,5 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "LaunchHit")
 	TObjectPtr<UParticleSystem> HitEffect;
 };
+
+#undef UE_API

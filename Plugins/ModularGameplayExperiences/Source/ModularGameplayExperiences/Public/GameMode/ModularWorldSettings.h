@@ -7,26 +7,28 @@
 #include "GameFramework/WorldSettings.h"
 #include "ModularWorldSettings.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 /**
  * WorldSettings 扩展类。
  *
  * 用于在地图层面配置默认 GameplayExperience 与附加 Action/ActionSet。
  */
-UCLASS()
-class MODULARGAMEPLAYEXPERIENCES_API AModularWorldSettings : public AWorldSettings
+UCLASS(MinimalAPI)
+class AModularWorldSettings : public AWorldSettings
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造 WorldSettings。 */
-	explicit AModularWorldSettings(const FObjectInitializer& ObjectInitializer);
+	UE_API explicit AModularWorldSettings(const FObjectInitializer& ObjectInitializer);
 
 	/** 从任意 WorldContext 对象获取当前关卡的 ModularWorldSettings。 */
-	static AModularWorldSettings* GetModularWorldSettings(const UObject* WorldContent);
+	static UE_API AModularWorldSettings* GetModularWorldSettings(const UObject* WorldContent);
 
 public:
 	/** 返回该关卡默认 GameplayExperience（可被用户侧选择覆盖）。 */
-	FPrimaryAssetId GetDefaultGameplayExperience() const;
+	UE_API FPrimaryAssetId GetDefaultGameplayExperience() const;
 
 protected:
 	/**
@@ -61,3 +63,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category=GameMode)
 	TArray<TObjectPtr<UModularExperienceActionSet>> ActionSets;
 };
+
+#undef UE_API

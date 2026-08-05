@@ -38,7 +38,7 @@ struct FModularAbilityTagRelationship
 
 
 /** AbilityTag 互斥与激活约束的数据资产。 */
-UCLASS()
+UCLASS(MinimalAPI)
 class UModularAbilityTagRelationshipMapping : public UDataAsset
 {
 	GENERATED_BODY()

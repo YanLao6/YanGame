@@ -34,7 +34,7 @@ struct FQuickBarSlotRule
  *
  * 负责维护固定槽位中的物品实例，并根据激活槽位自动向装备管理组件申请装备或卸下物品。
  */
-UCLASS(Blueprintable, meta=(BlueprintSpawnableComponent))
+UCLASS(MinimalAPI, Blueprintable, meta=(BlueprintSpawnableComponent))
 class UQuickBarComponent : public UActorComponent
 {
 	GENERATED_BODY()

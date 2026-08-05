@@ -6,16 +6,20 @@
 #include "ActorComponent/ModularInputConfigComponent.h"
 #include "YanInputComponent.generated.h"
 
+#define UE_API YANGAMECORE_API
+
 
 /**
  * 
  */
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class YANGAMECORE_API UYanInputComponent : public UModularInputConfigComponent
+UCLASS(MinimalAPI, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class UYanInputComponent : public UModularInputConfigComponent
 {
 	GENERATED_BODY()
 
 public:
-	UYanInputComponent(const FObjectInitializer& ObjectInitializer);
+	UE_API UYanInputComponent(const FObjectInitializer& ObjectInitializer);
 
 };
+
+#undef UE_API

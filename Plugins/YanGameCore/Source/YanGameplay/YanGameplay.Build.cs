@@ -32,6 +32,7 @@ public class YanGameplay : ModuleRules
 				"Mover",
 				"EnhancedInput",
 				"ModularGameplayData",
+				"HeroAssignmentSystem",
 				"YanGameUI",
 				"YanGameMover"
 			}

@@ -6,11 +6,15 @@
 #include "DataAsset/ModularAssetManager.h"
 #include "YanAssetManager.generated.h"
 
+#define UE_API YANGAMECORE_API
+
 /**
  * 
  */
-UCLASS()
-class YANGAMECORE_API UYanAssetManager : public UModularAssetManager
+UCLASS(MinimalAPI)
+class UYanAssetManager : public UModularAssetManager
 {
 	GENERATED_BODY()
 };
+
+#undef UE_API

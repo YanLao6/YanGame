@@ -3,29 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataAsset/IAbilityPawnDataInterface.h"
 #include "DataAsset/ModularPawnData.h"
 #include "YanPawnData.generated.h"
 
+#define UE_API YANGAMEPLAY_API
+
 /**
- * 
+ * 项目层 PawnData。
+ *
+ * 技能、输入、组件与界面等能力一律通过基类的 Fragments 配置，本类不再新增字段；
+ * 保留该类型是为了让项目侧英雄资产拥有稳定的资产类型入口。
  */
-UCLASS()
-class YANGAMEPLAY_API UYanPawnData : public UModularPawnData, public IAbilityPawnDataInterface
+UCLASS(MinimalAPI)
+class UYanPawnData : public UModularPawnData
 {
 	GENERATED_BODY()
 
 public:
-	explicit UYanPawnData(const FObjectInitializer& ObjectInitializer);
-
-	//~Begin IAbilityPawnDataInterface
-	virtual TArray<UModularAbilitySet*>            GetAbilitySet() const override { return AbilitySets; };
-	virtual UModularAbilityTagRelationshipMapping* GetTagRelationshipMapping() const override { return AbilityTagRelationshipMapping; };
-	//~End IAbilityPawnDataInterface
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pawn")
-	TArray<TObjectPtr<UModularAbilitySet>> AbilitySets;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pawn")
-	TObjectPtr<UModularAbilityTagRelationshipMapping> AbilityTagRelationshipMapping;
+	UE_API explicit UYanPawnData(const FObjectInitializer& ObjectInitializer);
 };
+
+#undef UE_API

@@ -7,6 +7,8 @@
 
 #include "ModularPlayerStart.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 enum class EModularPlayerStartLocationOccupancy
 {
 	Empty,
@@ -17,30 +19,30 @@ enum class EModularPlayerStartLocationOccupancy
 /**
  * 模块化 PlayerStart：支持 GameplayTag 标记、占用检测与 Claim 计时释放。
  */
-UCLASS(Config = Game)
-class MODULARGAMEPLAYEXPERIENCES_API AModularPlayerStart : public APlayerStart
+UCLASS(MinimalAPI, Config = Game)
+class AModularPlayerStart : public APlayerStart
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造。 */
-	AModularPlayerStart(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UE_API AModularPlayerStart(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	/** 返回本出生点关联的 GameplayTag。 */
 	const FGameplayTagContainer& GetGameplayTags() { return StartPointTags; }
 
 	/** 按默认 Pawn 体积检测该点 Empty / Partial / Full。 */
-	EModularPlayerStartLocationOccupancy GetLocationOccupancy(AController* const ControllerPawnToFit) const;
+	UE_API EModularPlayerStartLocationOccupancy GetLocationOccupancy(AController* const ControllerPawnToFit) const;
 
 	/** 是否已被某 Controller Claim。 */
-	bool IsClaimed() const;
+	UE_API bool IsClaimed() const;
 
 	/** 若尚未 Claim，则为 OccupyingController 占用本点。 */
-	bool TryClaim(AController* OccupyingController);
+	UE_API bool TryClaim(AController* OccupyingController);
 
 protected:
 	/** 定时检测占用是否已空，以解除 Claim。 */
-	void CheckUnclaimed();
+	UE_API void CheckUnclaimed();
 
 	/** 当前占用的 Controller。 */
 	UPROPERTY(Transient)
@@ -57,3 +59,5 @@ protected:
 	/** ExpirationCheck 用的循环 Timer。 */
 	FTimerHandle ExpirationTimerHandle;
 };
+
+#undef UE_API

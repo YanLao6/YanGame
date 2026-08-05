@@ -8,6 +8,8 @@
 
 #include "AbilityVisualData.generated.h"
 
+#define UE_API MODULARGAMEPLAYABILITIES_API
+
 class UTexture2D;
 
 /**
@@ -19,8 +21,8 @@ class UTexture2D;
  *
  * 图标采用软引用，未显示时不驻留内存；配合 AssetManager 的 AbilityVisual 分组按需加载。
  */
-UCLASS(BlueprintType)
-class MODULARGAMEPLAYABILITIES_API UAbilityVisualData : public UPrimaryDataAsset
+UCLASS(MinimalAPI, BlueprintType)
+class UAbilityVisualData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
@@ -42,17 +44,19 @@ public:
 	 * 采用包含父级的匹配，传入 A.B 可命中标识为 A.B.C 的技能。
 	 */
 	UFUNCTION(BlueprintPure, Category = "Visual")
-	bool MatchesAbilityTag(FGameplayTag InAbilityTag) const;
+	UE_API bool MatchesAbilityTag(FGameplayTag InAbilityTag) const;
 
 	/** 取已加载的图标；未加载时返回空，不触发同步加载。 */
 	UFUNCTION(BlueprintPure, Category = "Visual")
-	UTexture2D* GetLoadedIcon() const;
+	UE_API UTexture2D* GetLoadedIcon() const;
 
 	/** 取图标，必要时同步加载。仅在可接受卡顿的场合调用。 */
 	UFUNCTION(BlueprintCallable, Category = "Visual")
-	UTexture2D* LoadIcon() const;
+	UE_API UTexture2D* LoadIcon() const;
 
 	/** 在一组视觉数据中检索匹配指定标识的首个条目。 */
 	UFUNCTION(BlueprintPure, Category = "Visual")
-	static UAbilityVisualData* FindByAbilityTag(const TArray<UAbilityVisualData*>& VisualDataList, FGameplayTag InAbilityTag);
+	static UE_API UAbilityVisualData* FindByAbilityTag(const TArray<UAbilityVisualData*>& VisualDataList, FGameplayTag InAbilityTag);
 };
+
+#undef UE_API

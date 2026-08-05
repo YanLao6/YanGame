@@ -13,7 +13,7 @@ class UObject;
 struct FFrame;
 
 /** 以单线检测方式持续查找可交互目标的 AbilityTask（自动循环）。 */
-UCLASS()
+UCLASS(MinimalAPI)
 class UAbilityTask_WaitForInteractableTargets_SingleLineTrace : public UAbilityTask_WaitForInteractableTargets
 {
 	GENERATED_UCLASS_BODY()

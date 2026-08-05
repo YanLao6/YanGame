@@ -13,7 +13,7 @@ class UObject;
 /**
  * UI 管理子系统扩展：按 HUD bShowHUD 同步 PrimaryGameLayout 可见性。
  */
-UCLASS()
+UCLASS(MinimalAPI)
 class UModularUIManagerSubsystem : public UGameUIManagerSubsystem
 {
 	GENERATED_BODY()

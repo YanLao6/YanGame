@@ -5,19 +5,21 @@
 
 #include "ChaosSlidingMode.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 struct FFloorCheckResult;
 struct FWaterCheckResult;
 
 /**
  * UChaosSlidingMode - Chaos 版滑行运动模式，与 UChaosWalkingMode 平级，继承 UChaosCharacterMovementMode。
  */
-UCLASS(Blueprintable, BlueprintType, EditInlineNew, DefaultToInstanced)
-class YANGAMEMOVER_API UChaosSlidingMode : public UChaosCharacterMovementMode
+UCLASS(MinimalAPI, Blueprintable, BlueprintType, EditInlineNew, DefaultToInstanced)
+class UChaosSlidingMode : public UChaosCharacterMovementMode
 {
 	GENERATED_BODY()
 
 public:
-	UChaosSlidingMode(const FObjectInitializer& ObjectInitializer);
+	UE_API UChaosSlidingMode(const FObjectInitializer& ObjectInitializer);
 
 	/** 地面摩擦系数（越小越滑），每帧按 dV = SlideFriction * |V| * dt 对水平速度衰减 */
 	UPROPERTY(EditDefaultsOnly, Category = "Slide", meta = (ClampMin = "0", UIMin = "0"))
@@ -61,21 +63,23 @@ public:
 
 	//~Begin UChaosCharacterMovementMode Interface
 	/** 将贴地约束的摩擦力上限、阻尼、反作用力等参数写入求解器设置 */
-	virtual void UpdateConstraintSettings(Chaos::FCharacterGroundConstraintSettings& ConstraintSettings) const override;
+	UE_API virtual void UpdateConstraintSettings(Chaos::FCharacterGroundConstraintSettings& ConstraintSettings) const override;
 	//~End UChaosCharacterMovementMode Interface
 
 	//~Begin UBaseMovementMode Interface
 	/** 计算摩擦衰减 + 坡度重力的速度；屏蔽方向输入，不接受加速度驱动 */
-	virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
+	UE_API virtual void GenerateMove_Implementation(const FMoverSimContext& SimContext, const FMoverTickStartData& StartState, const FMoverTimeStep& TimeStep, FProposedMove& OutProposedMove) const override;
 
 	/** 依据地面结果计算 target position/velocity 并写入输出同步状态，由地面约束驱动贴地推进 */
-	virtual void SimulationTick_Implementation(const FSimulationTickParams& Params, FMoverTickEndData& OutputState) override;
+	UE_API virtual void SimulationTick_Implementation(const FSimulationTickParams& Params, FMoverTickEndData& OutputState) override;
 	//~End UBaseMovementMode Interface
 
 protected:
 	/** 判断命中面是否可作为台阶踏上：台阶高度在 MaxStepHeight 内且表面允许踏上 */
-	bool CanStepUpOnHitSurface(const FFloorCheckResult& FloorResult) const;
+	UE_API bool CanStepUpOnHitSurface(const FFloorCheckResult& FloorResult) const;
 
 	/** 在提议移动的落点做地面扫描，更新可行走地面结果，并约束移动避免冲入不可行走面 */
-	void GetFloorAndCheckMovement(const FMoverDefaultSyncState& SyncState, const FProposedMove& ProposedMove, const FChaosMoverSimulationDefaultInputs& DefaultSimInputs, float DeltaSeconds, FFloorCheckResult& OutFloorResult, FWaterCheckResult& OutWaterResult, FVector& OutDeltaPos) const;
+	UE_API void GetFloorAndCheckMovement(const FMoverDefaultSyncState& SyncState, const FProposedMove& ProposedMove, const FChaosMoverSimulationDefaultInputs& DefaultSimInputs, float DeltaSeconds, FFloorCheckResult& OutFloorResult, FWaterCheckResult& OutWaterResult, FVector& OutDeltaPos) const;
 };
+
+#undef UE_API

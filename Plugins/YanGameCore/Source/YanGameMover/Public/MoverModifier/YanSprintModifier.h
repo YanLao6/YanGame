@@ -6,6 +6,8 @@
 
 #include "YanSprintModifier.generated.h"
 
+#define UE_API YANGAMEMOVER_API
+
 /** 疾跑状态标签，由本 Modifier 在激活期间对外暴露 */
 YANGAMEMOVER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Mover_IsSprinting);
 
@@ -19,11 +21,11 @@ YANGAMEMOVER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Mover_IsSprinting);
  * 生命周期由 UChaosCharacterSprintCheck 对称管理（DurationMs < 0，需显式取消）。
  */
 USTRUCT()
-struct YANGAMEMOVER_API FYanSprintModifier : public FMovementModifierBase
+struct FYanSprintModifier : public FMovementModifierBase
 {
 	GENERATED_BODY()
 
-	FYanSprintModifier();
+	UE_API FYanSprintModifier();
 	virtual ~FYanSprintModifier() override = default;
 
 	/** 疾跑期间的最大水平速度（cm/s） */
@@ -35,16 +37,16 @@ struct YANGAMEMOVER_API FYanSprintModifier : public FMovementModifierBase
 	float AccelerationOverride = 4000.0f;
 
 	//~Begin FMovementModifierBase Interface
-	virtual bool HasGameplayTag(FGameplayTag TagToFind, bool bExactMatch) const override;
-	virtual void GetGameplayTags(FGameplayTagContainer& InOutTags) const override;
+	UE_API virtual bool HasGameplayTag(FGameplayTag TagToFind, bool bExactMatch) const override;
+	UE_API virtual void GetGameplayTags(FGameplayTagContainer& InOutTags) const override;
 
-	virtual void OnStart_Async(const FMovementModifierParams_Async& Params) override;
-	virtual void OnEnd_Async(const FMovementModifierParams_Async& Params) override;
+	UE_API virtual void OnStart_Async(const FMovementModifierParams_Async& Params) override;
+	UE_API virtual void OnEnd_Async(const FMovementModifierParams_Async& Params) override;
 
-	virtual FMovementModifierBase* Clone() const override;
-	virtual void                   NetSerialize(FArchive& Ar) override;
-	virtual UScriptStruct*         GetScriptStruct() const override;
-	virtual FString                ToSimpleString() const override;
+	UE_API virtual FMovementModifierBase* Clone() const override;
+	UE_API virtual void                   NetSerialize(FArchive& Ar) override;
+	UE_API virtual UScriptStruct*         GetScriptStruct() const override;
+	UE_API virtual FString                ToSimpleString() const override;
 	//~End FMovementModifierBase Interface
 
 protected:
@@ -60,3 +62,5 @@ struct TStructOpsTypeTraits<FYanSprintModifier> : public TStructOpsTypeTraitsBas
 		WithCopy = true
 	};
 };
+
+#undef UE_API

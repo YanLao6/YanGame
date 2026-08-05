@@ -11,7 +11,7 @@ class UPhysicalMaterial;
 struct FGameplayTagContainer;
 
 /** 可作为 Ability / GameplayEffect 计算源头（距离衰减、材质衰减等）的对象接口。 */
-UINTERFACE()
+UINTERFACE(MinimalAPI)
 class UModularAbilitySourceInterface : public UInterface
 {
 	GENERATED_UINTERFACE_BODY()

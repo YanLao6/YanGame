@@ -7,19 +7,21 @@
 #include "DataAsset/ModularPawnData.h"
 #include "ModularExperienceDefinition.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 /**
  * Experience 定义数据资产。
  *
  * 描述一个 Experience 需要启用的 GameFeature、默认 PawnData 以及动作集合。
  */
-UCLASS()
-class MODULARGAMEPLAYEXPERIENCES_API UModularExperienceDefinition : public UPrimaryDataAsset
+UCLASS(MinimalAPI)
+class UModularExperienceDefinition : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
 public:
 	/** 构造 Experience 定义对象。 */
-	UModularExperienceDefinition();
+	UE_API UModularExperienceDefinition();
 
 	/** 该 Experience 需要启用的 GameFeature Plugin 列表。 */
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
@@ -44,11 +46,13 @@ public:
 
 	/** @implements UPrimaryDataAsset：汇总子资源的 AssetBundle 数据。 */
 #if WITH_EDITORONLY_DATA
-	virtual void UpdateAssetBundleData() override;
+	UE_API virtual void UpdateAssetBundleData() override;
 #endif
 
 	/** @implements UObject：编辑器内数据校验。 */
 #if WITH_EDITOR
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
+	UE_API virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
 #endif
 };
+
+#undef UE_API

@@ -6,6 +6,8 @@
 #include "Engine/DataAsset.h"
 #include "ItemVisualData.generated.h"
 
+#define UE_API EQUIPMANAGER_API
+
 class UTexture2D;
 
 /**
@@ -14,8 +16,8 @@ class UTexture2D;
  * 以 PrimaryDataAsset 承载物品的重美术资源，由 AssetManager 按 AssetBundle 异步流送。
  * 快捷栏/背包只在物品可见时加载其 UI Bundle，避免一次性把全部图标常驻内存。
  */
-UCLASS(BlueprintType)
-class EQUIPMANAGER_API UItemVisualData : public UPrimaryDataAsset
+UCLASS(MinimalAPI, BlueprintType)
+class UItemVisualData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
@@ -32,3 +34,5 @@ public:
 	}
 	//~End UPrimaryDataAsset Interface
 };
+
+#undef UE_API

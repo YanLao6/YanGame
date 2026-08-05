@@ -5,6 +5,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(YanBaseCombatSet)
+
 UYanBaseCombatSet::UYanBaseCombatSet()
 	: CursedEnergy(100.0f)
 	  , MaxCursedEnergy(100.0f)

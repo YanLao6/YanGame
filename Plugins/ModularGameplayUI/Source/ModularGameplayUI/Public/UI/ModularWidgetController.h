@@ -7,6 +7,8 @@
 
 #include "ModularWidgetController.generated.h"
 
+#define UE_API MODULARGAMEPLAYUI_API
+
 class AModularPlayerController;
 class AModularPlayerState;
 class UModularAbilitySystemComponent;
@@ -45,20 +47,20 @@ struct FWidgetControllerParams
  * 通过 `FWidgetControllerParams` 连接 Player/ASC/AttributeSet，
  * 供具体 UI 控制器执行初值广播与回调绑定。
  */
-UCLASS()
-class MODULARGAMEPLAYUI_API UModularWidgetController : public UObject
+UCLASS(MinimalAPI)
+class UModularWidgetController : public UObject
 {
 	GENERATED_BODY()
 
 public:
 	/** 设置控制器上下文参数。 */
 	UFUNCTION(BlueprintCallable)
-	virtual void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
+	UE_API virtual void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
 
 	/** 广播 UI 初始值。 */
-	virtual void BroadcastInitialValues();
+	UE_API virtual void BroadcastInitialValues();
 	/** 绑定依赖系统回调。 */
-	virtual void BindCallbacksToDependancies();
+	UE_API virtual void BindCallbacksToDependancies();
 
 	protected:
 
@@ -74,3 +76,5 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="WidgetController")
 	TObjectPtr<const UAttributeSet> AttributeSet;
 };
+
+#undef UE_API

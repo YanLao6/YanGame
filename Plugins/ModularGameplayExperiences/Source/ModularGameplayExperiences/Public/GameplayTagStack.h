@@ -7,6 +7,8 @@
 
 #include "GameplayTagStack.generated.h"
 
+#define UE_API MODULARGAMEPLAYEXPERIENCES_API
+
 struct FGameplayTagStackContainer;
 struct FNetDeltaSerializeInfo;
 
@@ -14,7 +16,7 @@ struct FNetDeltaSerializeInfo;
  * 单层 GameplayTag 计数（Tag + StackCount），用于 FastArraySerializer 条目。
  */
 USTRUCT(BlueprintType)
-struct MODULARGAMEPLAYEXPERIENCES_API FGameplayTagStack : public FFastArraySerializerItem
+struct FGameplayTagStack : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
 
@@ -28,7 +30,7 @@ struct MODULARGAMEPLAYEXPERIENCES_API FGameplayTagStack : public FFastArraySeria
 	}
 
 	/** 调试输出：TagxCount。 */
-	FString GetDebugString() const;
+	UE_API FString GetDebugString() const;
 
 private:
 	friend FGameplayTagStackContainer;
@@ -42,7 +44,7 @@ private:
 
 /** GameplayTag 栈容器（支持 NetDeltaSerialize）。 */
 USTRUCT(BlueprintType)
-struct MODULARGAMEPLAYEXPERIENCES_API FGameplayTagStackContainer : public FFastArraySerializer
+struct FGameplayTagStackContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()
 
@@ -53,10 +55,10 @@ struct MODULARGAMEPLAYEXPERIENCES_API FGameplayTagStackContainer : public FFastA
 
 public:
 	/** 为指定 Tag 增加 StackCount（<=0 不生效）。 */
-	void AddStack(FGameplayTag Tag, int32 StackCount);
+	UE_API void AddStack(FGameplayTag Tag, int32 StackCount);
 
 	/** 为指定 Tag 减少 StackCount（<=0 不生效）。 */
-	void RemoveStack(FGameplayTag Tag, int32 StackCount);
+	UE_API void RemoveStack(FGameplayTag Tag, int32 StackCount);
 
 	/** 返回 Tag 的栈深度（不存在则为 0）。 */
 	int32 GetStackCount(FGameplayTag Tag) const
@@ -71,9 +73,9 @@ public:
 	}
 
 	//~FFastArraySerializer contract
-	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
-	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
-	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
+	UE_API void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
+	UE_API void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
+	UE_API void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 	//~End of FFastArraySerializer contract
 
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
@@ -98,3 +100,5 @@ struct TStructOpsTypeTraits<FGameplayTagStackContainer> : public TStructOpsTypeT
 		WithNetDeltaSerializer = true,
 	};
 };
+
+#undef UE_API
