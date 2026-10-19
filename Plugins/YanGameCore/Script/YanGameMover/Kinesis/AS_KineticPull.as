@@ -120,7 +120,7 @@ class UAS_KineticPull : UYanGameplayAbility
 		// 视点既是筛选的球心，也是拉扯方向的终点：两者同源，筛选范围才不会与施力方向脱节
 		FVector ViewLocation;
 		FVector ViewForward;
-		if (!YanMoverAngelscript::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
+		if (!MoverQuery::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
 		{
 			return;
 		}
@@ -136,7 +136,7 @@ class UAS_KineticPull : UYanGameplayAbility
 				continue;
 			}
 
-			YanMoverAngelscript::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, PullEffect, ComputePullVelocity(Target.GetActorLocation(), ViewLocation));
+			MoverGameplay::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, PullEffect, ComputePullVelocity(Target.GetActorLocation(), ViewLocation));
 		}
 	}
 

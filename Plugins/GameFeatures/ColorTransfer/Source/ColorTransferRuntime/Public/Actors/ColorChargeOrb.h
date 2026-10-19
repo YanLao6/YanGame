@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "Actor/MoverAttractionActor.h"
 
 #include "ColorChargeOrb.generated.h"
 
@@ -17,7 +17,7 @@ class UStaticMeshComponent;
  * 未绑定 OnArrived 时到达即自毁，绑定后交由调用方处置（如附着到命中者身上）。
  */
 UCLASS(MinimalAPI)
-class AColorChargeOrb : public AActor
+class AColorChargeOrb : public AMoverAttractionActor
 {
 	GENERATED_BODY()
 

@@ -8,7 +8,7 @@
 #include "GameFramework/Pawn.h"
 #include "MoverComponent.h"
 #include "TimerManager.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverQueryLibrary.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(Ability_ColorShot)
 
@@ -51,7 +51,7 @@ void UAbility_ColorShot::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 		FVector ViewLocation;
 		FVector ViewForward;
 		UMoverComponent* MoverComp = Shooter->FindComponentByClass<UMoverComponent>();
-		if (UYanMoverAngelscriptLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
+		if (UMoverQueryLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
 		{
 			Beam->SetAimDirection(ViewForward);
 		}
@@ -103,7 +103,7 @@ void UAbility_ColorShot::SprayTick()
 
 	FVector ViewLocation;
 	FVector ViewForward;
-	if (!ShooterPigments || !MoverComp || !UYanMoverAngelscriptLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
+	if (!ShooterPigments || !MoverComp || !UMoverQueryLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
 	{
 		return;
 	}

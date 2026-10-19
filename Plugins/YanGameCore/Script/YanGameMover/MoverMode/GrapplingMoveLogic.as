@@ -16,20 +16,20 @@ class UGrapplingMoveLogic : ULayeredMoveLogic
 	{
 		// 锚点从输入包读取，保证服务器 re-simulation 时与客户端使用相同数据
 		FYanCharacterInputs YanInputs;
-		if (!YanMoverAngelscript::GetYanCharacterInputs(StartState.InputCmd.InputCollection, YanInputs) || !YanInputs.bIsGrapplingActive)
+		if (!MoverData::GetYanCharacterInputs(StartState.InputCmd.InputCollection, YanInputs) || !YanInputs.bIsGrapplingActive)
 		{
 			return false;
 		}
 
 		FMoverDefaultSyncState SyncState;
-		if (!YanMoverAngelscript::GetDefaultSyncState(StartState.SyncState.SyncStateCollection, SyncState))
+		if (!MoverData::GetDefaultSyncState(StartState.SyncState.SyncStateCollection, SyncState))
 		{
 			return false;
 		}
 
 		const float   DeltaSeconds  = TimeStep.StepMs * 0.001f;
-		const FVector CurrentPos    = YanMoverAngelscript::GetSyncStateLocation_WorldSpace(SyncState);
-		FVector       Velocity      = YanMoverAngelscript::GetSyncStateVelocity_WorldSpace(SyncState);
+		const FVector CurrentPos    = MoverDataModel::GetLocationFromSyncState(SyncState);
+		FVector       Velocity      = MoverDataModel::GetVelocityFromSyncState(SyncState);
 
 		const FVector AnchorPoint   = YanInputs.GrappleAnchorPoint;
 
@@ -38,7 +38,7 @@ class UGrapplingMoveLogic : ULayeredMoveLogic
 		const FVector AnchorDir = (Dist > 0.0001f) ? (ToAnchor / Dist) : FVector::UpVector;
 
 		// 重力
-		Velocity += YanMoverAngelscript::GetGravityFromBlackboard(SimBlackboard) * DeltaSeconds;
+		Velocity += MoverQuery::GetGravityFromBlackboard(SimBlackboard) * DeltaSeconds;
 
 		// 主动拉力
 		Velocity += AnchorDir * PullAcceleration * DeltaSeconds;

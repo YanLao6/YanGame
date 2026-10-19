@@ -19,6 +19,12 @@
 * 使用注释来解释意图、约束和边界；不要记录开发过程式的描述
 * 优先使用概念、模块、职责和符号名称来定位代码不要完全依赖容易发生偏移的行号；
 * 规范（Specs）绝不能依赖行号来定位代码
+* Runs all the tests;
+* Contains no duplication;
+* Expresses all the design ideas that are in the system;
+* Minimizes the number of entities such as classes, methods, functions, and the like.
+* meaningful names, no extra project prefix or suffix such as "Yan","Lyra". But need "Server" "Client" 
+* early building of simple abstractions.
 
 ### 现有能力复用与重复实现约束
 

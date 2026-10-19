@@ -27,7 +27,7 @@ class UAS_CharacterBreakFree : UMoverInputAbility
 		bPendingBreakFree = true;
 
 		// 两端都会走到这里：客户端上是预测移除，服务器上才是权威结果
-		YanMoverAngelscript::ReleaseGrabbedState(CachedMoverComp.GetOwner());
+		MoverGameplay::ReleaseGrabbedState(CachedMoverComp.GetOwner());
 	}
 
 	UFUNCTION(BlueprintOverride)
@@ -35,10 +35,10 @@ class UAS_CharacterBreakFree : UMoverInputAbility
 	{
 		// 每帧显式写入而非仅在有脉冲时写：脉冲位必须在投递后的次帧确定为 false，
 		// 否则输入命令若被跨帧复用，残留的脉冲会让下一次被抓一诞生就被解除
-		FYanCharacterInputs YanInputs = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bWantsToBreakFree = bPendingBreakFree;
 		bPendingBreakFree = false;
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 
 	UFUNCTION(BlueprintOverride)

@@ -14,7 +14,7 @@
 #include "EngineUtils.h"
 #include "GameFramework/Pawn.h"
 #include "MoverComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(Ability_RedBlinkShot)
 
@@ -263,10 +263,10 @@ void UAbility_RedBlinkShot::AuthHandleOrbArrived(TWeakObjectPtr<APawn> WeakTarge
 	{
 		// 覆盖而非叠加，击飞强度不受对方当前跑动方向影响
 		const FVector LaunchVelocity = Direction * GetFiredLaunchSpeed() + FVector::UpVector * LaunchUpSpeed;
-		UYanMoverAngelscriptLibrary::ApplyAuthoritativeVelocityToTarget(TargetMover, LaunchVelocity, /*bOverrideVelocity=*/true, /*bScheduleForSync=*/true);
+		UMoverAuthorityLibrary::ApplyChaosVelocity(TargetMover, LaunchVelocity, /*bOverrideVelocity=*/true, /*bScheduleForSync=*/true);
 		if (NoLandingDuration > 0.0f)
 		{
-			UYanMoverAngelscriptLibrary::ApplyNoLandingToTarget(TargetMover, NoLandingDuration);
+			UMoverAuthorityLibrary::ApplyNoLanding(TargetMover, NoLandingDuration);
 		}
 	}
 

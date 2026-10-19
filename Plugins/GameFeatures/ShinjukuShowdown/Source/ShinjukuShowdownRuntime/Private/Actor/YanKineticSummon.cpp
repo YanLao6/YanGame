@@ -1,6 +1,7 @@
 #include "Actor/YanKineticSummon.h"
 
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
+#include "MoverLibrary/MoverGameplayLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -177,9 +178,9 @@ void AYanKineticSummon::ApplyImpactToTarget(AActor* HitActor) const
 	{
 		if (UMoverComponent* TargetMover = HitActor->FindComponentByClass<UMoverComponent>())
 		{
-			UYanMoverAngelscriptLibrary::ApplyNoLandingToTarget(TargetMover, ImpactNoLandingDuration);
+			UMoverAuthorityLibrary::ApplyNoLanding(TargetMover, ImpactNoLandingDuration);
 		}
 	}
 
-	UYanMoverAngelscriptLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, ImpactLaunchEffect, ImpactVelocity);
+	UMoverGameplayLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, ImpactLaunchEffect, ImpactVelocity);
 }

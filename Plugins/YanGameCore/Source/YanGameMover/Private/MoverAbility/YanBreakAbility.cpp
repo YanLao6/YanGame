@@ -3,7 +3,7 @@
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
 #include "MoverDataModelTypes.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
 #include "GameFramework/Pawn.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -71,7 +71,7 @@ void UYanBreakAbility::ApplyBreakToSelf() const
 	const FVector BrokenVelocity = ComputeBrokenVelocity(CurrentVelocity, DeflectDir);
 
 	// 与击退走同一条权威通道：一个预测一个权威会在同一条速度上互相覆盖
-	UYanMoverAngelscriptLibrary::ApplyAuthoritativeVelocityToTarget(MoverComp, BrokenVelocity, /*bOverrideVelocity=*/true, /*bScheduleForSync=*/true);
+	UMoverAuthorityLibrary::ApplyChaosVelocity(MoverComp, BrokenVelocity, /*bOverrideVelocity=*/true, /*bScheduleForSync=*/true);
 
 	// 消费掉窗口，使一次受击只能卸一次力
 	if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())

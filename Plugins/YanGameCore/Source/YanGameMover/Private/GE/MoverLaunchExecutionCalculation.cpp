@@ -2,7 +2,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
 #include "Abilities/YanBlockAbility.h"
 #include "AttributeSets/YanImpulseSet.h"
 #include "GameFramework/Pawn.h"
@@ -144,9 +144,9 @@ void UMoverLaunchExecutionCalculation::Execute_Implementation(const FGameplayEff
 	const float VelocityZ = Spec.GetSetByCallerMagnitude(NAME_Mover_Launch_VelocityZ, false, 0.f);
 
 	// 施加方式随效果定死，故配在 GE 上。非 UMoverLaunchGameplayEffect 的既有资产取与其默认值一致的行为
-	const UMoverLaunchGameplayEffect* LaunchEffectDef  = Cast<UMoverLaunchGameplayEffect>(Spec.Def.Get());
-	const float                       DurationMs       = LaunchEffectDef ? LaunchEffectDef->LaunchDurationMs : 0.f;
-	const FName                       MovementMode     = LaunchEffectDef ? LaunchEffectDef->ForceMovementMode : FName("Falling");
+	const UMoverLaunchGameplayEffect* LaunchEffectDef   = Cast<UMoverLaunchGameplayEffect>(Spec.Def.Get());
+	const float                       DurationMs        = LaunchEffectDef ? LaunchEffectDef->LaunchDurationMs : 0.f;
+	const FName                       MovementMode      = LaunchEffectDef ? LaunchEffectDef->ForceMovementMode : FName("Falling");
 	const bool                        bOverrideVelocity = LaunchEffectDef ? LaunchEffectDef->bOverrideVelocity : true;
 	const float                       MultiplierAtMax   = LaunchEffectDef ? LaunchEffectDef->SpeedMultiplierAtMaxLoad : 1.f;
 
@@ -202,7 +202,7 @@ void UMoverLaunchExecutionCalculation::Execute_Implementation(const FGameplayEff
 
 					if (LaunchEffectDef->WallDetachNoLandingSeconds > 0.f)
 					{
-						UYanMoverAngelscriptLibrary::ApplyNoLandingToTarget(TargetMover, LaunchEffectDef->WallDetachNoLandingSeconds);
+						UMoverAuthorityLibrary::ApplyNoLanding(TargetMover, LaunchEffectDef->WallDetachNoLandingSeconds);
 					}
 				}
 
@@ -211,7 +211,7 @@ void UMoverLaunchExecutionCalculation::Execute_Implementation(const FGameplayEff
 					// 效果作用于他人：必须以 Authority sim action 下发，目标端才不会因未预测此次速度
 					// 变更而被物理修正。向上分量足够时由默认 FallingCheck 切 Falling。
 					// 瞬时速度无持续语义，DurationMs 与 ForceMovementMode 在此均无从施加。
-					UYanMoverAngelscriptLibrary::ApplyAuthoritativeVelocityToTarget(TargetMover, FinalVelocity, bOverrideVelocity, /*bScheduleForSync=*/true);
+					UMoverAuthorityLibrary::ApplyChaosVelocity(TargetMover, FinalVelocity, bOverrideVelocity, /*bScheduleForSync=*/true);
 				}
 				else
 				{

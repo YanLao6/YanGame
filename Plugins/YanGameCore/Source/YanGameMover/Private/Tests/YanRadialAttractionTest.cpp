@@ -1,283 +1,286 @@
 #include "Misc/AutomationTest.h"
-#include "MoverDataModelTypes.h"
-#include "MoverLayeredMove/YanRadialAttractionMove.h"
-#include "MoverSimulationTypes.h"
-#include "MoverTypes.h"
-#include "Serialization/MemoryReader.h"
-#include "Serialization/MemoryWriter.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
+#include "MoveLibrary/AirMovementUtils.h"
+#include "MoverDataModelTypes.h"
+#include "MoverLayeredMove/YanRadialAttractionMove.h"
+#include "MoverMode/Attraction/ChaosAttractionMode.h"
+#include "MoverMode/Attraction/YanAttractionState.h"
+#include "Serialization/MemoryReader.h"
+#include "Serialization/MemoryWriter.h"
+
+#if WITH_EDITOR
+#include "ChaosMover/ChaosMoverSimulation.h"
+#include "ChaosMover/Character/Settings/SharedChaosCharacterMovementSettings.h"
+#include "MoverComponent.h"
+#include "UObject/UnrealType.h"
+#endif
+
 namespace YanRadialAttractionTest
 {
-	FYanLayeredMove_RadialAttraction MakeCaptureSettings()
+	FYanAttractionSettings MakeSettings()
 	{
-		FYanLayeredMove_RadialAttraction Settings;
-		Settings.SourceId = 1;
+		FYanAttractionSettings Settings;
+		Settings.SourceId       = 1;
 		Settings.UpdateSequence = 1;
-		Settings.Radius = 500.0f;
-		Settings.Magnitude = 600.0f;
-		Settings.DurationMs = 150.0f;
-		Settings.bCaptureToCenter = true;
-		Settings.MixMode = EMoveMixMode::OverrideVelocity;
 		return Settings;
 	}
 
-	FMoverTickStartData MakeStartState(const FVector& Location, const FVector& Velocity = FVector::ZeroVector)
+	FMoverTickStartData MakeStart(const FVector& Location)
 	{
 		FMoverTickStartData Start;
-		Start.SyncState.SyncStateCollection.FindOrAddMutableDataByType<FMoverDefaultSyncState>().SetTransforms_WorldSpace(Location, FRotator::ZeroRotator, Velocity, FVector::ZeroVector);
+		Start.SyncState.SyncStateCollection.FindOrAddMutableDataByType<FMoverDefaultSyncState>().SetTransforms_WorldSpace(Location, FRotator::ZeroRotator, FVector::ZeroVector, FVector::ZeroVector);
 		return Start;
 	}
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanRadialAttractionRefreshTest, "YanGame.Mover.RadialAttraction.Refresh", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanAttractionRefreshTest, "YanGame.Mover.RadialAttraction.Refresh", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
 
-bool FYanRadialAttractionRefreshTest::RunTest(const FString& Parameters)
+bool FYanAttractionRefreshTest::RunTest(const FString& Parameters)
 {
-	FMoverTimeStep TimeStep;
-	TimeStep.BaseSimTimeMs = 100.0;
-	TimeStep.StepMs = 10.0f;
-	FApplyMovementEffectParams_Async EffectParams{};
-	EffectParams.TimeStep = &TimeStep;
-	FMoverSyncState State;
+	FMoverTimeStep Time;
+	Time.BaseSimTimeMs = 0.0;
+	Time.StepMs        = 10.0f;
+	FApplyMovementEffectParams_Async Params{};
+	Params.TimeStep                        = &Time;
+	FMoverSyncState                  State = YanRadialAttractionTest::MakeStart(FVector(40.0, 0.0, 0.0)).SyncState;
 	FYanRadialAttractionUpdateEffect Update;
-	Update.Settings = YanRadialAttractionTest::MakeCaptureSettings();
-	Update.Settings.EntryVelocityDamping = 0.5f;
-	TestTrue(TEXT("首次刷新入队"), Update.ApplyMovementEffect_Async(EffectParams, State));
+	Update.Settings = YanRadialAttractionTest::MakeSettings();
+	TestTrue(TEXT("首次写入牵引意图"), Update.ApplyMovementEffect_Async(Params, State));
+	FYanAttractionState& Control = *State.SyncStateCollection.FindMutableDataByType<FYanAttractionState>();
+	Control.UpdateCapture(FVector(40.0, 0.0, 0.0), 0.0);
+	FMoverSyncState History;
+	History                        = State;
 	Update.Settings.UpdateSequence = 2;
-	Update.Settings.Location = FVector(10.0, 0.0, 0.0);
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	TestEqual(TEXT("激活前刷新不重复入队"), State.LayeredMoves.GetQueuedMoves().Num(), 1);
-	TArray<uint8> UpdateBytes;
-	FMemoryWriter UpdateWriter(UpdateBytes, true);
-	Update.NetSerialize(UpdateWriter);
-	FYanRadialAttractionUpdateEffect RestoredUpdate;
-	FMemoryReader UpdateReader(UpdateBytes, true);
-	RestoredUpdate.NetSerialize(UpdateReader);
-	TestFalse(TEXT("刷新动作序列化无错误"), UpdateWriter.IsError() || UpdateReader.IsError());
-	FMoverSyncState RestoredState;
-	RestoredUpdate.ApplyMovementEffect_Async(EffectParams, RestoredState);
-	RestoredState.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	const FYanLayeredMove_RadialAttraction* RestoredSettings = RestoredState.LayeredMoves.FindActiveMove<FYanLayeredMove_RadialAttraction>();
-	TestNotNull(TEXT("反序列化后创建牵引"), RestoredSettings);
-	if (!RestoredSettings)
-	{
-		return false;
-	}
-	TestEqual(TEXT("刷新动作保留中心"), RestoredSettings->Location, Update.Settings.Location);
-	TestEqual(TEXT("刷新动作保留来源"), RestoredSettings->SourceId, Update.Settings.SourceId);
-	TestEqual(TEXT("刷新动作保留序号"), RestoredSettings->UpdateSequence, Update.Settings.UpdateSequence);
-	TestEqual(TEXT("刷新动作保留租期"), RestoredSettings->DurationMs, Update.Settings.DurationMs);
+	Update.Settings.Location       = FVector(1000.0, 1000.0, 1000.0);
+	TestTrue(TEXT("刷新中心"), Update.ApplyMovementEffect_Async(Params, State));
+	TestEqual(TEXT("同源刷新只有一个记录"), Control.Sources.Num(), 1);
+	TestEqual(TEXT("刷新不写入角色位置"), State.SyncStateCollection.FindDataByType<FMoverDefaultSyncState>()->GetLocation_WorldSpace(), FVector(40.0, 0.0, 0.0));
+	TestEqual(TEXT("刷新不写入角色速度"), State.SyncStateCollection.FindDataByType<FMoverDefaultSyncState>()->GetVelocity_WorldSpace(), FVector::ZeroVector);
+	TestEqual(TEXT("刷新不污染回滚历史"), History.SyncStateCollection.FindDataByType<FYanAttractionState>()->Sources[0].Settings.Location, FVector::ZeroVector);
 	Update.Settings.UpdateSequence = 1;
-	Update.Settings.DurationMs = 1.0f;
-	Update.Settings.Location = FVector(999.0, 0.0, 0.0);
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	TArray<TSharedPtr<FLayeredMoveBase>> Active = State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	TestEqual(TEXT("只有一个活动牵引"), Active.Num(), 1);
-	if (Active.Num() != 1)
-	{
-		return false;
-	}
-	FYanLayeredMove_RadialAttraction* Move = static_cast<FYanLayeredMove_RadialAttraction*>(Active[0].Get());
-	TestEqual(TEXT("旧序号不覆盖中心"), Move->Location, FVector(10.0, 0.0, 0.0));
-	TestEqual(TEXT("旧序号不缩短租期"), Move->DurationMs, 150.0f);
-	FProposedMove Proposed;
-	FMoverTickStartData Start = YanRadialAttractionTest::MakeStartState(FVector(200.0, 0.0, 0.0), FVector(0.0, 100.0, 0.0));
-	Move->GenerateMove_Async(Start, TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("进入切向速度只衰减一次"), Proposed.LinearVelocity.Y, 50.0);
-
-	FMoverSyncState History = State;
-	TimeStep.BaseSimTimeMs = 150.0;
-	Update.Settings = YanRadialAttractionTest::MakeCaptureSettings();
-	Update.Settings.UpdateSequence = 3;
-	Update.Settings.EntryVelocityDamping = 0.5f;
-	Update.Settings.Location = FVector(20.0, 0.0, 0.0);
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	Start = YanRadialAttractionTest::MakeStartState(FVector(200.0, 0.0, 0.0), FVector(0.0, 1000.0, -100.0));
-	Move->GenerateMove_Async(Start, TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("刷新仍是同一个活动牵引"), State.LayeredMoves.GetActiveMoves().Num(), 1);
-	TestEqual(TEXT("刷新不重新采样切向速度"), Proposed.LinearVelocity.Y, 50.0);
-	TestEqual(TEXT("刷新不累积重力速度"), Proposed.LinearVelocity.Z, 0.0);
-	TestEqual(TEXT("刷新续期"), Move->DurationMs, 200.0f);
-	TestEqual(TEXT("输出刷新不污染历史 SyncState"), History.LayeredMoves.FindActiveMove<FYanLayeredMove_RadialAttraction>()->Location, FVector(10.0, 0.0, 0.0));
-
+	TestFalse(TEXT("同源旧序号被忽略"), Update.ApplyMovementEffect_Async(Params, State));
 	Update.Settings.SourceId = 2;
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	TestEqual(TEXT("不同来源独立存活"), State.LayeredMoves.GetActiveMoves().Num(), 2);
-	Update.Settings.SourceId = 1;
-	Update.Settings.UpdateSequence = 4;
-	Update.Settings.Radius = 0.0f;
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	TestEqual(TEXT("取消仅移除指定来源"), State.LayeredMoves.GetActiveMoves().Num(), 1);
-	TimeStep.BaseSimTimeMs = 300.0;
-	State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	TestEqual(TEXT("停止刷新后租期自动结束"), State.LayeredMoves.GetActiveMoves().Num(), 0);
-	FMoverSyncState ExpiredState = History;
-	TimeStep.BaseSimTimeMs = 300.0;
-	Update.Settings = YanRadialAttractionTest::MakeCaptureSettings();
-	Update.Settings.UpdateSequence = 5;
-	Update.Settings.EntryVelocityDamping = 0.5f;
-	Update.ApplyMovementEffect_Async(EffectParams, ExpiredState);
-	Active = ExpiredState.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	TestEqual(TEXT("到期后刷新只创建一个新的牵引"), Active.Num(), 1);
-	if (Active.Num() != 1)
-	{
-		return false;
-	}
-	Move = static_cast<FYanLayeredMove_RadialAttraction*>(Active[0].Get());
-	Move->GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(200.0, 0.0, 0.0), FVector(0.0, 200.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("到期后重新进入采样新的速度"), Proposed.LinearVelocity.Y, 100.0);
+	Update.Settings.Location = FVector::ZeroVector;
+	Update.ApplyMovementEffect_Async(Params, State);
+	TestEqual(TEXT("第二来源独立记录"), Control.Sources.Num(), 2);
+	TestEqual(TEXT("新来源不抢占已捕获来源"), Control.SelectSource(FVector::ZeroVector, 0.0)->Settings.SourceId, 1);
+	Update.Settings.SourceId       = 1;
+	Update.Settings.UpdateSequence = 3;
+	Update.Settings.Radius         = 0.0f;
+	Update.ApplyMovementEffect_Async(Params, State);
+	TestEqual(TEXT("释放仅删除指定来源"), Control.Sources.Num(), 1);
+	TestEqual(TEXT("释放不污染历史捕获关系"), History.SyncStateCollection.FindDataByType<FYanAttractionState>()->Sources.Num(), 1);
+	TestTrue(TEXT("历史捕获保持有效"), History.SyncStateCollection.FindDataByType<FYanAttractionState>()->Sources[0].bCaptured);
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanRadialAttractionCaptureTest, "YanGame.Mover.RadialAttraction.Capture", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanAttractionLifecycleTest, "YanGame.Mover.RadialAttraction.LockLifecycle", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
 
-bool FYanRadialAttractionCaptureTest::RunTest(const FString& Parameters)
+bool FYanAttractionLifecycleTest::RunTest(const FString& Parameters)
 {
+	FYanAttractionState    State;
+	FYanAttractionSettings Settings = YanRadialAttractionTest::MakeSettings();
+	State.Refresh(Settings, 0.0);
+	TestNull(TEXT("外圈之外不进入"), State.SelectSource(FVector(501.0, 0.0, 0.0), 0.0));
+	State.UpdateCapture(FVector(200.0, 0.0, 0.0), 0.0);
+	TestFalse(TEXT("外圈拉近尚未锁定"), State.Sources[0].bCaptured);
+	TestNull(TEXT("外圈允许离开"), State.SelectSource(FVector(501.0, 0.0, 0.0), 0.0));
+	TestNull(TEXT("未捕获来源到期后无效"), State.SelectSource(FVector(200.0, 0.0, 0.0), 150.0));
+	State.UpdateCapture(FVector(40.0, 0.0, 0.0), 10.0);
+	TestTrue(TEXT("进入内圈锁定"), State.Sources[0].bCaptured);
+	TestNotNull(TEXT("锁定后离开范围及租期仍跟随"), State.SelectSource(FVector(10000.0, 0.0, 0.0), 10000.0));
+	Settings.UpdateSequence = 2;
+	Settings.Location       = FVector(2000.0, 0.0, 0.0);
+	State.Refresh(Settings, 10000.0);
+	TestTrue(TEXT("刷新不重置锁定"), State.Sources[0].bCaptured);
+
+	UChaosAttractionEnterCheck* Enter = NewObject<UChaosAttractionEnterCheck>();
+	FSimulationTickParams       Params;
+	Params.TimeStep.BaseSimTimeMs                                                                     = 10000.0;
+	Params.TimeStep.StepMs                                                                            = 10.0f;
+	Params.StartState                                                                                 = YanRadialAttractionTest::MakeStart(FVector::ZeroVector);
+	Params.StartState.SyncState.SyncStateCollection.FindOrAddMutableDataByType<FYanAttractionState>() = State;
+	TestTrue(TEXT("未配置模式名称时不切换"), Enter->Evaluate_Implementation(Params).NextMode.IsNone());
+	Enter->TransitionToMode = FName(TEXT("ConfiguredByBlueprint"));
+	TestEqual(TEXT("使用蓝图配置的模式名称"), Enter->Evaluate_Implementation(Params).NextMode, Enter->TransitionToMode);
+	Params.StartState.SyncState.MovementMode = Enter->TransitionToMode;
+	TestTrue(TEXT("全局进入检查不会反复重入"), Enter->Evaluate_Implementation(Params).NextMode.IsNone());
+
+	Settings.UpdateSequence = 3;
+	Settings.Radius         = 0.0f;
+	State.Refresh(Settings, 10000.0);
+	TestNull(TEXT("释放后没有牵引"), State.SelectSource(FVector::ZeroVector, 10000.0));
+	Params.StartState.SyncState.SyncStateCollection.FindOrAddMutableDataByType<FYanAttractionState>() = State;
+	UChaosAttractionMode* Mode                                                                        = NewObject<UChaosAttractionMode>();
+	FMoverTickEndData     End(&Params.StartState.SyncState, &Params.StartState.AuxState);
+	Mode->SimulationTick_Implementation(Params, End);
+	TestEqual(TEXT("释放返回配置的退出模式"), End.MovementEndState.NextModeName, Mode->ExitMovementMode);
+	TestEqual(TEXT("释放将整步交给正常移动"), End.MovementEndState.RemainingMs, Params.TimeStep.StepMs);
+	Params.StartState.SyncState.MovementMode = Mode->ExitMovementMode;
+	TestTrue(TEXT("释放后进入检查不再触发"), Enter->Evaluate_Implementation(Params).NextMode.IsNone());
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanAttractionFlightTest, "YanGame.Mover.RadialAttraction.Flight", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
+
+bool FYanAttractionFlightTest::RunTest(const FString& Parameters)
+{
+	UChaosAttractionMode* Mode = NewObject<UChaosAttractionMode>();
 	for (const float StepMs : {5.0f, 10.0f, 25.0f})
 	{
-		FYanLayeredMove_RadialAttraction Move = YanRadialAttractionTest::MakeCaptureSettings();
-		Move.CenterVelocity = FVector(100.0, 0.0, 0.0);
-		Move.StartSimTimeMs = 0.0;
-		Move.DurationMs = 1000.0f;
-		FMoverTimeStep TimeStep;
-		TimeStep.StepMs = StepMs;
-		FVector Position(40.0, 0.0, 0.0);
-		FVector Velocity = FVector::ZeroVector;
-		for (int32 Index = 0; Index < FMath::RoundToInt(300.0f / StepMs); ++Index)
+		FYanAttractionSource Source;
+		Source.Settings          = YanRadialAttractionTest::MakeSettings();
+		Source.Settings.Location = FVector(1000.0, 1000.0, 1000.0);
+		Source.bCaptured         = true;
+		FVector Position         = FVector::ZeroVector;
+		FVector Velocity         = FVector::ZeroVector;
+		for (int32 Index = 0; Index < FMath::RoundToInt(2000.0f / StepMs); ++Index)
 		{
-			TimeStep.BaseSimTimeMs = Index * StepMs;
-			FProposedMove Proposed;
-			TestTrue(TEXT("内圈持续产生位移"), Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(Position, Velocity), TimeStep, nullptr, Proposed));
-			Velocity = Proposed.LinearVelocity;
-			Position += Velocity * (StepMs * 0.001f);
+			const double    SimTimeMs = Index * StepMs;
+			FFreeMoveParams Flight;
+			Flight.MoveInputType     = EMoveInputType::DirectionalIntent;
+			Flight.MoveInput         = Mode->ComputeMoveInput(Source, Position, SimTimeMs, 800.0f);
+			Flight.PriorVelocity     = Velocity;
+			Flight.MaxSpeed          = 800.0f;
+			Flight.Acceleration      = 4000.0f;
+			Flight.Deceleration      = 8000.0f;
+			Flight.DeltaSeconds      = StepMs * 0.001f;
+			const FProposedMove Move = UAirMovementUtils::ComputeControlledFreeMove(Flight);
+			Velocity                 = Move.LinearVelocity;
+			const FVector Delta      = Velocity * Flight.DeltaSeconds;
+			TestTrue(TEXT("每个物理步位移受速度限制"), Delta.Size() <= Source.Settings.PullSpeed * Flight.DeltaSeconds + 0.001);
+			TestTrue(TEXT("同一外部快照在连续物理步产生移动"), Delta.X > 0.0 && Delta.Y > 0.0 && Delta.Z > 0.0);
+			Position += Delta;
 		}
-		TestEqual(FString::Printf(TEXT("%.0f ms 物理步下收拢并跟随移动中心"), StepMs), Position, FVector(30.0, 0.0, 0.0), 0.01f);
-		TestEqual(TEXT("到位后保持中心速度"), Velocity, Move.CenterVelocity, 0.01f);
-		TestFalse(TEXT("内圈捕获不因租期结束"), Move.IsFinished(100000.0));
+		TestTrue(TEXT("两秒后仍未瞬间贴到远处球心"), FVector::Distance(Position, Source.Settings.Location) > 100.0);
 	}
 
-	FYanLayeredMove_RadialAttraction Move = YanRadialAttractionTest::MakeCaptureSettings();
-	Move.StartSimTimeMs = 0.0;
-	Move.DurationMs = 1000.0f;
-	FMoverTimeStep TimeStep;
-	TimeStep.BaseSimTimeMs = 0.0;
-	TimeStep.StepMs = 100.0f;
-	FProposedMove Proposed;
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(55.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("外圈一步不跨过内圈边界"), Proposed.LinearVelocity, FVector(-50.0, 0.0, 0.0));
-	TimeStep.StepMs = 10.0f;
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(40.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TimeStep.BaseSimTimeMs = 20.0;
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(20.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
+	FYanAttractionSource Source;
+	Source.Settings                = YanRadialAttractionTest::MakeSettings();
+	Source.Settings.Location       = FVector(10000.0, 0.0, 0.0);
+	Source.Settings.CenterVelocity = FVector(20000.0, 0.0, 0.0);
+	TestTrue(TEXT("中心跳变及高速快照仍只产生有界输入"), Mode->ComputeMoveInput(Source, FVector::ZeroVector, 10.0, 800.0f).Size() <= 0.75001);
+	Source.Settings.CenterVelocity = FVector::ZeroVector;
+	TestTrue(TEXT("到达中心时输入归零"), Mode->ComputeMoveInput(Source, Source.Settings.Location, 10.0, 800.0f).IsNearlyZero());
+	const FVector NearInput = Mode->ComputeMoveInput(Source, Source.Settings.Location - FVector(10.0, 0.0, 0.0), 10.0, 800.0f);
+	TestTrue(TEXT("接近中心时减小输入幅度"), NearInput.Size() > 0.0 && NearInput.Size() < 0.1);
+	Source.Settings.CenterVelocity = FVector(100.0, 0.0, 0.0);
+	TestEqual(TEXT("旧快照外推在租期末停止"), Source.Settings.GetCenter(10000.0), Source.Settings.GetCenter(Source.Settings.DurationMs));
+	return true;
+}
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanAttractionSerializationTest, "YanGame.Mover.RadialAttraction.Serialization", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
+
+bool FYanAttractionSerializationTest::RunTest(const FString& Parameters)
+{
+	FYanAttractionState    State;
+	FYanAttractionSettings Settings = YanRadialAttractionTest::MakeSettings();
+	Settings.Location               = FVector(10.25, 20.5, 30.75);
+	Settings.CenterVelocity         = FVector(100.0, 200.0, 300.0);
+	State.Refresh(Settings, 0.0);
+	State.UpdateCapture(Settings.Location, 0.0);
 	TArray<uint8> Bytes;
 	FMemoryWriter Writer(Bytes, true);
-	Move.NetSerialize(Writer);
-	FYanLayeredMove_RadialAttraction Restored;
-	FMemoryReader Reader(Bytes, true);
-	Restored.NetSerialize(Reader);
-	TimeStep.BaseSimTimeMs = 30.0;
-	const FMoverTickStartData ReplayStart = YanRadialAttractionTest::MakeStartState(FVector(15.0, 0.0, 0.0));
-	FProposedMove Replayed;
-	Move.GenerateMove_Async(ReplayStart, TimeStep, nullptr, Proposed);
-	Restored.GenerateMove_Async(ReplayStart, TimeStep, nullptr, Replayed);
-	TestFalse(TEXT("完整序列化无错误"), Writer.IsError() || Reader.IsError());
-	TestEqual(TEXT("恢复后内圈进度重演一致"), Replayed.LinearVelocity, Proposed.LinearVelocity, 0.001f);
-	Restored.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(1015.0, 0.0, 0.0)), TimeStep, nullptr, Replayed);
-	TestEqual(TEXT("收拢期间超出外圈仍追回轨迹"), Replayed.LinearVelocity - Proposed.LinearVelocity, FVector(-100000.0, 0.0, 0.0), 0.01f);
-	Restored.GenerateMove_Async(ReplayStart, TimeStep, nullptr, Replayed);
-	Restored.UpdateSequence = 2;
-	Restored.Location = FVector(10.0, 0.0, 0.0);
-	Move.Refresh(Restored, TimeStep.BaseSimTimeMs);
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(25.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("移动中心刷新不重启收拢进度"), Proposed.LinearVelocity, Replayed.LinearVelocity, 0.001f);
+	bool          bSuccess = false;
+	State.NetSerialize(Writer, nullptr, bSuccess);
+	TestTrue(TEXT("状态写出成功"), bSuccess);
+	FMemoryReader       Reader(Bytes, true);
+	FYanAttractionState Restored;
+	Restored.NetSerialize(Reader, nullptr, bSuccess);
+	TestTrue(TEXT("状态读回成功"), bSuccess);
+	TestFalse(TEXT("序列化往返不产生纠正"), State.ShouldReconcile(Restored));
+	TestTrue(TEXT("恢复后仍锁定"), Restored.Sources[0].bCaptured);
+	UChaosAttractionMode* Mode = NewObject<UChaosAttractionMode>();
+	TestEqual(TEXT("恢复后飞行输入可重演"), Mode->ComputeMoveInput(State.Sources[0], FVector::ZeroVector, 50.0, 800.0f), Mode->ComputeMoveInput(Restored.Sources[0], FVector::ZeroVector, 50.0, 800.0f));
+	Restored.Sources[0].bCaptured = false;
+	TestTrue(TEXT("锁定状态不同触发纠正"), State.ShouldReconcile(Restored));
+	Restored                               = State;
+	Restored.Sources[0].Settings.PullSpeed += 1.0f;
+	TestTrue(TEXT("控制参数不同触发纠正"), State.ShouldReconcile(Restored));
 
-	TimeStep.BaseSimTimeMs = 200.0;
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(110.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("捕获后按位置误差追赶，不受外圈速度限制"), Proposed.LinearVelocity, FVector(-10000.0, 0.0, 0.0), 0.01f);
-	TestTrue(TEXT("捕获后超出外圈仍产生牵引"), Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(1000.0, 0.0, 0.0)), TimeStep, nullptr, Proposed));
-	TestTrue(TEXT("捕获后超出外圈仍禁止落地接管"), Move.HasGameplayTag(Mover_DisableLanding, true));
-	TestFalse(TEXT("捕获后超出外圈不结束"), Move.IsFinished(TimeStep.BaseSimTimeMs));
-	TimeStep.BaseSimTimeMs = 10000.0;
-	FYanLayeredMove_RadialAttraction ReentrySettings = YanRadialAttractionTest::MakeCaptureSettings();
-	ReentrySettings.UpdateSequence = 3;
-	ReentrySettings.Location = FVector(5010.0, 0.0, 0.0);
-	ReentrySettings.CenterVelocity = FVector(20000.0, 0.0, 0.0);
-	ReentrySettings.SnapshotSimTimeMs = TimeStep.BaseSimTimeMs;
-	Move.Refresh(ReentrySettings, TimeStep.BaseSimTimeMs);
-	TestFalse(TEXT("刷新中断后续期仍保持捕获"), Move.IsFinished(TimeStep.BaseSimTimeMs + 10000.0));
-	const FVector LaggingPosition(1000.0, 0.0, 0.0);
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(LaggingPosition), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("高速中心一步追回，误差不积累"), LaggingPosition + Proposed.LinearVelocity * (TimeStep.StepMs * 0.001f), FVector(5210.0, 0.0, 0.0), 0.01f);
-	ReentrySettings.UpdateSequence = 4;
-	ReentrySettings.Radius = 0.0f;
-	Move.Refresh(ReentrySettings, TimeStep.BaseSimTimeMs);
-	TestTrue(TEXT("来源销毁取消可结束捕获"), Move.IsFinished(TimeStep.BaseSimTimeMs));
-	TestFalse(TEXT("取消后不再牵引"), Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(LaggingPosition), TimeStep, nullptr, Proposed));
-	TestFalse(TEXT("取消后移除禁止落地标签"), Move.HasGameplayTag(Mover_DisableLanding, true));
-
-	Move = YanRadialAttractionTest::MakeCaptureSettings();
-	Move.StartSimTimeMs = TimeStep.BaseSimTimeMs;
-	TestFalse(TEXT("未捕获目标仍可离开外圈"), Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(LaggingPosition), TimeStep, nullptr, Proposed));
-	ReentrySettings = YanRadialAttractionTest::MakeCaptureSettings();
-	ReentrySettings.UpdateSequence = 2;
-	Move.Refresh(ReentrySettings, TimeStep.BaseSimTimeMs);
-	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(200.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("重新进入恢复外圈恒速吸引"), Proposed.LinearVelocity, FVector(-600.0, 0.0, 0.0));
-
-	FYanLayeredMove_RadialAttraction Legacy;
-	Legacy.Magnitude = 600.0f;
-	Legacy.Radius = 500.0f;
-	Legacy.GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(250.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TestEqual(TEXT("原径向牵引保持距离衰减"), Proposed.LinearVelocity, FVector(-300.0, 0.0, 0.0));
-	TestTrue(TEXT("原径向牵引保持叠加策略"), Proposed.MixMode == EMoveMixMode::AdditiveVelocity);
+	FYanRadialAttractionUpdateEffect Effect;
+	Effect.Settings = Settings;
+	Bytes.Reset();
+	FMemoryWriter EffectWriter(Bytes, true);
+	Effect.NetSerialize(EffectWriter);
+	FYanRadialAttractionUpdateEffect RestoredEffect;
+	FMemoryReader                    EffectReader(Bytes, true);
+	RestoredEffect.NetSerialize(EffectReader);
+	TestFalse(TEXT("动作序列化无错误"), EffectWriter.IsError() || EffectReader.IsError());
+	TestTrue(TEXT("动作保留全部控制数据"), Effect.Settings == RestoredEffect.Settings);
 	return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanRadialAttractionLockLifecycleTest, "YanGame.Mover.RadialAttraction.LockLifecycle", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanRadialAttractionLegacyTest, "YanGame.Mover.RadialAttraction.Additive", EAutomationTestFlags_ApplicationContextMask | EAutomationTestFlags::SmokeFilter)
 
-bool FYanRadialAttractionLockLifecycleTest::RunTest(const FString& Parameters)
+bool FYanRadialAttractionLegacyTest::RunTest(const FString& Parameters)
 {
-	FMoverTimeStep TimeStep;
-	TimeStep.BaseSimTimeMs = 0.0;
-	TimeStep.StepMs = 10.0f;
-	FApplyMovementEffectParams_Async EffectParams{};
-	EffectParams.TimeStep = &TimeStep;
-	FMoverSyncState State;
-	FYanRadialAttractionUpdateEffect Update;
-	Update.Settings = YanRadialAttractionTest::MakeCaptureSettings();
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	TArray<TSharedPtr<FLayeredMoveBase>> Active = State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	if (!TestEqual(TEXT("创建单一牵引来源"), Active.Num(), 1))
-	{
-		return false;
-	}
+	FYanLayeredMove_RadialAttraction Move;
+	Move.Magnitude = 600.0f;
+	Move.Radius    = 500.0f;
+	FMoverTimeStep Time;
+	Time.StepMs = 10.0f;
 	FProposedMove Proposed;
-	Active[0]->GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector(40.0, 0.0, 0.0)), TimeStep, nullptr, Proposed);
-	TimeStep.BaseSimTimeMs = 20000.0;
-	TestEqual(TEXT("不刷新时已捕获来源仍在活动组中"), State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr).Num(), 1);
-	Update.Settings.UpdateSequence = 2;
-	Update.Settings.Location = FVector(10000.0, 0.0, 0.0);
-	Update.Settings.SnapshotSimTimeMs = TimeStep.BaseSimTimeMs;
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	Active = State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr);
-	if (!TestEqual(TEXT("长时间中断后的刷新不重新创建来源"), Active.Num(), 1))
-	{
-		return false;
-	}
-	TestTrue(TEXT("刷新后超出外圈仍保留捕获"), Active[0]->GenerateMove_Async(YanRadialAttractionTest::MakeStartState(FVector::ZeroVector), TimeStep, nullptr, Proposed));
-	TestEqual(TEXT("刷新后跟随新球心"), Proposed.LinearVelocity, FVector(1000000.0, 0.0, 0.0), 0.1f);
-	FMoverSyncState History = State;
-	Update.Settings.UpdateSequence = 3;
-	Update.Settings.Radius = 0.0f;
-	Update.ApplyMovementEffect_Async(EffectParams, State);
-	TestEqual(TEXT("来源销毁动作从活动组移除锁定"), State.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr).Num(), 0);
-	TestEqual(TEXT("取消不污染回滚历史中的捕获"), History.LayeredMoves.GenerateActiveMoves_Async(TimeStep, nullptr).Num(), 1);
+	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStart(FVector(250.0, 0.0, 0.0)), Time, nullptr, Proposed);
+	TestEqual(TEXT("普通拉扯保持距离衰减"), Proposed.LinearVelocity, FVector(-300.0, 0.0, 0.0));
+	TestTrue(TEXT("普通拉扯仍叠加自身移动"), Proposed.MixMode == EMoveMixMode::AdditiveVelocity);
+	Move.bIsPush = true;
+	Move.GenerateMove_Async(YanRadialAttractionTest::MakeStart(FVector(250.0, 0.0, 0.0)), Time, nullptr, Proposed);
+	TestEqual(TEXT("推开方向保留"), Proposed.LinearVelocity, FVector(300.0, 0.0, 0.0));
 	return true;
 }
+
+#if WITH_EDITOR
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FYanAttractionInputIsolationTest, "YanGame.Mover.RadialAttraction.InputIsolation", EAutomationTestFlags::EditorContext | EAutomationTestFlags::SmokeFilter)
+
+bool FYanAttractionInputIsolationTest::RunTest(const FString& Parameters)
+{
+	/*UMoverComponent* Mover = NewObject<UMoverComponent>();
+	UChaosAttractionMode* Mode = NewObject<UChaosAttractionMode>(Mover);
+	const FName ModeName(TEXT("TestAttraction"));
+	Mover->MovementModes.Add(ModeName, Mode);
+	FPropertyChangedEvent Changed(FindFProperty<FMapProperty>(UMoverComponent::StaticClass(), GET_MEMBER_NAME_CHECKED(UMoverComponent, MovementModes)));
+	static_cast<UObject*>(Mover)->PostEditChangeProperty(Changed);
+	USharedChaosCharacterMovementSettings* Settings = Mover->FindSharedSettings_Mutable<USharedChaosCharacterMovementSettings>();
+	if (!TestNotNull(TEXT("蓝图属性变更创建飞行共享设置"), Settings))
+	{
+		return false;
+	}
+	Settings->MaxSpeed = 800.0f;
+	Settings->Acceleration = 4000.0f;
+	UChaosMoverSimulation* Simulation = NewObject<UChaosMoverSimulation>();
+	FChaosMoverSimulationDefaultInputs& LocalInputs = Simulation->GetLocalSimInput_Mutable().FindOrAddMutableDataByType<FChaosMoverSimulationDefaultInputs>();
+	LocalInputs.UpDir = FVector::UpVector;
+	LocalInputs.PhysicsObjectGravity = 0.0f;
+	FMoverSimContext Context;
+	Context.Simulation = Simulation;
+	Context.SimulationOwner = Mover;
+	Mode->SetSimulation(Simulation);
+	Mode->OnRegistered(ModeName, Context);
+
+	FMoverTickStartData Start = YanRadialAttractionTest::MakeStart(FVector::ZeroVector);
+	Start.SyncState.MovementMode = ModeName;
+	FCharacterDefaultInputs& PlayerInput = Start.InputCmd.InputCollection.FindOrAddMutableDataByType<FCharacterDefaultInputs>();
+	PlayerInput.SetMoveInput(EMoveInputType::DirectionalIntent, -FVector::YAxisVector);
+	PlayerInput.ControlRotation = FRotator(20.0, 60.0, 0.0);
+	PlayerInput.bIsJumpPressed = true;
+	const FCharacterDefaultInputs OriginalInput = PlayerInput;
+	FYanAttractionSettings Source = YanRadialAttractionTest::MakeSettings();
+	Source.Location = FVector(200.0, 0.0, 0.0);
+	Start.SyncState.SyncStateCollection.FindOrAddMutableDataByType<FYanAttractionState>().Refresh(Source, 0.0);
+	FMoverTimeStep Time;
+	Time.BaseSimTimeMs = 0.0;
+	Time.StepMs = 10.0f;
+	FProposedMove Proposed;
+	Mode->GenerateMove_Implementation(Context, Start, Time, Proposed);
+	TestTrue(TEXT("外部输入生成朝向球心的实际飞行速度"), Proposed.LinearVelocity.X > 0.0 && FMath::IsNearlyZero(Proposed.LinearVelocity.Y));
+	TestTrue(TEXT("原始客户端输入包保持不变"), OriginalInput == *Start.InputCmd.InputCollection.FindDataByType<FCharacterDefaultInputs>());
+	TestTrue(TEXT("实际提议受牵引速度限制"), Proposed.LinearVelocity.Size() <= Source.PullSpeed);
+	Mode->OnUnregistered(Context);*/
+	return true;
+}
+#endif
 
 #endif

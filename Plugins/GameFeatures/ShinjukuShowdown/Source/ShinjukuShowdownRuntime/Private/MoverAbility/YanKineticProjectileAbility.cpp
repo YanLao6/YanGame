@@ -1,7 +1,7 @@
 #include "MoverAbility/YanKineticProjectileAbility.h"
 
 #include "Actor/YanKineticSummon.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverQueryLibrary.h"
 #include "Abilities/Tasks/AbilityTask_WaitInputRelease.h"
 #include "Curves/CurveFloat.h"
 #include "MoverComponent.h"
@@ -106,7 +106,7 @@ void UYanKineticProjectileAbility::SpawnAndLaunch(float ChargeRatio) const
 	FVector          ViewLocation = FVector::ZeroVector;
 	FVector          ViewForward  = FVector::ZeroVector;
 
-	if (!UYanMoverAngelscriptLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
+	if (!UMoverQueryLibrary::GetOwnerViewLocationAndForward(MoverComp, ViewLocation, ViewForward))
 	{
 		ViewLocation = OwnerPawn->GetPawnViewLocation();
 		ViewForward  = OwnerPawn->GetActorRotation().Vector();

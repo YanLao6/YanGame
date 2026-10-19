@@ -172,8 +172,7 @@ class AYanTeleportActor : AActor
 	}
 
 	UFUNCTION()
-	private void HandleBeginOverlap(UPrimitiveComponent OverlappedComponent, AActor OtherActor,
-		UPrimitiveComponent OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult&in Hit)
+	private void HandleBeginOverlap(UPrimitiveComponent OverlappedComponent, AActor OtherActor, UPrimitiveComponent OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult&in Hit)
 	{
 		APawn OtherPawn = Cast<APawn>(OtherActor);
 		if (OtherPawn == nullptr)

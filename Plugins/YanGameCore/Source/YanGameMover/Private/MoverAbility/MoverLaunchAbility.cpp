@@ -2,7 +2,8 @@
 
 #include "MoverAbility/YanLaunchTargetData.h"
 #include "Actor/YanHookProjectile.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverGameplayLibrary.h"
+#include "MoverLibrary/MoverMovementLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
 #include "MoverDataModelTypes.h"
@@ -50,7 +51,7 @@ void UMoverLaunchAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handl
 		const FVector                  AimLocation = OwnerPawn->GetPawnViewLocation();
 		const FRotator                 AimRotation = CharInputs ? CharInputs->ControlRotation : OwnerPawn->GetActorRotation();
 
-		AYanHookProjectile* Projectile = UYanMoverAngelscriptLibrary::SpawnHookProjectile(MoverComp, ProjectileClass, AimLocation, AimRotation);
+		AYanHookProjectile* Projectile = UMoverGameplayLibrary::SpawnHookProjectile(MoverComp, ProjectileClass, AimLocation, AimRotation);
 		if (IsValid(Projectile))
 		{
 			PendingProjectile = Projectile;
@@ -135,7 +136,7 @@ void UMoverLaunchAbility::ApplyLaunchFromTargetData(const FGameplayAbilityTarget
 		// 服务器权威施加击飞；如需加固可在此校验射程/朝向/目标合法性
 		if (UMoverComponent* TargetMover = HitPawn->FindComponentByClass<UMoverComponent>())
 		{
-			UYanMoverAngelscriptLibrary::QueueLaunchMove(TargetMover, Launch->LaunchVelocity, FName("Falling"), Launch->DurationMs);
+			UMoverMovementLibrary::QueueLaunchMove(TargetMover, Launch->LaunchVelocity, FName("Falling"), Launch->DurationMs);
 		}
 	}
 }

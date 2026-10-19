@@ -28,10 +28,6 @@
 		{
 			"Name": "YanGameCore",
 			"Enabled": true
-		},
-		{
-			"Name": "PLATEAU-SDK-for-Unreal",
-			"Enabled": true
 		}
 	]
 }

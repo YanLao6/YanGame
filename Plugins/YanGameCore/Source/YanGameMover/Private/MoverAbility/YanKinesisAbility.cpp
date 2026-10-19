@@ -3,7 +3,7 @@
 #include "Kinesis/YanKinesisProjection.h"
 #include "Kinesis/YanKinesisRegistrySubsystem.h"
 #include "Kinesis/YanKinesisTargetComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverGameplayLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
 #include "MoverDataModelTypes.h"
@@ -111,7 +111,7 @@ void UYanKinesisAbility::ApplyKinesisToTargets(const FYanKinesisIntent& Intent)
 			continue;
 		}
 
-		UYanMoverAngelscriptLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, KinesisGameplayEffect, Velocity);
+		UMoverGameplayLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, KinesisGameplayEffect, Velocity);
 	}
 }
 

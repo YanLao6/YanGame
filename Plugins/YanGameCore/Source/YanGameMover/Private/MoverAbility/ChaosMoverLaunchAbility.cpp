@@ -1,7 +1,7 @@
 #include "MoverAbility/ChaosMoverLaunchAbility.h"
 
 #include "Actor/YanHookProjectile.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverGameplayLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
 #include "MoverComponent.h"
@@ -85,7 +85,7 @@ void UChaosMoverLaunchAbility::SpawnAndLaunchProjectile()
 	const FVector                  AimLocation = OwnerPawn->GetPawnViewLocation();
 	const FRotator                 AimRotation = CharInputs ? CharInputs->ControlRotation : OwnerPawn->GetActorRotation();
 
-	AYanHookProjectile* Projectile = UYanMoverAngelscriptLibrary::SpawnHookProjectile(MoverComp, ProjectileClass, AimLocation, AimRotation);
+	AYanHookProjectile* Projectile = UMoverGameplayLibrary::SpawnHookProjectile(MoverComp, ProjectileClass, AimLocation, AimRotation);
 	if (!IsValid(Projectile))
 	{
 		K2_EndAbility();
@@ -117,7 +117,7 @@ void UChaosMoverLaunchAbility::HandleProjectileHit(AYanHookProjectile* Projectil
 		if (UAbilitySystemComponent* TargetASC =UVerbMessageHelpers::GetAbilitySystemComponentFromObject(HitPawn))
 		{
 			const FVector LaunchVelocity = ComputeLaunchVelocity(Projectile);
-			UYanMoverAngelscriptLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, LaunchGameplayEffect, LaunchVelocity);
+			UMoverGameplayLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, LaunchGameplayEffect, LaunchVelocity);
 		}
 	}
 

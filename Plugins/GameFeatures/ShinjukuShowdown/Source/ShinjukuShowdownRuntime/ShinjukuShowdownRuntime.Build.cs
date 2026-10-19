@@ -29,7 +29,7 @@ public class ShinjukuShowdownRuntime : ModuleRules
 				"GameplayTasks",// UAbilityTask_WaitInputRelease
 				"Mover",
 				"ChaosMover",
-				"YanGameMover", // UYanMoverAngelscriptLibrary 的速度注入与冲量接口
+				"YanGameMover", // Mover 方法库的速度注入与冲量接口
 				"ModularGameplayExperiences" // UVerbMessageHelpers 解析 ASC
 			}
 		);

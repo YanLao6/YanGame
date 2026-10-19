@@ -5,7 +5,7 @@
 #include "Engine/World.h"
 #include "GameFramework/Pawn.h"
 #include "MoverComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
 #include "YanMoverDataModelTypes.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(YanGrappleAuthorityComponent)
@@ -86,7 +86,7 @@ void UYanGrappleAuthorityComponent::ResolveAndPull(const FYanCharacterInputs& Ya
 
 	// 汇合点取发起端上传的值：它依赖被钩者的位置，而该位置在发起端是插值外推的结果，
 	// 服务器另算一份必然与发起者自己正在收敛的那个点不一致
-	UYanMoverAngelscriptLibrary::ApplyGrapplePullToTarget(ResolvedTargetMoverComp.Get(),
+	UMoverAuthorityLibrary::ApplyGrapplePull(ResolvedTargetMoverComp.Get(),
 	                                                      YanInputs.GrappleAnchorPoint,
 	                                                      PullAcceleration,
 	                                                      MaxPullSpeed,

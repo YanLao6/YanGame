@@ -45,10 +45,10 @@ class UMoverSlideAbility : UMoverInputAbility
 	UFUNCTION(BlueprintOverride)
 	void ProduceMoverInput(UMoverComponent MoverComp, int32 SimTimeMs, FMoverInputCmdContext& InputCmd)
 	{
-		FYanCharacterInputs YanInputs = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bWantsToSlide = bSlidePressed;
 		YanInputs.bWantsToDetachFromWall = bSlidePressed;
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 	//~End UMoverInputAbility Interface
 

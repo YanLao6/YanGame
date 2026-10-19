@@ -25,6 +25,7 @@ public class ColorTransferRuntime : ModuleRules
 				"ModularGameplayAbilities",   // UModularGameplayAbility 作为公开头中的基类
 				"ModularGameplayExperiences", // UModularPlayerSpawningComponent 作为公开头中的基类
 				"YanGameAbility",             // UYanAttributeSet / UYanGameplayAbility 作为公开头中的基类
+				"YanGameMover",               // AYanAttractionActor 作为公开头中的基类
 				"YanGameUI"                   // UYanUserWidget 作为公开头中的基类
 			}
 		);
@@ -36,7 +37,6 @@ public class ColorTransferRuntime : ModuleRules
 				"DeveloperSettings", // UColorTransferSettings
 				"GameplayTasks", // 蓄力技能里的 AbilityTask
 				"InputCore",     // 吸引球读取鼠标左右键
-				"YanGameMover",   // 服务器侧瞄准：UYanMoverAngelscriptLibrary::GetOwnerViewLocationAndForward
 				"YanGameSession", // 切关时转交大厅选队名单
 				"ModularTeams",
 				"ModularGameplayData", // 角色外观部件，颜料层要铺在部件网格上

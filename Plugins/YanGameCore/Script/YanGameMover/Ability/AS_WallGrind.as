@@ -81,7 +81,7 @@ class UAS_CharacterWallGrind : UMoverInputAbility
 
 		// 折线自被推方位置探墙：墙在被推方的另一侧，故须先确定推的是谁
 		FVector AnchorPoint;
-		APawn Target = YanMoverAngelscript::FindClinchTarget(CachedMoverComp, SearchRadius, ImpactHalfAngle, 0.f, AnchorPoint);
+		APawn Target = MoverTargeting::FindClinchTarget(CachedMoverComp, SearchRadius, ImpactHalfAngle, 0.f, AnchorPoint);
 		if (Target == nullptr)
 		{
 			return;
@@ -89,7 +89,7 @@ class UAS_CharacterWallGrind : UMoverInputAbility
 
 		TArray<FVector> Path;
 		float32 EntrySpeed = 0.f;
-		if (!YanMoverAngelscript::TraceWallGrindPath(CachedMoverComp,
+		if (!MoverTargeting::TraceWallGrindPath(CachedMoverComp,
 		                                             Target.GetActorLocation(),
 		                                             WallProbeDistance,
 		                                             PairSeparation,
@@ -113,7 +113,7 @@ class UAS_CharacterWallGrind : UMoverInputAbility
 	UFUNCTION(BlueprintOverride)
 	void ProduceMoverInput(UMoverComponent MoverComp, int32 SimTimeMs, FMoverInputCmdContext& InputCmd)
 	{
-		FYanCharacterInputs YanInputs = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bWantsToWallGrind = bGrindActive;
 		if (bGrindActive)
 		{
@@ -126,7 +126,7 @@ class UAS_CharacterWallGrind : UMoverInputAbility
 
 		// 挣脱位归被推方的技能独占：双方同帧写同一字段会互相覆盖，
 		// 发起方的解除因而改由推进意图落回 false 表达
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 
 	UFUNCTION(BlueprintOverride)

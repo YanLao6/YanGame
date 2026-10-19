@@ -5,7 +5,8 @@
 #include "GameFramework/Pawn.h"
 #include "Messages/VerbMessageHelpers.h"
 #include "MoverComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
+#include "MoverLibrary/MoverTargetingLibrary.h"
 #include "YanMoverDataModelTypes.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(YanClinchAuthorityComponent)
@@ -74,7 +75,7 @@ void UYanClinchAuthorityComponent::ResolveClinch(const FYanCharacterInputs& YanI
 
 	// 服务器自行扫描即构成复检：发起端只上传落位点与下落时刻，「抓到了谁」一律由此处认定
 	FVector UnusedAnchor;
-	APawn*  Target = UYanMoverAngelscriptLibrary::FindClinchTarget(CachedMoverComp, VerifyRadius, VerifyHalfAngle, /*SurfaceClearance=*/0.f, UnusedAnchor);
+	APawn*  Target = UMoverTargetingLibrary::FindClinchTarget(CachedMoverComp, VerifyRadius, VerifyHalfAngle, /*SurfaceClearance=*/0.f, UnusedAnchor);
 	if (!Target)
 	{
 		UE_LOG(LogChaosMover, Verbose, TEXT("%s 的抓取未通过服务器复检：附近无有效目标"), *Owner->GetName());
@@ -93,13 +94,13 @@ void UYanClinchAuthorityComponent::ResolveClinch(const FYanCharacterInputs& YanI
 	const FVector ToInstigator = (Owner->GetActorLocation() - TargetLocation).GetSafeNormal2D();
 	const float   TargetYaw    = ToInstigator.IsNearlyZero() ? Target->GetActorRotation().Yaw : ToInstigator.Rotation().Yaw;
 	// 落位点取服务器上的权威位置，下落时刻则取发起方上传的值——后者决定双方能否同时起落
-	UYanMoverAngelscriptLibrary::ApplyClinchToTarget(TargetMoverComp,
-	                                                 TargetLocation,
-	                                                 YanInputs.ClinchFallStartSimTimeMs,
-	                                                 TargetYaw,
-	                                                 MaxHoldSpeed,
-	                                                 TurnRateDegrees,
-	                                                 MaxDurationSeconds);
+	UMoverAuthorityLibrary::ApplyClinch(TargetMoverComp,
+	                                    TargetLocation,
+	                                    YanInputs.ClinchFallStartSimTimeMs,
+	                                    TargetYaw,
+	                                    MaxHoldSpeed,
+	                                    TurnRateDegrees,
+	                                    MaxDurationSeconds);
 
 	ApplyClinchEffects(Target);
 }

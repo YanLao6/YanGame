@@ -158,7 +158,7 @@ class UYanMoverCooldownWidget : UYanUserWidget
 			const bool bWasShown = EntryShown[Index];
 
 			FYanFatigueEntry Fatigue;
-			const bool bCooling = MoverComp != nullptr && YanMoverAngelscript::GetFatigueEntry(MoverComp, Entries[Index].Channel, Fatigue);
+			const bool bCooling = MoverComp != nullptr && MoverData::GetFatigueEntry(MoverComp, Entries[Index].Channel, Fatigue);
 			if (bCooling)
 			{
 				EntryShown[Index] = true;

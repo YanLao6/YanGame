@@ -2,7 +2,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverAuthorityLibrary.h"
 #include "GameFramework/Actor.h"
 #include "ChaosMover/Character/ChaosCharacterMoverComponent.h"
 
@@ -53,5 +53,5 @@ void UMoverRadialAttractionExecutionCalculation::Execute_Implementation(const FG
 		return;
 	}
 
-	UYanMoverAngelscriptLibrary::ApplyRadialAttractionToTarget(TargetMover, Center, Radius, Magnitude, FalloffExponent, DurationMs, /*bIsPush=*/false);
+	UMoverAuthorityLibrary::ApplyRadialAttraction(TargetMover, Center, Radius, Magnitude, FalloffExponent, DurationMs, /*bIsPush=*/false);
 }

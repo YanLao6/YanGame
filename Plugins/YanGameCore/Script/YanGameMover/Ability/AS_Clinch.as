@@ -66,7 +66,7 @@ class UAS_CharacterClinch : UMoverInputAbility
 		}
 
 		FVector AnchorPoint;
-		APawn Target = YanMoverAngelscript::FindClinchTarget(CachedMoverComp, SearchRadius, ImpactHalfAngle, SurfaceClearance, AnchorPoint);
+		APawn Target = MoverTargeting::FindClinchTarget(CachedMoverComp, SearchRadius, ImpactHalfAngle, SurfaceClearance, AnchorPoint);
 		if (Target == nullptr)
 		{
 			return;
@@ -82,7 +82,7 @@ class UAS_CharacterClinch : UMoverInputAbility
 	UFUNCTION(BlueprintOverride)
 	void ProduceMoverInput(UMoverComponent MoverComp, int32 SimTimeMs, FMoverInputCmdContext& InputCmd)
 	{
-		FYanCharacterInputs YanInputs = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bWantsToClinch = bClinchActive;
 		if (bClinchActive)
 		{
@@ -92,7 +92,7 @@ class UAS_CharacterClinch : UMoverInputAbility
 
 		// 挣脱位归被抓方的技能独占：双方同帧写同一字段会互相覆盖，
 		// 发起方的解除因而改由抓取意图落回 false 表达
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 
 	UFUNCTION(BlueprintOverride)

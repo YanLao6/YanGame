@@ -26,10 +26,10 @@ class UAS_CharacterDash : UMoverInputAbility
         // 每帧显式写入而非仅在有脉冲时写：脉冲位必须在投递后的次帧确定为 false，
         // 否则输入命令若被跨帧复用，残留的脉冲会触发第二次冲刺。
         // 方向与速度均不上传：前者由 FCharacterDefaultInputs 推导，后者取自 Transition 配置
-        FYanCharacterInputs YanInputs = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+        FYanCharacterInputs YanInputs = MoverData::GetOrAddYanInputs(InputCmd);
         YanInputs.bWantsToAirDash = bPendingDash;
         bPendingDash = false;
-        YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+        MoverData::CommitYanInputs(InputCmd, YanInputs);
     }
 
     UFUNCTION(BlueprintOverride)

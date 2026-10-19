@@ -43,9 +43,9 @@ class UGA_Sprint : UMoverInputAbility
 		}
 
 		// 每帧显式写入：输入命令包每帧重建，无意图时须写零值
-		FYanCharacterInputs YanInputs  = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs  = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bIsSprintJustPressed = bPendingSprintStart;
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 	//~End UMoverInputAbility Interface
 }

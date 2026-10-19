@@ -14,9 +14,6 @@ AColorChargeOrb::AColorChargeOrb()
 	OrbMesh->SetCastShadow(false);
 	RootComponent = OrbMesh;
 
-	bReplicates = true;
-	// 挂在插槽上时靠 AttachmentReplication 跟随，脱手后靠移动复制
-	SetReplicatingMovement(true);
 	SetNetUpdateFrequency(60.0f);
 
 	PrimaryActorTick.bCanEverTick = true;

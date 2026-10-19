@@ -1,6 +1,6 @@
 #include "MoverAbility/YanMeleeStrikeAbility.h"
 
-#include "YanMoverAngelscriptLibrary.h"
+#include "MoverLibrary/MoverGameplayLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "MoverComponent.h"
 #include "MoverDataModelTypes.h"
@@ -147,7 +147,7 @@ void UYanMeleeStrikeAbility::ApplyStrikeToTarget(UAbilitySystemComponent* Instig
 
 	if (KnockbackEffect && !KnockbackVelocity.IsNearlyZero())
 	{
-		UYanMoverAngelscriptLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, KnockbackEffect, KnockbackVelocity);
+		UMoverGameplayLibrary::ApplyLaunchEffectToTarget(InstigatorASC, TargetASC, KnockbackEffect, KnockbackVelocity);
 	}
 
 	for (const TSubclassOf<UGameplayEffect>& EffectClass : HitEffects)

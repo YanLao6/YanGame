@@ -118,10 +118,10 @@ class UMoverGrapplingAbility : UMoverInputAbility
 
 		if (HookProjectileClass != nullptr && CachedMoverComp != nullptr)
 		{
-			if (YanMoverAngelscript::GetOwnerViewLocationAndForward(CachedMoverComp, CameraLocation, CameraForward))
+			if (MoverQuery::GetOwnerViewLocationAndForward(CachedMoverComp, CameraLocation, CameraForward))
 			{
 				FRotator SpawnRot = CameraForward.ToOrientationRotator();
-				Projectile = Cast<AYanHookProjectile>(YanMoverAngelscript::SpawnHookProjectile(CachedMoverComp, HookProjectileClass, CameraLocation, SpawnRot));
+				Projectile = Cast<AYanHookProjectile>(MoverGameplay::SpawnHookProjectile(CachedMoverComp, HookProjectileClass, CameraLocation, SpawnRot));
 				if (Projectile != nullptr)
 				{
 					PendingProjectile = Projectile;
@@ -162,7 +162,7 @@ class UMoverGrapplingAbility : UMoverInputAbility
 			return;
 		}
 
-		FYanCharacterInputs YanInputs  = YanMoverAngelscript::GetOrAddYanInputs(InputCmd);
+		FYanCharacterInputs YanInputs  = MoverData::GetOrAddYanInputs(InputCmd);
 		YanInputs.bIsGrapplingActive   = false;
 		YanInputs.bGrapplePullsTarget  = false;
 
@@ -234,7 +234,7 @@ class UMoverGrapplingAbility : UMoverInputAbility
 			YanInputs.GrappleAnchorPoint  = MeetPoint;
 			YanInputs.GrappleHookLocation = HookLocation;
 		}
-		YanMoverAngelscript::CommitYanInputs(InputCmd, YanInputs);
+		MoverData::CommitYanInputs(InputCmd, YanInputs);
 	}
 	//~End UMoverInputAbility Interface
 
@@ -245,7 +245,7 @@ class UMoverGrapplingAbility : UMoverInputAbility
 		if (bIsHooked && PreviousMode == n"Grappling" && NewMode == n"Falling" && IsValid(CachedMoverComp) && IsLocallyControlled())
 		{
 			FYanCharacterInputs YanInputs;
-			if (YanMoverAngelscript::GetYanCharacterInputs(CachedMoverComp.GetLastInputCmd().InputCollection, YanInputs)
+			if (MoverData::GetYanCharacterInputs(CachedMoverComp.GetLastInputCmd().InputCollection, YanInputs)
 				&& YanInputs.bIsGrapplingActive)
 			{
 				RequestEndAbility();
@@ -263,7 +263,7 @@ class UMoverGrapplingAbility : UMoverInputAbility
 		}
 
 		FYanCharacterInputs YanInputs;
-		if (YanMoverAngelscript::GetYanCharacterInputs(CachedMoverComp.GetLastInputCmd().InputCollection, YanInputs)
+		if (MoverData::GetYanCharacterInputs(CachedMoverComp.GetLastInputCmd().InputCollection, YanInputs)
 			&& (YanInputs.bIsGrapplingActive || YanInputs.bGrapplePullsTarget)
 			&& UChaosGrapplingExitCheck::IsHookOutsideForwardHemisphere(SyncState, CachedMoverComp.GetLastInputCmd()))
 		{

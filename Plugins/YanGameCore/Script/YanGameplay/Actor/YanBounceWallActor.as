@@ -101,14 +101,14 @@ class AYanBounceWallActor : AActor
 		}
 
 		// 施加方即玩家自身：本 Actor 没有 ASC，且「玩家借弹射壁把自己弹回场」的归属本就在其自身
-		YanMoverAngelscript::ApplyLaunchEffectToTarget(TargetASC, TargetASC, BounceLaunchEffect, BounceVelocity);
+		MoverGameplay::ApplyLaunchEffectToTarget(TargetASC, TargetASC, BounceLaunchEffect, BounceVelocity);
 
 		if (NoLandingDuration > 0.0f)
 		{
 			UMoverComponent MoverComp = UMoverComponent::Get(OtherPawn);
 			if (MoverComp != nullptr)
 			{
-				YanMoverAngelscript::ApplyNoLandingToTarget(MoverComp, NoLandingDuration);
+				MoverAuthority::ApplyNoLanding(MoverComp, NoLandingDuration);
 			}
 		}
 

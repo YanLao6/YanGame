@@ -127,11 +127,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "PLATEAU-SDK-for-Unreal",
-			"Enabled": false,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/0a6b04bd9ae64d6dadd81c42a391c8f1"
-		},
-		{
 			"Name": "AnimationWarping",
 			"Enabled": true
 		},
@@ -152,13 +147,17 @@
 			"Enabled": true
 		},
 		{
-			"Name": "ColorTransfer",
-			"Enabled": true
-		},
-		{
 			"Name": "BP2AI",
 			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/Fab/product/6ccff7cf-f752-4b98-85d02c9d8a071792"
+		},
+		{
+			"Name": "ShinjukuShowdown",
+			"Enabled": true
+		},
+		{
+			"Name": "ColorTransfer",
+			"Enabled": true
 		}
 	]
 }

@@ -27,11 +27,11 @@ class UMoverJumpAbility : UMoverInputAbility
 	UFUNCTION(BlueprintOverride)
 	void ProduceMoverInput(UMoverComponent MoverComp, int32 SimTimeMs, FMoverInputCmdContext& InputCmd)
 	{
-		FCharacterDefaultInputs Inputs = YanMoverAngelscript::GetOrAddDefaultInputs(InputCmd);
+		FCharacterDefaultInputs Inputs = MoverData::GetOrAddDefaultInputs(InputCmd);
 		Inputs.bIsJumpJustPressed = bJumpJustPressed;
 		Inputs.bIsJumpPressed     = bJumpPressed;
 		bJumpJustPressed          = false;
-		YanMoverAngelscript::CommitDefaultInputs(InputCmd, Inputs);
+		MoverData::CommitDefaultInputs(InputCmd, Inputs);
 	}
 	//~End UMoverInputAbility Interface
 }
