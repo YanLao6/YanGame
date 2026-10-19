@@ -1,0 +1,652 @@
+﻿<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YanGame Perforce 提交记录</title><style>body{font:16px/1.65 'Microsoft YaHei',sans-serif;color:#17243b;background:#f4f6fa;max-width:1280px;margin:32px auto;padding:24px}h1{font-size:30px}article{background:white;padding:28px;border:1px solid #ddd;border-radius:10px;margin:20px 0}table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #dce1e8;padding:10px;text-align:left;vertical-align:top}th{background:#edf2f9}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;margin:0}.time{min-width:170px}.note{color:#526079}code{overflow-wrap:anywhere}@media print{body{background:white;margin:0;padding:0}article{padding:12px;border:0}thead{display:table-header-group}tr{break-inside:avoid}h1{font-size:24px}}</style></head><body><h1>YanGame · Perforce 提交记录</h1><p class="note">导出时间：2026-10-06 01:24:26 +08:00 · 时间显示：UTC+08:00</p><article><h2>作者统计</h2><p>在本次查询可见的项目路径内，全部 304 条已提交 changelist 均归属于 Perforce 账户 yanlao，未发现其他账户的提交记录。</p><p>项目路径：<code>//Simple/Dev/Projecties/YanGame/...</code><br>时间范围：2026-04-18 13:39:36 +08:00 至 2026-10-06 01:20:12 +08:00<br>统计口径：全部可见的 submitted changelist，未按用户筛选，未限制条数。</p><table><thead><tr><th>提交账户</th><th>提交数</th><th>占比</th></tr></thead><tbody><tr><td>yanlao</td><td>304</td><td>100.00%</td></tr></tbody></table><p>验证：Depot 路径与项目本地路径查询所得提交编号集合一致；导出编号无重复，全部状态为 submitted。</p><p class="note">本报告直接证明的是可见提交记录的账户归属，作为独立开发声明的佐证。账户与自然人的对应关系、账户共享情况、第三方代码或素材的原创归属，以及其他分支、不可见或清除的历史、未提交工作，不由该报告独立证明。</p></article><article><h2>完整提交明细（时间升序）</h2><p class="note">提交说明按服务器原文保留。</p><table><thead><tr><th>CL</th><th>提交时间</th><th>账户</th><th>工作区</th><th>完整说明</th></tr></thead><tbody><tr><td>14</td><td class="time">2026-04-18 13:39:36 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>default YanGame
+</pre></td></tr>
+<tr><td>15</td><td class="time">2026-04-19 14:08:06 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>1
+</pre></td></tr>
+<tr><td>16</td><td class="time">2026-04-19 14:23:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>add jump and toggleperspective abilities
+</pre></td></tr>
+<tr><td>17</td><td class="time">2026-04-20 01:24:42 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>cao
+</pre></td></tr>
+<tr><td>18</td><td class="time">2026-04-21 00:52:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现USlidingMode，
+TODO：GAS和NPP之间的网络预测差距，不能再用Ability来触发MoverMode了。
+             Slide和Falling之间的切换问题，
+</pre></td></tr>
+<tr><td>19</td><td class="time">2026-04-21 22:20:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>1
+</pre></td></tr>
+<tr><td>20</td><td class="time">2026-04-22 00:48:40 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现Slide滑铲
+</pre></td></tr>
+<tr><td>21</td><td class="time">2026-04-22 15:24:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>清理无用逻辑
+</pre></td></tr>
+<tr><td>22</td><td class="time">2026-04-22 15:32:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加 RealtimeDestruction 插件
+</pre></td></tr>
+<tr><td>23</td><td class="time">2026-04-22 15:54:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>在ProjectSettins里面添加Realtime Destructible的三个材质Data
+</pre></td></tr>
+<tr><td>24</td><td class="time">2026-04-22 15:55:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加ClaudeCode写的RealtimeDestruction描述.md文件
+</pre></td></tr>
+<tr><td>25</td><td class="time">2026-04-22 16:50:10 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>将跳跃移动到HeroInputComponent中，修复跳跃时由于GAS和Mover的网络层不一导致的镜头抖动
+TODO:将Slide的触发也从Ability中抽离出来
+</pre></td></tr>
+<tr><td>26</td><td class="time">2026-04-26 18:16:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>将Slide的触发和取消放在YanHeroInputComponent中，修复由于服务器回滚导致的抖动
+</pre></td></tr>
+<tr><td>27</td><td class="time">2026-04-26 18:28:22 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>加一行注释
+</pre></td></tr>
+<tr><td>28</td><td class="time">2026-04-29 19:01:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加冲刺技能
+</pre></td></tr>
+<tr><td>29</td><td class="time">2026-04-29 23:52:21 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>初始钩锁技能
+</pre></td></tr>
+<tr><td>30</td><td class="time">2026-05-01 14:20:07 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>模仿Lyra的Experience将Mover与Input的绑定解耦
+</pre></td></tr>
+<tr><td>31</td><td class="time">2026-05-01 17:40:24 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>在MoverInputAbility中添加ActivateAbility等函数
+</pre></td></tr>
+<tr><td>32</td><td class="time">2026-05-06 19:29:58 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>ai 改RealtimeDestruction第一版
+</pre></td></tr>
+<tr><td>33</td><td class="time">2026-05-06 19:31:53 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>Undo //Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/Source/RealtimeDestruction/... changelist 32
+</pre></td></tr>
+<tr><td>34</td><td class="time">2026-05-10 14:26:48 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>去掉无用的依赖
+</pre></td></tr>
+<tr><td>35</td><td class="time">2026-05-10 14:54:15 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>启用NPP插件
+</pre></td></tr>
+<tr><td>36</td><td class="time">2026-05-10 15:51:22 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>将mover相关的.as文件变成c++文件
+</pre></td></tr>
+<tr><td>37</td><td class="time">2026-05-10 17:21:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>整理Experience
+</pre></td></tr>
+<tr><td>38</td><td class="time">2026-05-10 18:19:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改Experience
+</pre></td></tr>
+<tr><td>39</td><td class="time">2026-05-11 13:17:28 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>为切割插件添加中文注释
+</pre></td></tr>
+<tr><td>40</td><td class="time">2026-05-12 00:59:09 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加钩锁用Projectile
+</pre></td></tr>
+<tr><td>41</td><td class="time">2026-05-12 20:45:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>为MoverInputAbility添加InputTagRelationMap
+</pre></td></tr>
+<tr><td>42</td><td class="time">2026-05-14 15:43:44 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加Anglescript版的GameplayMessageRouter
+</pre></td></tr>
+<tr><td>43</td><td class="time">2026-05-14 16:13:34 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>由于MvoerComponent的复制bug，蓝图继承的MoverComponent必须挂在Actor上，不能用GamefeatureAction_AddComponents添加
+</pre></td></tr>
+<tr><td>44</td><td class="time">2026-05-14 17:17:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加BP2AI插件
+</pre></td></tr>
+<tr><td>45</td><td class="time">2026-05-14 17:19:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>set BP2AI &quot;EngineVersion&quot;: &quot;5.7.0&quot;,
+</pre></td></tr>
+<tr><td>46</td><td class="time">2026-05-14 17:34:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修复冲刺技能不能再不进行移动模拟时导致的服务器矫正
+</pre></td></tr>
+<tr><td>47</td><td class="time">2026-05-14 17:39:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改冲刺冲量，去除无DefaultInputs时的无用逻辑
+</pre></td></tr>
+<tr><td>48</td><td class="time">2026-05-14 17:47:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加强制check
+</pre></td></tr>
+<tr><td>49</td><td class="time">2026-05-14 17:51:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加check断言
+</pre></td></tr>
+<tr><td>50</td><td class="time">2026-05-14 17:53:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加check
+</pre></td></tr>
+<tr><td>51</td><td class="time">2026-05-14 18:03:10 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>在p4ignore中添加*Cache*
+</pre></td></tr>
+<tr><td>52</td><td class="time">2026-05-14 18:03:54 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>删除ignore的文件
+</pre></td></tr>
+<tr><td>53</td><td class="time">2026-05-14 18:13:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>减小if判断
+</pre></td></tr>
+<tr><td>54</td><td class="time">2026-05-16 16:29:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>删除AddMoverAbilities
+</pre></td></tr>
+<tr><td>55</td><td class="time">2026-05-16 21:30:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>优化Check的if判断
+</pre></td></tr>
+<tr><td>56</td><td class="time">2026-05-16 22:45:39 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修复UGA_SwordSlice
+</pre></td></tr>
+<tr><td>57</td><td class="time">2026-05-17 00:35:39 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>注册钩锁LayerLogic
+</pre></td></tr>
+<tr><td>58</td><td class="time">2026-05-17 23:22:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>新加ignore
+</pre></td></tr>
+<tr><td>59</td><td class="time">2026-05-19 01:30:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加切割物品逻辑，修复ExperienceSet无法正常加载的问题
+</pre></td></tr>
+<tr><td>60</td><td class="time">2026-05-19 22:37:59 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现钩锁运动
+</pre></td></tr>
+<tr><td>61</td><td class="time">2026-05-19 22:52:48 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修复bug
+</pre></td></tr>
+<tr><td>62</td><td class="time">2026-05-20 00:24:46 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加一些不可用的GamefeatureAction
+</pre></td></tr>
+<tr><td>63</td><td class="time">2026-05-20 17:35:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现取消Grappling的技能
+</pre></td></tr>
+<tr><td>64</td><td class="time">2026-05-20 21:17:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修复默认隐藏Skelmesh的bug
+</pre></td></tr>
+<tr><td>65</td><td class="time">2026-05-21 12:46:24 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>ignore .antigravitycli/
+</pre></td></tr>
+<tr><td>66</td><td class="time">2026-05-22 19:13:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改钩锁手感
+</pre></td></tr>
+<tr><td>67</td><td class="time">2026-05-23 16:35:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现击飞另一个pawn
+</pre></td></tr>
+<tr><td>68</td><td class="time">2026-05-24 13:13:16 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>c++实现LaunchAbility
+</pre></td></tr>
+<tr><td>69</td><td class="time">2026-05-24 17:02:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>重构MoverLaunchAbility
+</pre></td></tr>
+<tr><td>70</td><td class="time">2026-05-24 17:07:11 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>重构
+</pre></td></tr>
+<tr><td>71</td><td class="time">2026-05-26 19:19:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加Docs中的resume简历
+</pre></td></tr>
+<tr><td>72</td><td class="time">2026-05-27 15:51:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>重构MoverInputAbility及其相关继承的as脚本
+</pre></td></tr>
+<tr><td>73</td><td class="time">2026-05-27 17:50:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>更新简历
+</pre></td></tr>
+<tr><td>74</td><td class="time">2026-05-27 19:42:13 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>亲自审核简历
+</pre></td></tr>
+<tr><td>75</td><td class="time">2026-05-27 21:33:13 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加GamePhase系统
+</pre></td></tr>
+<tr><td>76</td><td class="time">2026-05-28 19:26:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>为YanGameState添加UModularAbilitySystemComponent
+</pre></td></tr>
+<tr><td>77</td><td class="time">2026-05-28 19:35:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修复编译bug
+</pre></td></tr>
+<tr><td>78</td><td class="time">2026-05-28 20:49:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改Projectile的碰撞和pawn的skellmesh的可见性
+</pre></td></tr>
+<tr><td>79</td><td class="time">2026-05-31 02:29:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>为LauchAbility添加服务器检测
+</pre></td></tr>
+<tr><td>80</td><td class="time">2026-06-01 14:56:45 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改父类class UModularAbilitySystemComponent : public UAngelscriptAbilitySystemComponent
+</pre></td></tr>
+<tr><td>81</td><td class="time">2026-06-01 15:22:38 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>修改父类 UModularGameplayAbility : public UAngelscriptGASAbility
+</pre></td></tr>
+<tr><td>82</td><td class="time">2026-06-01 15:27:58 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>优化代码可读性
+</pre></td></tr>
+<tr><td>83</td><td class="time">2026-06-01 15:53:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加 UVerbMessageHelpers::GetPlayerPawnFromObject 函数
+</pre></td></tr>
+<tr><td>84</td><td class="time">2026-06-01 17:46:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加 SettingsWidgetConstructor 插件
+</pre></td></tr>
+<tr><td>85</td><td class="time">2026-06-02 20:18:56 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加插件 OpenUnrealUtilities , OUUTags
+</pre></td></tr>
+<tr><td>86</td><td class="time">2026-06-03 17:24:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现serveronly的launchpawn技能
+</pre></td></tr>
+<tr><td>87</td><td class="time">2026-06-04 16:51:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>添加TODO：，修复GetOwnerCameraLocationAndForward得到的方向错误的问题
+</pre></td></tr>
+<tr><td>88</td><td class="time">2026-06-04 22:36:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>将Mover换成ChaosMover，实现wasd移动
+</pre></td></tr>
+<tr><td>89</td><td class="time">2026-06-04 22:47:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现角色朝向面向镜头方向
+</pre></td></tr>
+<tr><td>90</td><td class="time">2026-06-05 01:50:45 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现 ChaosMoverSprint 物理角色冲刺
+</pre></td></tr>
+<tr><td>91</td><td class="time">2026-06-12 02:11:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现ChaosSlidingMode
+</pre></td></tr>
+<tr><td>92</td><td class="time">2026-06-12 17:38:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: OutForward = AimRotation.Vector(); 
+</pre></td></tr>
+<tr><td>93</td><td class="time">2026-06-13 01:17:41 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>实现 ChaosGrapplingMode 
+</pre></td></tr>
+<tr><td>94</td><td class="time">2026-06-13 23:58:06 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 提取方法函数
+</pre></td></tr>
+<tr><td>95</td><td class="time">2026-06-14 17:02:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加ChaosGrapplingEnterCheck 和OuterCheck
+</pre></td></tr>
+<tr><td>96</td><td class="time">2026-06-15 17:28:14 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加UChaosMoverLaunchAbility，实现Chaos系统的击退
+</pre></td></tr>
+<tr><td>97</td><td class="time">2026-06-16 18:11:22 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update:
+</pre></td></tr>
+<tr><td>98</td><td class="time">2026-06-18 15:45:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 升级项目到UE5.8.0; 
+TODO：GameplayCamera的视角设置失败
+</pre></td></tr>
+<tr><td>99</td><td class="time">2026-06-19 02:06:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复Camera的FOV
+</pre></td></tr>
+<tr><td>100</td><td class="time">2026-06-19 21:03:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现server端的ActorLaunch
+</pre></td></tr>
+<tr><td>101</td><td class="time">2026-06-21 00:52:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 将Tag改为Name：NAME_Mover_Launch_VelocityX
+</pre></td></tr>
+<tr><td>102</td><td class="time">2026-07-20 01:16:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>doc: 策划案第一版
+</pre></td></tr>
+<tr><td>103</td><td class="time">2026-07-20 22:45:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update:添加Dash技能
+</pre></td></tr>
+<tr><td>104</td><td class="time">2026-07-21 02:39:34 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现Dash技能
+</pre></td></tr>
+<tr><td>105</td><td class="time">2026-07-21 16:39:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修改dash手感
+</pre></td></tr>
+<tr><td>106</td><td class="time">2026-07-21 20:53:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加health和combat attributeset
+</pre></td></tr>
+<tr><td>107</td><td class="time">2026-07-21 22:13:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 完善装备系统以及交互UI系统
+</pre></td></tr>
+<tr><td>108</td><td class="time">2026-07-21 23:46:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加UGameplayAbility_Pickup拾取技能
+</pre></td></tr>
+<tr><td>109</td><td class="time">2026-07-22 23:02:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 完善装备系统
+</pre></td></tr>
+<tr><td>110</td><td class="time">2026-07-25 19:17:24 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现HealthBar
+</pre></td></tr>
+<tr><td>111</td><td class="time">2026-07-26 02:02:54 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加QuickBarSlotSelect技能
+</pre></td></tr>
+<tr><td>112</td><td class="time">2026-07-26 12:41:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复HealthBar
+</pre></td></tr>
+<tr><td>113</td><td class="time">2026-07-26 16:19:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现QuickBar按键提示
+</pre></td></tr>
+<tr><td>114</td><td class="time">2026-07-26 22:21:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 优化滑铲手感
+</pre></td></tr>
+<tr><td>115</td><td class="time">2026-07-26 22:56:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 完善CommonInput_KeyboardMouse中对应的图标
+</pre></td></tr>
+<tr><td>116</td><td class="time">2026-07-27 14:06:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 去除无用debug函数
+</pre></td></tr>
+<tr><td>117</td><td class="time">2026-07-27 19:05:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 为EquipManager添加TagMatch
+</pre></td></tr>
+<tr><td>118</td><td class="time">2026-07-28 02:01:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 优化从InputConfig查询KeyValue的逻辑
+</pre></td></tr>
+<tr><td>121</td><td class="time">2026-07-28 16:05:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现轮盘选择治疗物品
+</pre></td></tr>
+<tr><td>122</td><td class="time">2026-07-28 17:47:17 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>updat: 实现空中dash，快捷栏由Index分类
+</pre></td></tr>
+<tr><td>123</td><td class="time">2026-07-28 19:54:09 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复跳跃和dash同时触发的问题 
+</pre></td></tr>
+<tr><td>124</td><td class="time">2026-07-28 21:27:07 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现疾跑技能
+</pre></td></tr>
+<tr><td>125</td><td class="time">2026-07-29 00:08:20 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复快捷栏切换bug
+</pre></td></tr>
+<tr><td>126</td><td class="time">2026-07-29 18:07:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 爬墙实现第一版
+</pre></td></tr>
+<tr><td>127</td><td class="time">2026-07-31 15:07:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加爬墙功能
+</pre></td></tr>
+<tr><td>128</td><td class="time">2026-07-31 19:23:19 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 统一QuickBar切换逻辑，增加吸引敌方技能
+</pre></td></tr>
+<tr><td>129</td><td class="time">2026-07-31 23:09:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复Dash会被回滚的问题
+</pre></td></tr>
+<tr><td>130</td><td class="time">2026-08-01 00:23:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 控制类第一版
+</pre></td></tr>
+<tr><td>131</td><td class="time">2026-08-01 15:20:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现苍 赫第一版
+</pre></td></tr>
+<tr><td>132</td><td class="time">2026-08-01 16:36:44 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加GameFeatureAction_AddInputBinding
+</pre></td></tr>
+<tr><td>133</td><td class="time">2026-08-02 00:11:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现UHeroAssignmentComponent 用于给不同的玩家给予不同的英雄
+</pre></td></tr>
+<tr><td>134</td><td class="time">2026-08-02 14:45:27 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 分配Experience_Simple
+</pre></td></tr>
+<tr><td>135</td><td class="time">2026-08-02 21:11:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 增加UPawnDataFragment_作为PawnDat的延伸，为以后的单英雄对应单Data以及英雄切换做铺垫
+</pre></td></tr>
+<tr><td>136</td><td class="time">2026-08-02 22:06:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: GameFeatureAction_AddInputBind现在支持Native和Ability Input双重Input添加
+</pre></td></tr>
+<tr><td>137</td><td class="time">2026-08-02 23:18:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现PawnDataFragmentSet
+</pre></td></tr>
+<tr><td>138</td><td class="time">2026-08-03 15:32:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现Lobby中的角色切换以及切换后的地图切换
+</pre></td></tr>
+<tr><td>139</td><td class="time">2026-08-03 19:31:17 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现UnarmedInventory，
+</pre></td></tr>
+<tr><td>140</td><td class="time">2026-08-03 22:12:22 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复UGameFeatureAction_AddInventoryItems 中无法正确添加Index &gt; 0的Inventory的问题
+</pre></td></tr>
+<tr><td>141</td><td class="time">2026-08-05 17:02:19 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 改成MinimalAPI和UE_INLINE_GENERATED_CPP_BY_NAME
+</pre></td></tr>
+<tr><td>142</td><td class="time">2026-08-05 22:17:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现瞬间移动
+</pre></td></tr>
+<tr><td>143</td><td class="time">2026-08-06 11:12:32 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加UE5默认mesh
+</pre></td></tr>
+<tr><td>144</td><td class="time">2026-08-06 13:07:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update：实现UGameplayAbility_RangedWeapon
+</pre></td></tr>
+<tr><td>145</td><td class="time">2026-08-06 15:48:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加游戏设置后端
+</pre></td></tr>
+<tr><td>146</td><td class="time">2026-08-06 18:08:16 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现斩击
+</pre></td></tr>
+<tr><td>147</td><td class="time">2026-08-07 09:41:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现画质和鼠标设置
+</pre></td></tr>
+<tr><td>148</td><td class="time">2026-08-07 14:25:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 实现破坏的网络同步
+</pre></td></tr>
+<tr><td>149</td><td class="time">2026-08-07 14:41:57 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: spawn力场销毁
+</pre></td></tr>
+<tr><td>150</td><td class="time">2026-08-08 15:01:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现ESC打开菜单
+</pre></td></tr>
+<tr><td>151</td><td class="time">2026-08-09 19:44:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update : 添加Team系统
+</pre></td></tr>
+<tr><td>152</td><td class="time">2026-08-10 01:38:57 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现第一人称动画
+</pre></td></tr>
+<tr><td>153</td><td class="time">2026-08-10 17:57:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>undo: Undo Changlist 152
+</pre></td></tr>
+<tr><td>154</td><td class="time">2026-08-11 14:40:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现抓取敌方技能
+</pre></td></tr>
+<tr><td>155</td><td class="time">2026-08-11 15:52:40 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现特殊攻击
+</pre></td></tr>
+<tr><td>156</td><td class="time">2026-08-11 18:27:34 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化普工击退手感
+</pre></td></tr>
+<tr><td>157</td><td class="time">2026-08-11 19:16:38 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加UMoverLaunchGameplayEffect
+</pre></td></tr>
+<tr><td>158</td><td class="time">2026-08-11 20:53:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现回拉效果
+</pre></td></tr>
+<tr><td>159</td><td class="time">2026-08-12 01:06:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 去掉A的移动会撞飞B的特性
+</pre></td></tr>
+<tr><td>160</td><td class="time">2026-08-12 14:56:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复UYanGameplayAbility_ImpactField的大小
+</pre></td></tr>
+<tr><td>161</td><td class="time">2026-08-13 00:49:27 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 打包优化，添加策划案
+</pre></td></tr>
+<tr><td>162</td><td class="time">2026-08-13 15:34:38 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现动态小地图
+</pre></td></tr>
+<tr><td>163</td><td class="time">2026-08-13 19:30:45 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复AbilitySet中的attribute和effect的apply顺序问题，完善Impulse experience玩法系统
+</pre></td></tr>
+<tr><td>164</td><td class="time">2026-08-13 22:07:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现交互矩阵
+</pre></td></tr>
+<tr><td>165</td><td class="time">2026-08-14 01:31:54 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现L_Impulse_ShrinkRing
+</pre></td></tr>
+<tr><td>166</td><td class="time">2026-08-14 18:42:16 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加PoolManager DataAssetsLoader
+</pre></td></tr>
+<tr><td>167</td><td class="time">2026-08-15 00:49:09 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复近战攻击和特殊近战攻击
+</pre></td></tr>
+<tr><td>168</td><td class="time">2026-08-15 13:50:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复地图测绘过小的问题，添加大地图
+</pre></td></tr>
+<tr><td>169</td><td class="time">2026-08-15 14:18:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现大地图缩放
+</pre></td></tr>
+<tr><td>170</td><td class="time">2026-08-15 14:25:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加疾跑
+</pre></td></tr>
+<tr><td>171</td><td class="time">2026-08-15 15:54:56 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现对局邀请
+</pre></td></tr>
+<tr><td>172</td><td class="time">2026-08-16 12:58:25 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加占用点增加技能
+</pre></td></tr>
+<tr><td>173</td><td class="time">2026-08-16 16:41:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 整理as脚本
+</pre></td></tr>
+<tr><td>174</td><td class="time">2026-08-17 15:18:04 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现钩锁钩人，实现AddAbilities能够添加AbilityTagRelationshipMapping
+</pre></td></tr>
+<tr><td>175</td><td class="time">2026-08-17 16:18:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复钩锁技能导致触发check的问题
+</pre></td></tr>
+<tr><td>176</td><td class="time">2026-08-18 17:41:21 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update：删除RealtimeDestruction
+</pre></td></tr>
+<tr><td>177</td><td class="time">2026-08-19 13:32:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 增加了第一梯队
+
+┌────────────────────────────────────────────┬────────────────────────────────────────────────────────────────────────────────────────┐
+│                    项目                    │                                          落点                                          │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ Damage / Heal Execution                    │ YanGameAbility/Executions（填上了预留的空目录），并给 YanBaseCombatSet 补了            │
+│                                            │ BaseDamage/BaseHeal                                                                    │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ GameplayCueManager                         │ YanGameAbility，已在 DefaultGame.ini 注册                                              │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ TaggedActor                                │ YanGameAbility/Actor                                                                   │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ Language / Display / AudioOutputDevice /   │ YanGameSetting，并给 YanSettingsShared 补了完整 culture API                            │
+│ PerfStat                                   │                                                                                        │
+└────────────────────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────────┘
+
+第二梯队
+
+┌──────────────────────┬───────────────────────────────────────────────────────────────────────────────────┐
+│         项目         │                                       落点                                        │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ NumberPops 伤害飘字  │ YanGameEffects/NumberPops（Niagara + MeshText 两种实现）                          │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ Audio 混音子系统     │ YanGameSetting/Audio，YanSettingsLocal 补了五档音量 + HDR 音频                    │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ Performance 统计     │ YanGameSetting/Performance + YanGameUI/PerformanceStats                           │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ CharacterParts 换装  │ ModularGameplayData/Cosmetics（Pawn 组件、Controller 组件、开发者设置、作弊指令） │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ WeaponStateComponent │ EquipManager/Weapon                                                               │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ AbilityCost &#215; 2      │ EquipManager/Equipment/Abilities                                                  │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ 作弊指令             │ YanGASCheatExtension 上加 God / UnlimitedHealth / CancelActivatedAbilities        │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ 手柄灵敏度 + 死区    │ YanGameSetting/Input                                                              │
+└──────────────────────┴───────────────────────────────────────────────────────────────────────────────────┘
+
+第三梯队
+
+PocketWorlds、GameSubtitles 已引入并在 .uproject 启用。
+</pre></td></tr>
+<tr><td>178</td><td class="time">2026-08-19 13:55:07 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: change language
+</pre></td></tr>
+<tr><td>179</td><td class="time">2026-08-19 15:03:35 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复UMoverInputAbility可能由于网络策略出现的错误
+</pre></td></tr>
+<tr><td>180</td><td class="time">2026-08-19 15:52:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复无法呼出菜单的问题
+</pre></td></tr>
+<tr><td>181</td><td class="time">2026-08-19 18:14:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加游戏内性能显示设置
+</pre></td></tr>
+<tr><td>182</td><td class="time">2026-08-19 18:58:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加音频设置
+</pre></td></tr>
+<tr><td>183</td><td class="time">2026-08-19 23:27:25 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现观战视角
+</pre></td></tr>
+<tr><td>184</td><td class="time">2026-08-20 14:18:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加UYanGameplayAbility_WithWidget
+</pre></td></tr>
+<tr><td>185</td><td class="time">2026-08-25 02:13:40 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修改文件夹名 更新策划案
+</pre></td></tr>
+<tr><td>186</td><td class="time">2026-08-25 14:54:25 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复Experience加载失败的问题
+</pre></td></tr>
+<tr><td>187</td><td class="time">2026-08-28 18:17:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修改Splash图片
+</pre></td></tr>
+<tr><td>188</td><td class="time">2026-09-02 11:58:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加PLATEAU插件，用来导入3D地图
+</pre></td></tr>
+<tr><td>189</td><td class="time">2026-09-02 20:47:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加涩谷和新宿的地图
+</pre></td></tr>
+<tr><td>190</td><td class="time">2026-09-02 22:39:21 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 配置Experience
+</pre></td></tr>
+<tr><td>191</td><td class="time">2026-09-03 13:37:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加PawnDataFragment_TeamAppearance
+</pre></td></tr>
+<tr><td>192</td><td class="time">2026-09-03 15:36:04 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 整理文件夹
+</pre></td></tr>
+<tr><td>193</td><td class="time">2026-09-04 01:21:41 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加骨骼动画
+</pre></td></tr>
+<tr><td>194</td><td class="time">2026-09-04 14:34:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 完善动画
+</pre></td></tr>
+<tr><td>195</td><td class="time">2026-09-04 20:03:35 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现QuickBarComponent本地预测
+</pre></td></tr>
+<tr><td>196</td><td class="time">2026-09-05 16:43:53 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 整理YanGameCore和GameFeaturePlugin中的Experience配置
+</pre></td></tr>
+<tr><td>197</td><td class="time">2026-09-05 20:41:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加LyraContent，shooter，map
+</pre></td></tr>
+<tr><td>198</td><td class="time">2026-09-06 14:02:42 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复蓝图编译错误
+</pre></td></tr>
+<tr><td>199</td><td class="time">2026-09-06 16:01:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 还原Lyra地图的材质
+</pre></td></tr>
+<tr><td>200</td><td class="time">2026-09-07 01:04:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 能成功进入游戏
+</pre></td></tr>
+<tr><td>201</td><td class="time">2026-09-07 15:35:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 解决花屏问题
+</pre></td></tr>
+<tr><td>202</td><td class="time">2026-09-07 16:28:22 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复动画蓝图的播放
+</pre></td></tr>
+<tr><td>203</td><td class="time">2026-09-07 17:12:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复出现两个Mesh的问题
+</pre></td></tr>
+<tr><td>204</td><td class="time">2026-09-07 21:26:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 减少Warning
+</pre></td></tr>
+<tr><td>205</td><td class="time">2026-09-11 02:12:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复开枪特效音效（gameplayCue的path注册）
+</pre></td></tr>
+<tr><td>206</td><td class="time">2026-09-11 16:08:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复开局没有手枪并且有手枪后无法开枪的问题
+</pre></td></tr>
+<tr><td>207</td><td class="time">2026-09-11 17:32:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复HealthComponent失效的问题
+</pre></td></tr>
+<tr><td>208</td><td class="time">2026-09-11 19:14:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复二次重生和崩溃bug
+</pre></td></tr>
+<tr><td>209</td><td class="time">2026-09-12 14:49:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复 Accolade 系统不加载、死亡动画数组为空、手枪生成动画不播、死后换弹报 Error、控制器断连界面加载失败、20 条 ClassViewer 刷屏、PLATEAU 的初始化 Error、14 个过期姿势资产、9 个孤儿 import 和 GA_WeaponNetShooter
+</pre></td></tr>
+<tr><td>210</td><td class="time">2026-09-12 15:18:58 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加 Monolith UE mcp插件
+</pre></td></tr>
+<tr><td>211</td><td class="time">2026-09-12 15:25:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 去掉Modular等插件的Content
+</pre></td></tr>
+<tr><td>212</td><td class="time">2026-09-12 20:06:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现地图位移机制的本地预测
+</pre></td></tr>
+<tr><td>213</td><td class="time">2026-09-13 15:11:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 将YanMoverComponent设置为只有在CDO蓝图中才可配置
+</pre></td></tr>
+<tr><td>214</td><td class="time">2026-09-13 15:39:07 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化传送门传送时的玩家视角，添加PerStat_Text widget
+</pre></td></tr>
+<tr><td>215</td><td class="time">2026-09-13 15:47:44 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化弹射Push手感
+</pre></td></tr>
+<tr><td>216</td><td class="time">2026-09-13 16:14:39 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化传送以及弹射的特效本地预测播放
+</pre></td></tr>
+<tr><td>217</td><td class="time">2026-09-13 18:08:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 整理Experience，添加空中Dash，Slide。将所有.uplugin里面的中文描述全部改为英文描述
+</pre></td></tr>
+<tr><td>218</td><td class="time">2026-09-15 01:15:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现滑铲和第一人称下蹲
+</pre></td></tr>
+<tr><td>219</td><td class="time">2026-09-15 16:52:28 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现滑铲射击的时候不会站起来。 dash现在只能水平dash，不受视角的上下影响。
+</pre></td></tr>
+<tr><td>220</td><td class="time">2026-09-15 19:49:48 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复AssetManager重复扫描路径的问题
+</pre></td></tr>
+<tr><td>221</td><td class="time">2026-09-15 23:21:59 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复由于帧率波动导致的B_Launch_Push的多帧触发
+</pre></td></tr>
+<tr><td>222</td><td class="time">2026-09-16 18:28:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 更新简历
+</pre></td></tr>
+<tr><td>223</td><td class="time">2026-09-16 21:42:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现疲劳跳跃
+</pre></td></tr>
+<tr><td>224</td><td class="time">2026-09-16 22:23:09 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现疲劳攀爬
+</pre></td></tr>
+<tr><td>225</td><td class="time">2026-09-16 23:25:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 新建SimpleApex GameFeaturePlugin
+</pre></td></tr>
+<tr><td>226</td><td class="time">2026-09-17 09:56:41 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: YanPawn上挂 Tsublclasssof&lt;MoverComponent&gt;， 解决蓝图COD重叠的问题
+</pre></td></tr>
+<tr><td>227</td><td class="time">2026-09-17 10:19:06 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 整理YanGameMover
+</pre></td></tr>
+<tr><td>228</td><td class="time">2026-09-17 15:42:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第三人称变为越肩视角
+</pre></td></tr>
+<tr><td>229</td><td class="time">2026-09-18 14:09:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加游戏内移速面板
+</pre></td></tr>
+<tr><td>230</td><td class="time">2026-09-21 00:26:15 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现房间码加入
+</pre></td></tr>
+<tr><td>231</td><td class="time">2026-09-21 00:30:33 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加第一人称动画包
+</pre></td></tr>
+<tr><td>232</td><td class="time">2026-09-21 13:04:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 设置第一人称插槽，并设置新的第一人称摄像头
+</pre></td></tr>
+<tr><td>233</td><td class="time">2026-09-21 13:59:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复捡起武器快捷栏提示失效的问题
+</pre></td></tr>
+<tr><td>234</td><td class="time">2026-09-21 17:42:56 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化疾跑触发方式
+</pre></td></tr>
+<tr><td>235</td><td class="time">2026-09-21 18:25:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复ShooterMaps里面地图无法打开的错误
+</pre></td></tr>
+<tr><td>236</td><td class="time">2026-09-21 19:00:24 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复开局空手动画无法正确播放的问题
+</pre></td></tr>
+<tr><td>237</td><td class="time">2026-09-21 23:05:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加Use Frontend Perf Settings
+</pre></td></tr>
+<tr><td>238</td><td class="time">2026-09-22 01:15:41 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现Lyra开始游戏菜单界面
+</pre></td></tr>
+<tr><td>239</td><td class="time">2026-09-22 17:49:24 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 重存从Lyra迁移过来的Actor，解决打开Level崩溃的问题
+</pre></td></tr>
+<tr><td>240</td><td class="time">2026-09-23 15:44:31 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加玩家仓库，修改局内配装方式
+</pre></td></tr>
+<tr><td>241</td><td class="time">2026-09-24 09:45:37 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现房间码进入游戏
+</pre></td></tr>
+<tr><td>242</td><td class="time">2026-09-24 11:08:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现观战
+</pre></td></tr>
+<tr><td>243</td><td class="time">2026-09-24 17:42:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 解决world UserFacingExperience 打包失败的问题
+</pre></td></tr>
+<tr><td>244</td><td class="time">2026-09-25 19:48:04 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现steam联机和ABP滑铲
+</pre></td></tr>
+<tr><td>245</td><td class="time">2026-09-25 19:57:35 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 强制第三人称
+</pre></td></tr>
+<tr><td>246</td><td class="time">2026-09-25 22:23:46 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 删除Lobby地图中的mesh
+</pre></td></tr>
+<tr><td>247</td><td class="time">2026-09-25 22:55:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: resave W_HostSessionScreen
+</pre></td></tr>
+<tr><td>248</td><td class="time">2026-09-25 22:58:46 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 去掉开局的是否启用Bot按钮
+</pre></td></tr>
+<tr><td>249</td><td class="time">2026-09-26 14:45:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 策划案第一版
+</pre></td></tr>
+<tr><td>250</td><td class="time">2026-09-26 19:38:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第一关：八卦门 第一版
+</pre></td></tr>
+<tr><td>251</td><td class="time">2026-09-26 20:25:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 交换Water Black和White
+</pre></td></tr>
+<tr><td>252</td><td class="time">2026-09-26 20:34:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复空手状态下无法滑铲的动画错误
+</pre></td></tr>
+<tr><td>253</td><td class="time">2026-09-26 21:17:04 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复路径编码资产的问题
+</pre></td></tr>
+<tr><td>254</td><td class="time">2026-09-26 22:25:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第二关白模，第一版
+</pre></td></tr>
+<tr><td>255</td><td class="time">2026-09-26 23:13:30 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复八卦门传送
+</pre></td></tr>
+<tr><td>256</td><td class="time">2026-09-27 00:13:47 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现第二关逻辑，第二版
+</pre></td></tr>
+<tr><td>257</td><td class="time">2026-09-27 12:54:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第三关白模第一版
+</pre></td></tr>
+<tr><td>258</td><td class="time">2026-09-27 14:44:40 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第三关第二版
+</pre></td></tr>
+<tr><td>259</td><td class="time">2026-09-27 16:01:46 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复空中dash和doublejump
+</pre></td></tr>
+<tr><td>260</td><td class="time">2026-09-27 16:34:50 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 删除 AddAbilities 里的 TagRelationship，新增 UGameFeatureAction_TagRelationship 技能授予字段对齐 UModularAbilitySet
+</pre></td></tr>
+<tr><td>261</td><td class="time">2026-09-27 17:05:09 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第四关白模第一版
+</pre></td></tr>
+<tr><td>262</td><td class="time">2026-09-27 19:47:38 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现第四关第二版
+</pre></td></tr>
+<tr><td>263</td><td class="time">2026-09-27 21:03:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 将茈改为蓄力技能
+</pre></td></tr>
+<tr><td>264</td><td class="time">2026-09-27 21:52:42 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 为五个地图添加处死装置
+</pre></td></tr>
+<tr><td>265</td><td class="time">2026-09-27 22:45:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现红蓝球向撞爆炸
+</pre></td></tr>
+<tr><td>266</td><td class="time">2026-09-27 23:31:34 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加属性和技能cd UI
+</pre></td></tr>
+<tr><td>267</td><td class="time">2026-09-28 00:21:03 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 添加Private房间
+</pre></td></tr>
+<tr><td>268</td><td class="time">2026-09-28 13:07:15 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 移动技能cd显示变为能用时不显示，优化颜料bar
+</pre></td></tr>
+<tr><td>269</td><td class="time">2026-09-28 20:29:25 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update：减少打包资产
+</pre></td></tr>
+<tr><td>270</td><td class="time">2026-09-29 14:04:13 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 重置第一关
+</pre></td></tr>
+<tr><td>271</td><td class="time">2026-09-29 15:28:26 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 去掉音乐
+</pre></td></tr>
+<tr><td>272</td><td class="time">2026-09-29 16:54:28 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复连续爬墙的问题
+</pre></td></tr>
+<tr><td>273</td><td class="time">2026-09-29 17:54:34 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 红球瞬移改为击飞
+</pre></td></tr>
+<tr><td>274</td><td class="time">2026-09-29 19:24:01 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现颜料罐，并将颜料射线设置为直线
+</pre></td></tr>
+<tr><td>275</td><td class="time">2026-09-29 21:14:11 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现交互UI
+</pre></td></tr>
+<tr><td>276</td><td class="time">2026-09-29 21:34:40 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 将液体改为白色
+</pre></td></tr>
+<tr><td>277</td><td class="time">2026-09-29 23:08:29 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第一关最后一版
+</pre></td></tr>
+<tr><td>278</td><td class="time">2026-09-30 14:04:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现风场颜色和关闭
+</pre></td></tr>
+<tr><td>279</td><td class="time">2026-09-30 14:48:19 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 增加茈取消和block赫赫苍；实现destroy风场；实现button的颜色变化；添加更小的准心
+</pre></td></tr>
+<tr><td>280</td><td class="time">2026-09-30 16:08:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 为赫等技能添加montage
+</pre></td></tr>
+<tr><td>281</td><td class="time">2026-09-30 16:16:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复茈没有正确结束瞄准动画的问题
+</pre></td></tr>
+<tr><td>282</td><td class="time">2026-09-30 16:29:58 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 是的颜料射击目标为玩家瞄准的地方
+</pre></td></tr>
+<tr><td>283</td><td class="time">2026-09-30 17:45:15 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复能够同时dash和二段跳的问题
+</pre></td></tr>
+<tr><td>284</td><td class="time">2026-09-30 19:20:42 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: Category = &quot;Yan|&quot; 
+</pre></td></tr>
+<tr><td>285</td><td class="time">2026-10-01 15:26:28 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 重构代码，更新第一关
+</pre></td></tr>
+<tr><td>286</td><td class="time">2026-10-01 15:41:29 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化第三关取颜料逻辑
+</pre></td></tr>
+<tr><td>287</td><td class="time">2026-10-02 16:19:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现按钮重生和ColorMovingFloor多次触发
+</pre></td></tr>
+<tr><td>288</td><td class="time">2026-10-02 17:16:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 削弱爬墙
+</pre></td></tr>
+<tr><td>289</td><td class="time">2026-10-02 20:54:49 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第一部分
+</pre></td></tr>
+<tr><td>290</td><td class="time">2026-10-03 00:35:37 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第二版
+</pre></td></tr>
+<tr><td>291</td><td class="time">2026-10-03 16:25:00 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第三版
+</pre></td></tr>
+<tr><td>292</td><td class="time">2026-10-03 17:48:10 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: ColorMoverFloor替换成UChaosPathedMovementControllerComponent，修复平台上升时的角色抽搐；ChaosClimbExit添加Up瞬时速度；添加攀爬动画资产（未使用）
+</pre></td></tr>
+<tr><td>293</td><td class="time">2026-10-03 19:27:55 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第四版
+</pre></td></tr>
+<tr><td>294</td><td class="time">2026-10-03 19:41:48 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update：增大钩锁 的 hook球大小
+</pre></td></tr>
+<tr><td>295</td><td class="time">2026-10-03 21:50:43 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关 增加处死box 增加checkpoint教学文字
+</pre></td></tr>
+<tr><td>296</td><td class="time">2026-10-03 22:58:02 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复打包错误
+</pre></td></tr>
+<tr><td>297</td><td class="time">2026-10-03 23:27:04 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复W_SafeZoneEditor W_HDRCalibrationEditor 缺失父类无法打开的问题
+</pre></td></tr>
+<tr><td>298</td><td class="time">2026-10-03 23:43:39 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fiix: 修复警告
+</pre></td></tr>
+<tr><td>299</td><td class="time">2026-10-03 23:53:53 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复GCNL_Death
+</pre></td></tr>
+<tr><td>300</td><td class="time">2026-10-04 00:54:13 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 重存资产，补齐缺失类型、结构重定向和 Tag，清理 UI 焦点及失效动画绑
+</pre></td></tr>
+<tr><td>301</td><td class="time">2026-10-04 01:25:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 将教学字的UIExtension变为Vertical Wrap
+</pre></td></tr>
+<tr><td>302</td><td class="time">2026-10-04 01:45:51 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 钩锁现在上限180度内都无法取消了
+</pre></td></tr>
+<tr><td>303</td><td class="time">2026-10-04 14:54:23 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第五版
+</pre></td></tr>
+<tr><td>304</td><td class="time">2026-10-04 16:34:06 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 实现expeirecentravellevel
+</pre></td></tr>
+<tr><td>305</td><td class="time">2026-10-04 17:21:52 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 第五关第六版
+</pre></td></tr>
+<tr><td>306</td><td class="time">2026-10-05 00:46:08 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复第五关Experience
+</pre></td></tr>
+<tr><td>307</td><td class="time">2026-10-05 13:29:39 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 修复蹲下无法取消Grappling的问题；修复跳跃会取消Grappling的问题；修复hook球过大的问题；
+</pre></td></tr>
+<tr><td>308</td><td class="time">2026-10-05 15:40:57 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 更新BlueAttract，使其更不容易使目标脱靶
+</pre></td></tr>
+<tr><td>309</td><td class="time">2026-10-05 16:34:44 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 优化策划案
+</pre></td></tr>
+<tr><td>310</td><td class="time">2026-10-05 17:21:29 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 整理策划案排版
+</pre></td></tr>
+<tr><td>311</td><td class="time">2026-10-05 17:23:18 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 删除PLAUTEAU
+</pre></td></tr>
+<tr><td>312</td><td class="time">2026-10-05 17:50:59 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 增加目标平台
+</pre></td></tr>
+<tr><td>313</td><td class="time">2026-10-05 18:23:16 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复anmespace重命名冲突
+</pre></td></tr>
+<tr><td>314</td><td class="time">2026-10-05 18:26:27 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复隐藏冲刺文件的同名全局常量
+</pre></td></tr>
+<tr><td>315</td><td class="time">2026-10-05 19:01:17 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 更新 third_party 依赖
+</pre></td></tr>
+<tr><td>316</td><td class="time">2026-10-06 01:04:20 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 解决无缝切图导致的旧网络映射确认状态可能与客户端缓存不一致的问题
+</pre></td></tr>
+<tr><td>317</td><td class="time">2026-10-06 01:12:07 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 更新策划案
+</pre></td></tr>
+<tr><td>318</td><td class="time">2026-10-06 01:15:05 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>fix: 修复ColorPaintCan在其他平台上显示内部staticmesh的材质而不是外部mesh的材质的问题
+</pre></td></tr>
+<tr><td>319</td><td class="time">2026-10-06 01:20:12 +08:00</td><td>yanlao</td><td>UnreaEngine</td><td><pre>update: 更新.p4ignore排除reports/
+</pre></td></tr></tbody></table></article><article><h2>复核命令</h2><pre>&amp; &quot;C:\Program Files\Perforce\p4.exe&quot; -p localhost:1666 -u yanlao -c UnreaEngine -ztag -Mj changes -s submitted -l &quot;//Simple/Dev/Projecties/YanGame/...&quot;</pre><p class="note">原始数据见 changes.raw.jsonl；导出文件完整性校验见 SHA256SUMS.txt。校验值不是服务器签名或独立公证。</p></article></body></html>

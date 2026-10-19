@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"name": "YanGameCore-Script",
+			"path": "Plugins/YanGameCore/Script"
+		},
+		{
+			"name": "ShinjukuShowdown-Script",
+			"path": "Plugins/GameFeatures/ShinjukuShowdown/Script"
+		},
+        {
+            "name": "ColorTransfer-Script",
+         	"path": "Plugins/GameFeatures/ColorTransfer/Script"
+        }
+	],
+	"settings": {
+		"cSpell.words": [
+			"Angelscript",
+			"Attackee",
+			"Gameplay",
+			"nullptr",
+			"UENUM",
+			"UFUNCTION",
+			"UPROPERTY",
+			"USTRUCT"
+		]
+	}
+}

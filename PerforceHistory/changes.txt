@@ -1,0 +1,2475 @@
+﻿CL 14 | 2026-04-18 13:39:36 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+default YanGame
+
+
+----------------------------------------
+CL 15 | 2026-04-19 14:08:06 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+1
+
+
+----------------------------------------
+CL 16 | 2026-04-19 14:23:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+add jump and toggleperspective abilities
+
+
+----------------------------------------
+CL 17 | 2026-04-20 01:24:42 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+cao
+
+
+----------------------------------------
+CL 18 | 2026-04-21 00:52:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现USlidingMode，
+TODO：GAS和NPP之间的网络预测差距，不能再用Ability来触发MoverMode了。
+             Slide和Falling之间的切换问题，
+
+
+----------------------------------------
+CL 19 | 2026-04-21 22:20:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+1
+
+
+----------------------------------------
+CL 20 | 2026-04-22 00:48:40 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现Slide滑铲
+
+
+----------------------------------------
+CL 21 | 2026-04-22 15:24:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+清理无用逻辑
+
+
+----------------------------------------
+CL 22 | 2026-04-22 15:32:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/...
+说明：
+添加 RealtimeDestruction 插件
+
+
+----------------------------------------
+CL 23 | 2026-04-22 15:54:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Config/*
+说明：
+在ProjectSettins里面添加Realtime Destructible的三个材质Data
+
+
+----------------------------------------
+CL 24 | 2026-04-22 15:55:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/*
+说明：
+添加ClaudeCode写的RealtimeDestruction描述.md文件
+
+
+----------------------------------------
+CL 25 | 2026-04-22 16:50:10 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+将跳跃移动到HeroInputComponent中，修复跳跃时由于GAS和Mover的网络层不一导致的镜头抖动
+TODO:将Slide的触发也从Ability中抽离出来
+
+
+----------------------------------------
+CL 26 | 2026-04-26 18:16:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+将Slide的触发和取消放在YanHeroInputComponent中，修复由于服务器回滚导致的抖动
+
+
+----------------------------------------
+CL 27 | 2026-04-26 18:28:22 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Script/MoverMode/*
+说明：
+加一行注释
+
+
+----------------------------------------
+CL 28 | 2026-04-29 19:01:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加冲刺技能
+
+
+----------------------------------------
+CL 29 | 2026-04-29 23:52:21 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+初始钩锁技能
+
+
+----------------------------------------
+CL 30 | 2026-05-01 14:20:07 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+模仿Lyra的Experience将Mover与Input的绑定解耦
+
+
+----------------------------------------
+CL 31 | 2026-05-01 17:40:24 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+在MoverInputAbility中添加ActivateAbility等函数
+
+
+----------------------------------------
+CL 32 | 2026-05-06 19:29:58 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/Source/RealtimeDestruction/P...
+说明：
+ai 改RealtimeDestruction第一版
+
+
+----------------------------------------
+CL 33 | 2026-05-06 19:31:53 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/Source/RealtimeDestruction/P...
+说明：
+Undo //Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/Source/RealtimeDestruction/... changelist 32
+
+
+----------------------------------------
+CL 34 | 2026-05-10 14:26:48 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+去掉无用的依赖
+
+
+----------------------------------------
+CL 35 | 2026-05-10 14:54:15 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/*
+说明：
+启用NPP插件
+
+
+----------------------------------------
+CL 36 | 2026-05-10 15:51:22 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+将mover相关的.as文件变成c++文件
+
+
+----------------------------------------
+CL 37 | 2026-05-10 17:21:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+整理Experience
+
+
+----------------------------------------
+CL 38 | 2026-05-10 18:19:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+修改Experience
+
+
+----------------------------------------
+CL 39 | 2026-05-11 13:17:28 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/RealtimeDestruction/Source/RealtimeDestruction...
+说明：
+为切割插件添加中文注释
+
+
+----------------------------------------
+CL 40 | 2026-05-12 00:59:09 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加钩锁用Projectile
+
+
+----------------------------------------
+CL 41 | 2026-05-12 20:45:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/...
+说明：
+为MoverInputAbility添加InputTagRelationMap
+
+
+----------------------------------------
+CL 42 | 2026-05-14 15:43:44 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加Anglescript版的GameplayMessageRouter
+
+
+----------------------------------------
+CL 43 | 2026-05-14 16:13:34 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Content/...
+说明：
+由于MvoerComponent的复制bug，蓝图继承的MoverComponent必须挂在Actor上，不能用GamefeatureAction_AddComponents添加
+
+
+----------------------------------------
+CL 44 | 2026-05-14 17:17:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加BP2AI插件
+
+
+----------------------------------------
+CL 45 | 2026-05-14 17:19:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/UE-Blueprint-to-Markdown-Doc/Plugins/BP2AI/*
+说明：
+set BP2AI "EngineVersion": "5.7.0",
+
+
+----------------------------------------
+CL 46 | 2026-05-14 17:34:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/*
+说明：
+修复冲刺技能不能再不进行移动模拟时导致的服务器矫正
+
+
+----------------------------------------
+CL 47 | 2026-05-14 17:39:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+修改冲刺冲量，去除无DefaultInputs时的无用逻辑
+
+
+----------------------------------------
+CL 48 | 2026-05-14 17:47:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+添加强制check
+
+
+----------------------------------------
+CL 49 | 2026-05-14 17:51:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/*
+说明：
+添加check断言
+
+
+----------------------------------------
+CL 50 | 2026-05-14 17:53:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/*
+说明：
+添加check
+
+
+----------------------------------------
+CL 51 | 2026-05-14 18:03:10 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+在p4ignore中添加*Cache*
+
+
+----------------------------------------
+CL 52 | 2026-05-14 18:03:54 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Script/*
+说明：
+删除ignore的文件
+
+
+----------------------------------------
+CL 53 | 2026-05-14 18:13:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/*
+说明：
+减小if判断
+
+
+----------------------------------------
+CL 54 | 2026-05-16 16:29:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+删除AddMoverAbilities
+
+
+----------------------------------------
+CL 55 | 2026-05-16 21:30:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+优化Check的if判断
+
+
+----------------------------------------
+CL 56 | 2026-05-16 22:45:39 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+修复UGA_SwordSlice
+
+
+----------------------------------------
+CL 57 | 2026-05-17 00:35:39 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+注册钩锁LayerLogic
+
+
+----------------------------------------
+CL 58 | 2026-05-17 23:22:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+新加ignore
+
+
+----------------------------------------
+CL 59 | 2026-05-19 01:30:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加切割物品逻辑，修复ExperienceSet无法正常加载的问题
+
+
+----------------------------------------
+CL 60 | 2026-05-19 22:37:59 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现钩锁运动
+
+
+----------------------------------------
+CL 61 | 2026-05-19 22:52:48 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Public/MoverAbility/*
+说明：
+修复bug
+
+
+----------------------------------------
+CL 62 | 2026-05-20 00:24:46 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加一些不可用的GamefeatureAction
+
+
+----------------------------------------
+CL 63 | 2026-05-20 17:35:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现取消Grappling的技能
+
+
+----------------------------------------
+CL 64 | 2026-05-20 21:17:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+修复默认隐藏Skelmesh的bug
+
+
+----------------------------------------
+CL 65 | 2026-05-21 12:46:24 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/*
+说明：
+ignore .antigravitycli/
+
+
+----------------------------------------
+CL 66 | 2026-05-22 19:13:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Script/MoverMode/*
+说明：
+修改钩锁手感
+
+
+----------------------------------------
+CL 67 | 2026-05-23 16:35:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现击飞另一个pawn
+
+
+----------------------------------------
+CL 68 | 2026-05-24 13:13:16 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+c++实现LaunchAbility
+
+
+----------------------------------------
+CL 69 | 2026-05-24 17:02:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+重构MoverLaunchAbility
+
+
+----------------------------------------
+CL 70 | 2026-05-24 17:07:11 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+重构
+
+
+----------------------------------------
+CL 71 | 2026-05-26 19:19:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/Developer/Resume/*
+说明：
+添加Docs中的resume简历
+
+
+----------------------------------------
+CL 72 | 2026-05-27 15:51:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+重构MoverInputAbility及其相关继承的as脚本
+
+
+----------------------------------------
+CL 73 | 2026-05-27 17:50:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+更新简历
+
+
+----------------------------------------
+CL 74 | 2026-05-27 19:42:13 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/Developer/Resume/*
+说明：
+亲自审核简历
+
+
+----------------------------------------
+CL 75 | 2026-05-27 21:33:13 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/ModularGameplayAbilities/Source/ModularGameplayAbilities/P...
+说明：
+添加GamePhase系统
+
+
+----------------------------------------
+CL 76 | 2026-05-28 19:26:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGame...
+说明：
+为YanGameState添加UModularAbilitySystemComponent
+
+
+----------------------------------------
+CL 77 | 2026-05-28 19:35:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameplay/...
+说明：
+修复编译bug
+
+
+----------------------------------------
+CL 78 | 2026-05-28 20:49:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+修改Projectile的碰撞和pawn的skellmesh的可见性
+
+
+----------------------------------------
+CL 79 | 2026-05-31 02:29:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+为LauchAbility添加服务器检测
+
+
+----------------------------------------
+CL 80 | 2026-06-01 14:56:45 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+修改父类class UModularAbilitySystemComponent : public UAngelscriptAbilitySystemComponent
+
+
+----------------------------------------
+CL 81 | 2026-06-01 15:22:38 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+修改父类 UModularGameplayAbility : public UAngelscriptGASAbility
+
+
+----------------------------------------
+CL 82 | 2026-06-01 15:27:58 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/GE/*
+说明：
+优化代码可读性
+
+
+----------------------------------------
+CL 83 | 2026-06-01 15:53:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加 UVerbMessageHelpers::GetPlayerPawnFromObject 函数
+
+
+----------------------------------------
+CL 84 | 2026-06-01 17:46:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/SettingsWidgetConstructor/...
+说明：
+添加 SettingsWidgetConstructor 插件
+
+
+----------------------------------------
+CL 85 | 2026-06-02 20:18:56 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+添加插件 OpenUnrealUtilities , OUUTags
+
+
+----------------------------------------
+CL 86 | 2026-06-03 17:24:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现serveronly的launchpawn技能
+
+
+----------------------------------------
+CL 87 | 2026-06-04 16:51:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+添加TODO：，修复GetOwnerCameraLocationAndForward得到的方向错误的问题
+
+
+----------------------------------------
+CL 88 | 2026-06-04 22:36:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+将Mover换成ChaosMover，实现wasd移动
+
+
+----------------------------------------
+CL 89 | 2026-06-04 22:47:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现角色朝向面向镜头方向
+
+
+----------------------------------------
+CL 90 | 2026-06-05 01:50:45 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现 ChaosMoverSprint 物理角色冲刺
+
+
+----------------------------------------
+CL 91 | 2026-06-12 02:11:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现ChaosSlidingMode
+
+
+----------------------------------------
+CL 92 | 2026-06-12 17:38:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/*
+说明：
+fix: OutForward = AimRotation.Vector(); 
+
+
+----------------------------------------
+CL 93 | 2026-06-13 01:17:41 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+实现 ChaosGrapplingMode 
+
+
+----------------------------------------
+CL 94 | 2026-06-13 23:58:06 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+update: 提取方法函数
+
+
+----------------------------------------
+CL 95 | 2026-06-14 17:02:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加ChaosGrapplingEnterCheck 和OuterCheck
+
+
+----------------------------------------
+CL 96 | 2026-06-15 17:28:14 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加UChaosMoverLaunchAbility，实现Chaos系统的击退
+
+
+----------------------------------------
+CL 97 | 2026-06-16 18:11:22 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update:
+
+
+----------------------------------------
+CL 98 | 2026-06-18 15:45:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 升级项目到UE5.8.0; 
+TODO：GameplayCamera的视角设置失败
+
+
+----------------------------------------
+CL 99 | 2026-06-19 02:06:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复Camera的FOV
+
+
+----------------------------------------
+CL 100 | 2026-06-19 21:03:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现server端的ActorLaunch
+
+
+----------------------------------------
+CL 101 | 2026-06-21 00:52:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 将Tag改为Name：NAME_Mover_Launch_VelocityX
+
+
+----------------------------------------
+CL 102 | 2026-07-20 01:16:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+doc: 策划案第一版
+
+
+----------------------------------------
+CL 103 | 2026-07-20 22:45:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update:添加Dash技能
+
+
+----------------------------------------
+CL 104 | 2026-07-21 02:39:34 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现Dash技能
+
+
+----------------------------------------
+CL 105 | 2026-07-21 16:39:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 修改dash手感
+
+
+----------------------------------------
+CL 106 | 2026-07-21 20:53:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加health和combat attributeset
+
+
+----------------------------------------
+CL 107 | 2026-07-21 22:13:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 完善装备系统以及交互UI系统
+
+
+----------------------------------------
+CL 108 | 2026-07-21 23:46:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 添加UGameplayAbility_Pickup拾取技能
+
+
+----------------------------------------
+CL 109 | 2026-07-22 23:02:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 完善装备系统
+
+
+----------------------------------------
+CL 110 | 2026-07-25 19:17:24 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现HealthBar
+
+
+----------------------------------------
+CL 111 | 2026-07-26 02:02:54 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加QuickBarSlotSelect技能
+
+
+----------------------------------------
+CL 112 | 2026-07-26 12:41:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复HealthBar
+
+
+----------------------------------------
+CL 113 | 2026-07-26 16:19:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现QuickBar按键提示
+
+
+----------------------------------------
+CL 114 | 2026-07-26 22:21:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 优化滑铲手感
+
+
+----------------------------------------
+CL 115 | 2026-07-26 22:56:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 完善CommonInput_KeyboardMouse中对应的图标
+
+
+----------------------------------------
+CL 116 | 2026-07-27 14:06:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 去除无用debug函数
+
+
+----------------------------------------
+CL 117 | 2026-07-27 19:05:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 为EquipManager添加TagMatch
+
+
+----------------------------------------
+CL 118 | 2026-07-28 02:01:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 优化从InputConfig查询KeyValue的逻辑
+
+
+----------------------------------------
+CL 121 | 2026-07-28 16:05:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现轮盘选择治疗物品
+
+
+----------------------------------------
+CL 122 | 2026-07-28 17:47:17 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+updat: 实现空中dash，快捷栏由Index分类
+
+
+----------------------------------------
+CL 123 | 2026-07-28 19:54:09 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/S...
+说明：
+fix: 修复跳跃和dash同时触发的问题 
+
+
+----------------------------------------
+CL 124 | 2026-07-28 21:27:07 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现疾跑技能
+
+
+----------------------------------------
+CL 125 | 2026-07-29 00:08:20 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复快捷栏切换bug
+
+
+----------------------------------------
+CL 126 | 2026-07-29 18:07:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/...
+说明：
+update: 爬墙实现第一版
+
+
+----------------------------------------
+CL 127 | 2026-07-31 15:07:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加爬墙功能
+
+
+----------------------------------------
+CL 128 | 2026-07-31 19:23:19 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 统一QuickBar切换逻辑，增加吸引敌方技能
+
+
+----------------------------------------
+CL 129 | 2026-07-31 23:09:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复Dash会被回滚的问题
+
+
+----------------------------------------
+CL 130 | 2026-08-01 00:23:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 控制类第一版
+
+
+----------------------------------------
+CL 131 | 2026-08-01 15:20:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现苍 赫第一版
+
+
+----------------------------------------
+CL 132 | 2026-08-01 16:36:44 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加GameFeatureAction_AddInputBinding
+
+
+----------------------------------------
+CL 133 | 2026-08-02 00:11:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现UHeroAssignmentComponent 用于给不同的玩家给予不同的英雄
+
+
+----------------------------------------
+CL 134 | 2026-08-02 14:45:27 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 分配Experience_Simple
+
+
+----------------------------------------
+CL 135 | 2026-08-02 21:11:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 增加UPawnDataFragment_作为PawnDat的延伸，为以后的单英雄对应单Data以及英雄切换做铺垫
+
+
+----------------------------------------
+CL 136 | 2026-08-02 22:06:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: GameFeatureAction_AddInputBind现在支持Native和Ability Input双重Input添加
+
+
+----------------------------------------
+CL 137 | 2026-08-02 23:18:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现PawnDataFragmentSet
+
+
+----------------------------------------
+CL 138 | 2026-08-03 15:32:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现Lobby中的角色切换以及切换后的地图切换
+
+
+----------------------------------------
+CL 139 | 2026-08-03 19:31:17 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现UnarmedInventory，
+
+
+----------------------------------------
+CL 140 | 2026-08-03 22:12:22 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复UGameFeatureAction_AddInventoryItems 中无法正确添加Index > 0的Inventory的问题
+
+
+----------------------------------------
+CL 141 | 2026-08-05 17:02:19 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 改成MinimalAPI和UE_INLINE_GENERATED_CPP_BY_NAME
+
+
+----------------------------------------
+CL 142 | 2026-08-05 22:17:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现瞬间移动
+
+
+----------------------------------------
+CL 143 | 2026-08-06 11:12:32 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加UE5默认mesh
+
+
+----------------------------------------
+CL 144 | 2026-08-06 13:07:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update：实现UGameplayAbility_RangedWeapon
+
+
+----------------------------------------
+CL 145 | 2026-08-06 15:48:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加游戏设置后端
+
+
+----------------------------------------
+CL 146 | 2026-08-06 18:08:16 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现斩击
+
+
+----------------------------------------
+CL 147 | 2026-08-07 09:41:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现画质和鼠标设置
+
+
+----------------------------------------
+CL 148 | 2026-08-07 14:25:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 实现破坏的网络同步
+
+
+----------------------------------------
+CL 149 | 2026-08-07 14:41:57 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: spawn力场销毁
+
+
+----------------------------------------
+CL 150 | 2026-08-08 15:01:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现ESC打开菜单
+
+
+----------------------------------------
+CL 151 | 2026-08-09 19:44:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update : 添加Team系统
+
+
+----------------------------------------
+CL 152 | 2026-08-10 01:38:57 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现第一人称动画
+
+
+----------------------------------------
+CL 153 | 2026-08-10 17:57:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+undo: Undo Changlist 152
+
+
+----------------------------------------
+CL 154 | 2026-08-11 14:40:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现抓取敌方技能
+
+
+----------------------------------------
+CL 155 | 2026-08-11 15:52:40 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现特殊攻击
+
+
+----------------------------------------
+CL 156 | 2026-08-11 18:27:34 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 优化普工击退手感
+
+
+----------------------------------------
+CL 157 | 2026-08-11 19:16:38 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/S...
+说明：
+update: 添加UMoverLaunchGameplayEffect
+
+
+----------------------------------------
+CL 158 | 2026-08-11 20:53:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现回拉效果
+
+
+----------------------------------------
+CL 159 | 2026-08-12 01:06:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 去掉A的移动会撞飞B的特性
+
+
+----------------------------------------
+CL 160 | 2026-08-12 14:56:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复UYanGameplayAbility_ImpactField的大小
+
+
+----------------------------------------
+CL 161 | 2026-08-13 00:49:27 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 打包优化，添加策划案
+
+
+----------------------------------------
+CL 162 | 2026-08-13 15:34:38 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现动态小地图
+
+
+----------------------------------------
+CL 163 | 2026-08-13 19:30:45 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复AbilitySet中的attribute和effect的apply顺序问题，完善Impulse experience玩法系统
+
+
+----------------------------------------
+CL 164 | 2026-08-13 22:07:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现交互矩阵
+
+
+----------------------------------------
+CL 165 | 2026-08-14 01:31:54 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 实现L_Impulse_ShrinkRing
+
+
+----------------------------------------
+CL 166 | 2026-08-14 18:42:16 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加PoolManager DataAssetsLoader
+
+
+----------------------------------------
+CL 167 | 2026-08-15 00:49:09 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanImpulseGame/Content/...
+说明：
+update: 修复近战攻击和特殊近战攻击
+
+
+----------------------------------------
+CL 168 | 2026-08-15 13:50:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复地图测绘过小的问题，添加大地图
+
+
+----------------------------------------
+CL 169 | 2026-08-15 14:18:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 实现大地图缩放
+
+
+----------------------------------------
+CL 170 | 2026-08-15 14:25:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanImpulseGame/Content/...
+说明：
+update: 添加疾跑
+
+
+----------------------------------------
+CL 171 | 2026-08-15 15:54:56 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现对局邀请
+
+
+----------------------------------------
+CL 172 | 2026-08-16 12:58:25 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加占用点增加技能
+
+
+----------------------------------------
+CL 173 | 2026-08-16 16:41:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Script/...
+说明：
+fix: 整理as脚本
+
+
+----------------------------------------
+CL 174 | 2026-08-17 15:18:04 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现钩锁钩人，实现AddAbilities能够添加AbilityTagRelationshipMapping
+
+
+----------------------------------------
+CL 175 | 2026-08-17 16:18:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复钩锁技能导致触发check的问题
+
+
+----------------------------------------
+CL 176 | 2026-08-18 17:41:21 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update：删除RealtimeDestruction
+
+
+----------------------------------------
+CL 177 | 2026-08-19 13:32:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 增加了第一梯队
+
+┌────────────────────────────────────────────┬────────────────────────────────────────────────────────────────────────────────────────┐
+│                    项目                    │                                          落点                                          │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ Damage / Heal Execution                    │ YanGameAbility/Executions（填上了预留的空目录），并给 YanBaseCombatSet 补了            │
+│                                            │ BaseDamage/BaseHeal                                                                    │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ GameplayCueManager                         │ YanGameAbility，已在 DefaultGame.ini 注册                                              │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ TaggedActor                                │ YanGameAbility/Actor                                                                   │
+├────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────┤
+│ Language / Display / AudioOutputDevice /   │ YanGameSetting，并给 YanSettingsShared 补了完整 culture API                            │
+│ PerfStat                                   │                                                                                        │
+└────────────────────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────────┘
+
+第二梯队
+
+┌──────────────────────┬───────────────────────────────────────────────────────────────────────────────────┐
+│         项目         │                                       落点                                        │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ NumberPops 伤害飘字  │ YanGameEffects/NumberPops（Niagara + MeshText 两种实现）                          │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ Audio 混音子系统     │ YanGameSetting/Audio，YanSettingsLocal 补了五档音量 + HDR 音频                    │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ Performance 统计     │ YanGameSetting/Performance + YanGameUI/PerformanceStats                           │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ CharacterParts 换装  │ ModularGameplayData/Cosmetics（Pawn 组件、Controller 组件、开发者设置、作弊指令） │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ WeaponStateComponent │ EquipManager/Weapon                                                               │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ AbilityCost × 2      │ EquipManager/Equipment/Abilities                                                  │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ 作弊指令             │ YanGASCheatExtension 上加 God / UnlimitedHealth / CancelActivatedAbilities        │
+├──────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤
+│ 手柄灵敏度 + 死区    │ YanGameSetting/Input                                                              │
+└──────────────────────┴───────────────────────────────────────────────────────────────────────────────────┘
+
+第三梯队
+
+PocketWorlds、GameSubtitles 已引入并在 .uproject 启用。
+
+
+----------------------------------------
+CL 178 | 2026-08-19 13:55:07 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameS...
+说明：
+update: change language
+
+
+----------------------------------------
+CL 179 | 2026-08-19 15:03:35 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复UMoverInputAbility可能由于网络策略出现的错误
+
+
+----------------------------------------
+CL 180 | 2026-08-19 15:52:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Con...
+说明：
+fix: 修复无法呼出菜单的问题
+
+
+----------------------------------------
+CL 181 | 2026-08-19 18:14:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加游戏内性能显示设置
+
+
+----------------------------------------
+CL 182 | 2026-08-19 18:58:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加音频设置
+
+
+----------------------------------------
+CL 183 | 2026-08-19 23:27:25 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现观战视角
+
+
+----------------------------------------
+CL 184 | 2026-08-20 14:18:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Script/YanGameAbility/*
+说明：
+update: 添加UYanGameplayAbility_WithWidget
+
+
+----------------------------------------
+CL 185 | 2026-08-25 02:13:40 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 修改文件夹名 更新策划案
+
+
+----------------------------------------
+CL 186 | 2026-08-25 14:54:25 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复Experience加载失败的问题
+
+
+----------------------------------------
+CL 187 | 2026-08-28 18:17:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 修改Splash图片
+
+
+----------------------------------------
+CL 188 | 2026-09-02 11:58:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加PLATEAU插件，用来导入3D地图
+
+
+----------------------------------------
+CL 189 | 2026-09-02 20:47:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加涩谷和新宿的地图
+
+
+----------------------------------------
+CL 190 | 2026-09-02 22:39:21 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 配置Experience
+
+
+----------------------------------------
+CL 191 | 2026-09-03 13:37:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加PawnDataFragment_TeamAppearance
+
+
+----------------------------------------
+CL 192 | 2026-09-03 15:36:04 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 整理文件夹
+
+
+----------------------------------------
+CL 193 | 2026-09-04 01:21:41 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加骨骼动画
+
+
+----------------------------------------
+CL 194 | 2026-09-04 14:34:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/...
+说明：
+update: 完善动画
+
+
+----------------------------------------
+CL 195 | 2026-09-04 20:03:35 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现QuickBarComponent本地预测
+
+
+----------------------------------------
+CL 196 | 2026-09-05 16:43:53 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 整理YanGameCore和GameFeaturePlugin中的Experience配置
+
+
+----------------------------------------
+CL 197 | 2026-09-05 20:41:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加LyraContent，shooter，map
+
+
+----------------------------------------
+CL 198 | 2026-09-06 14:02:42 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复蓝图编译错误
+
+
+----------------------------------------
+CL 199 | 2026-09-06 16:01:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 还原Lyra地图的材质
+
+
+----------------------------------------
+CL 200 | 2026-09-07 01:04:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 能成功进入游戏
+
+
+----------------------------------------
+CL 201 | 2026-09-07 15:35:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 解决花屏问题
+
+
+----------------------------------------
+CL 202 | 2026-09-07 16:28:22 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fix: 修复动画蓝图的播放
+
+
+----------------------------------------
+CL 203 | 2026-09-07 17:12:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fix: 修复出现两个Mesh的问题
+
+
+----------------------------------------
+CL 204 | 2026-09-07 21:26:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 减少Warning
+
+
+----------------------------------------
+CL 205 | 2026-09-11 02:12:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复开枪特效音效（gameplayCue的path注册）
+
+
+----------------------------------------
+CL 206 | 2026-09-11 16:08:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fix: 修复开局没有手枪并且有手枪后无法开枪的问题
+
+
+----------------------------------------
+CL 207 | 2026-09-11 17:32:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fix: 修复HealthComponent失效的问题
+
+
+----------------------------------------
+CL 208 | 2026-09-11 19:14:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fix: 修复二次重生和崩溃bug
+
+
+----------------------------------------
+CL 209 | 2026-09-12 14:49:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复 Accolade 系统不加载、死亡动画数组为空、手枪生成动画不播、死后换弹报 Error、控制器断连界面加载失败、20 条 ClassViewer 刷屏、PLATEAU 的初始化 Error、14 个过期姿势资产、9 个孤儿 import 和 GA_WeaponNetShooter
+
+
+----------------------------------------
+CL 210 | 2026-09-12 15:18:58 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加 Monolith UE mcp插件
+
+
+----------------------------------------
+CL 211 | 2026-09-12 15:25:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 去掉Modular等插件的Content
+
+
+----------------------------------------
+CL 212 | 2026-09-12 20:06:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现地图位移机制的本地预测
+
+
+----------------------------------------
+CL 213 | 2026-09-13 15:11:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 将YanMoverComponent设置为只有在CDO蓝图中才可配置
+
+
+----------------------------------------
+CL 214 | 2026-09-13 15:39:07 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 优化传送门传送时的玩家视角，添加PerStat_Text widget
+
+
+----------------------------------------
+CL 215 | 2026-09-13 15:47:44 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanShooterMaps/Content/__ExternalActors__/Maps/L_Convolution_Blockout/...
+说明：
+update: 优化弹射Push手感
+
+
+----------------------------------------
+CL 216 | 2026-09-13 16:14:39 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 优化传送以及弹射的特效本地预测播放
+
+
+----------------------------------------
+CL 217 | 2026-09-13 18:08:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 整理Experience，添加空中Dash，Slide。将所有.uplugin里面的中文描述全部改为英文描述
+
+
+----------------------------------------
+CL 218 | 2026-09-15 01:15:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现滑铲和第一人称下蹲
+
+
+----------------------------------------
+CL 219 | 2026-09-15 16:52:28 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 实现滑铲射击的时候不会站起来。 dash现在只能水平dash，不受视角的上下影响。
+
+
+----------------------------------------
+CL 220 | 2026-09-15 19:49:48 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复AssetManager重复扫描路径的问题
+
+
+----------------------------------------
+CL 221 | 2026-09-15 23:21:59 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/P...
+说明：
+fix: 修复由于帧率波动导致的B_Launch_Push的多帧触发
+
+
+----------------------------------------
+CL 222 | 2026-09-16 18:28:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/Developer/Resume/*
+说明：
+update: 更新简历
+
+
+----------------------------------------
+CL 223 | 2026-09-16 21:42:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现疲劳跳跃
+
+
+----------------------------------------
+CL 224 | 2026-09-16 22:23:09 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 实现疲劳攀爬
+
+
+----------------------------------------
+CL 225 | 2026-09-16 23:25:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/...
+说明：
+update: 新建SimpleApex GameFeaturePlugin
+
+
+----------------------------------------
+CL 226 | 2026-09-17 09:56:41 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: YanPawn上挂 Tsublclasssof<MoverComponent>， 解决蓝图COD重叠的问题
+
+
+----------------------------------------
+CL 227 | 2026-09-17 10:19:06 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/...
+说明：
+update: 整理YanGameMover
+
+
+----------------------------------------
+CL 228 | 2026-09-17 15:42:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第三人称变为越肩视角
+
+
+----------------------------------------
+CL 229 | 2026-09-18 14:09:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 添加游戏内移速面板
+
+
+----------------------------------------
+CL 230 | 2026-09-21 00:26:15 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现房间码加入
+
+
+----------------------------------------
+CL 231 | 2026-09-21 00:30:33 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/Marketplace/FPSAnimadd2a4002e2f9V6/...
+说明：
+update: 添加第一人称动画包
+
+
+----------------------------------------
+CL 232 | 2026-09-21 13:04:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 设置第一人称插槽，并设置新的第一人称摄像头
+
+
+----------------------------------------
+CL 233 | 2026-09-21 13:59:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanShooter/Content/UserInterface/HUD/*
+说明：
+fix: 修复捡起武器快捷栏提示失效的问题
+
+
+----------------------------------------
+CL 234 | 2026-09-21 17:42:56 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Script/YanGameMover/Ability/*
+说明：
+update: 优化疾跑触发方式
+
+
+----------------------------------------
+CL 235 | 2026-09-21 18:25:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanShooterMaps/Content/...
+说明：
+fix: 修复ShooterMaps里面地图无法打开的错误
+
+
+----------------------------------------
+CL 236 | 2026-09-21 19:00:24 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanShooterContent/Content/Characters/Heroes/Mannequin/Animations/*
+说明：
+fix: 修复开局空手动画无法正确播放的问题
+
+
+----------------------------------------
+CL 237 | 2026-09-21 23:05:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加Use Frontend Perf Settings
+
+
+----------------------------------------
+CL 238 | 2026-09-22 01:15:41 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现Lyra开始游戏菜单界面
+
+
+----------------------------------------
+CL 239 | 2026-09-22 17:49:24 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 重存从Lyra迁移过来的Actor，解决打开Level崩溃的问题
+
+
+----------------------------------------
+CL 240 | 2026-09-23 15:44:31 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加玩家仓库，修改局内配装方式
+
+
+----------------------------------------
+CL 241 | 2026-09-24 09:45:37 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现房间码进入游戏
+
+
+----------------------------------------
+CL 242 | 2026-09-24 11:08:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/...
+说明：
+update: 实现观战
+
+
+----------------------------------------
+CL 243 | 2026-09-24 17:42:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 解决world UserFacingExperience 打包失败的问题
+
+
+----------------------------------------
+CL 244 | 2026-09-25 19:48:04 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现steam联机和ABP滑铲
+
+
+----------------------------------------
+CL 245 | 2026-09-25 19:57:35 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanShooter/Content/Game...
+说明：
+update: 强制第三人称
+
+
+----------------------------------------
+CL 246 | 2026-09-25 22:23:46 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 删除Lobby地图中的mesh
+
+
+----------------------------------------
+CL 247 | 2026-09-25 22:55:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanShooterContent/Content/UI/Menu/Experiences/*
+说明：
+fix: resave W_HostSessionScreen
+
+
+----------------------------------------
+CL 248 | 2026-09-25 22:58:46 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanShooterContent/Content/UI/Menu/Experiences/*
+说明：
+update: 去掉开局的是否启用Bot按钮
+
+
+----------------------------------------
+CL 249 | 2026-09-26 14:45:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 策划案第一版
+
+
+----------------------------------------
+CL 250 | 2026-09-26 19:38:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第一关：八卦门 第一版
+
+
+----------------------------------------
+CL 251 | 2026-09-26 20:25:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/Maps/*
+说明：
+fix: 交换Water Black和White
+
+
+----------------------------------------
+CL 252 | 2026-09-26 20:34:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanShooterContent/Content/Characters/Heroes/Mannequin/Animations/Locomotion/Unarmed/*
+说明：
+fix: 修复空手状态下无法滑铲的动画错误
+
+
+----------------------------------------
+CL 253 | 2026-09-26 21:17:04 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+fix: 修复路径编码资产的问题
+
+
+----------------------------------------
+CL 254 | 2026-09-26 22:25:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/...
+说明：
+update: 第二关白模，第一版
+
+
+----------------------------------------
+CL 255 | 2026-09-26 23:13:30 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 修复八卦门传送
+
+
+----------------------------------------
+CL 256 | 2026-09-27 00:13:47 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 实现第二关逻辑，第二版
+
+
+----------------------------------------
+CL 257 | 2026-09-27 12:54:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/...
+说明：
+update: 第三关白模第一版
+
+
+----------------------------------------
+CL 258 | 2026-09-27 14:44:40 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第三关第二版
+
+
+----------------------------------------
+CL 259 | 2026-09-27 16:01:46 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复空中dash和doublejump
+
+
+----------------------------------------
+CL 260 | 2026-09-27 16:34:50 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 删除 AddAbilities 里的 TagRelationship，新增 UGameFeatureAction_TagRelationship 技能授予字段对齐 UModularAbilitySet
+
+
+----------------------------------------
+CL 261 | 2026-09-27 17:05:09 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/...
+说明：
+update: 第四关白模第一版
+
+
+----------------------------------------
+CL 262 | 2026-09-27 19:47:38 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现第四关第二版
+
+
+----------------------------------------
+CL 263 | 2026-09-27 21:03:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 将茈改为蓄力技能
+
+
+----------------------------------------
+CL 264 | 2026-09-27 21:52:42 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 为五个地图添加处死装置
+
+
+----------------------------------------
+CL 265 | 2026-09-27 22:45:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 实现红蓝球向撞爆炸
+
+
+----------------------------------------
+CL 266 | 2026-09-27 23:31:34 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 添加属性和技能cd UI
+
+
+----------------------------------------
+CL 267 | 2026-09-28 00:21:03 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/Yan...
+说明：
+update: 添加Private房间
+
+
+----------------------------------------
+CL 268 | 2026-09-28 13:07:15 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 移动技能cd显示变为能用时不显示，优化颜料bar
+
+
+----------------------------------------
+CL 269 | 2026-09-28 20:29:25 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update：减少打包资产
+
+
+----------------------------------------
+CL 270 | 2026-09-29 14:04:13 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 重置第一关
+
+
+----------------------------------------
+CL 271 | 2026-09-29 15:28:26 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanShooterContent/Content/System/FrontEnd/*
+说明：
+update: 去掉音乐
+
+
+----------------------------------------
+CL 272 | 2026-09-29 16:54:28 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 修复连续爬墙的问题
+
+
+----------------------------------------
+CL 273 | 2026-09-29 17:54:34 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 红球瞬移改为击飞
+
+
+----------------------------------------
+CL 274 | 2026-09-29 19:24:01 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现颜料罐，并将颜料射线设置为直线
+
+
+----------------------------------------
+CL 275 | 2026-09-29 21:14:11 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现交互UI
+
+
+----------------------------------------
+CL 276 | 2026-09-29 21:34:40 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/...
+说明：
+update: 将液体改为白色
+
+
+----------------------------------------
+CL 277 | 2026-09-29 23:08:29 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 第一关最后一版
+
+
+----------------------------------------
+CL 278 | 2026-09-30 14:04:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现风场颜色和关闭
+
+
+----------------------------------------
+CL 279 | 2026-09-30 14:48:19 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 增加茈取消和block赫赫苍；实现destroy风场；实现button的颜色变化；添加更小的准心
+
+
+----------------------------------------
+CL 280 | 2026-09-30 16:08:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 为赫等技能添加montage
+
+
+----------------------------------------
+CL 281 | 2026-09-30 16:16:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Source/ColorTransferRuntime/Private/Abilities/*
+说明：
+update: 修复茈没有正确结束瞄准动画的问题
+
+
+----------------------------------------
+CL 282 | 2026-09-30 16:29:58 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Source/ColorTransferRuntime/P...
+说明：
+update: 是的颜料射击目标为玩家瞄准的地方
+
+
+----------------------------------------
+CL 283 | 2026-09-30 17:45:15 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复能够同时dash和二段跳的问题
+
+
+----------------------------------------
+CL 284 | 2026-09-30 19:20:42 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: Category = "Yan|" 
+
+
+----------------------------------------
+CL 285 | 2026-10-01 15:26:28 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 重构代码，更新第一关
+
+
+----------------------------------------
+CL 286 | 2026-10-01 15:41:29 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 优化第三关取颜料逻辑
+
+
+----------------------------------------
+CL 287 | 2026-10-02 16:19:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现按钮重生和ColorMovingFloor多次触发
+
+
+----------------------------------------
+CL 288 | 2026-10-02 17:16:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 削弱爬墙
+
+
+----------------------------------------
+CL 289 | 2026-10-02 20:54:49 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第五关第一部分
+
+
+----------------------------------------
+CL 290 | 2026-10-03 00:35:37 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 第五关第二版
+
+
+----------------------------------------
+CL 291 | 2026-10-03 16:25:00 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第五关第三版
+
+
+----------------------------------------
+CL 292 | 2026-10-03 17:48:10 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: ColorMoverFloor替换成UChaosPathedMovementControllerComponent，修复平台上升时的角色抽搐；ChaosClimbExit添加Up瞬时速度；添加攀爬动画资产（未使用）
+
+
+----------------------------------------
+CL 293 | 2026-10-03 19:27:55 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第五关第四版
+
+
+----------------------------------------
+CL 294 | 2026-10-03 19:41:48 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Content/Mover/Actor/*
+说明：
+update：增大钩锁 的 hook球大小
+
+
+----------------------------------------
+CL 295 | 2026-10-03 21:50:43 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第五关 增加处死box 增加checkpoint教学文字
+
+
+----------------------------------------
+CL 296 | 2026-10-03 22:58:02 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 修复打包错误
+
+
+----------------------------------------
+CL 297 | 2026-10-03 23:27:04 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 修复W_SafeZoneEditor W_HDRCalibrationEditor 缺失父类无法打开的问题
+
+
+----------------------------------------
+CL 298 | 2026-10-03 23:43:39 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+fiix: 修复警告
+
+
+----------------------------------------
+CL 299 | 2026-10-03 23:53:53 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/YanShooter/Content/GameplayCues/*
+说明：
+fix: 修复GCNL_Death
+
+
+----------------------------------------
+CL 300 | 2026-10-04 00:54:13 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 重存资产，补齐缺失类型、结构重定向和 Tag，清理 UI 焦点及失效动画绑
+
+
+----------------------------------------
+CL 301 | 2026-10-04 01:25:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Content/UI/Game/*
+说明：
+update: 将教学字的UIExtension变为Vertical Wrap
+
+
+----------------------------------------
+CL 302 | 2026-10-04 01:45:51 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 钩锁现在上限180度内都无法取消了
+
+
+----------------------------------------
+CL 303 | 2026-10-04 14:54:23 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 第五关第五版
+
+
+----------------------------------------
+CL 304 | 2026-10-04 16:34:06 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 实现expeirecentravellevel
+
+
+----------------------------------------
+CL 305 | 2026-10-04 17:21:52 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/...
+说明：
+update: 第五关第六版
+
+
+----------------------------------------
+CL 306 | 2026-10-05 00:46:08 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/...
+说明：
+fix: 修复第五关Experience
+
+
+----------------------------------------
+CL 307 | 2026-10-05 13:29:39 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/...
+说明：
+update: 修复蹲下无法取消Grappling的问题；修复跳跃会取消Grappling的问题；修复hook球过大的问题；
+
+
+----------------------------------------
+CL 308 | 2026-10-05 15:40:57 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+update: 更新BlueAttract，使其更不容易使目标脱靶
+
+
+----------------------------------------
+CL 309 | 2026-10-05 16:34:44 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/*
+说明：
+update: 优化策划案
+
+
+----------------------------------------
+CL 310 | 2026-10-05 17:21:29 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/*
+说明：
+update: 整理策划案排版
+
+
+----------------------------------------
+CL 311 | 2026-10-05 17:23:18 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/...
+说明：
+fix: 删除PLAUTEAU
+
+
+----------------------------------------
+CL 312 | 2026-10-05 17:50:59 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/*
+说明：
+update: 增加目标平台
+
+
+----------------------------------------
+CL 313 | 2026-10-05 18:23:16 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/DoubleJump/*
+说明：
+fix: 修复anmespace重命名冲突
+
+
+----------------------------------------
+CL 314 | 2026-10-05 18:26:27 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/YanGameCore/Source/YanGameMover/Private/MoverMode/DoubleJump/*
+说明：
+fix: 修复隐藏冲刺文件的同名全局常量
+
+
+----------------------------------------
+CL 315 | 2026-10-05 19:01:17 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/*
+说明：
+update: 更新 third_party 依赖
+
+
+----------------------------------------
+CL 316 | 2026-10-06 01:04:20 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Config/*
+说明：
+fix: 解决无缝切图导致的旧网络映射确认状态可能与客户端缓存不一致的问题
+
+
+----------------------------------------
+CL 317 | 2026-10-06 01:12:07 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Docs/...
+说明：
+update: 更新策划案
+
+
+----------------------------------------
+CL 318 | 2026-10-06 01:15:05 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/Plugins/GameFeatures/ColorTransfer/Content/Actors/*
+说明：
+fix: 修复ColorPaintCan在其他平台上显示内部staticmesh的材质而不是外部mesh的材质的问题
+
+
+----------------------------------------
+CL 319 | 2026-10-06 01:20:12 +08:00 | yanlao@UnreaEngine
+状态：submitted
+路径摘要：//Simple/Dev/Projecties/YanGame/*
+说明：
+update: 更新.p4ignore排除reports/
+
+

@@ -1,0 +1,35 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "YanGASDebug",
+  "Description": "Debug tool for reading/writing GAS attributes and adding/removing GameplayTags via console at runtime. Self-registers as a CheatManagerExtension, active in non-Shipping builds.",
+  "Category": "Debug",
+  "CreatedBy": "YanGame",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "CanContainContent": false,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "EnabledByDefault": true,
+  "Modules": [
+    {
+      "Name": "YanGASDebug",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "GameplayAbilities",
+      "Enabled": true
+    },
+    {
+      "Name": "ModularGameplayAbilities",
+      "Enabled": true
+    }
+  ]
+}

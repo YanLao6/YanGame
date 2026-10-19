@@ -1,0 +1,85 @@
+// Copyright (c) 2023 Jonas Reich & Contributors
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+#include "GameFramework/Info.h"
+#include "SequentialFrameScheduler.h"
+
+#include "WorldBoundSFSchedulerRegistry.generated.h"
+
+/**
+ * Registry actor that for FSequentialFrameSchedulers that is bound to the lifetime to the world it was requested in.
+ * This means loading a new level will result in the frame scheduler being destroyed.
+ * The registry actor will be lazily spawned when it's first requested in a world.
+ * You can request multiple different schedulers from the same registry to group tasks of different kinds together.
+ * Just like the registry these schedulers will be created on-demand.
+ */
+UCLASS()
+class OUURUNTIME_API AWorldBoundSFSchedulerRegistry : public AInfo
+{
+	GENERATED_BODY()
+public:
+#if WITH_GAMEPLAY_DEBUGGER
+	friend class FGameplayDebuggerCategory_SequentialFrameScheduler;
+#endif
+
+	/** Sequential scheduler with a priority index. Schedulers are ticked in order from highest to lowest priority. */
+	struct FPrioritizedScheduler : public FSequentialFrameScheduler
+	{
+		int32 Priority = 0;
+		FName Name = NAME_None;
+
+		bool operator<(const FPrioritizedScheduler& Other) const;
+	};
+
+	using FSchedulerPtr = TSharedPtr<FPrioritizedScheduler>;
+
+	AWorldBoundSFSchedulerRegistry();
+
+	/** Get the default scheduler (PrePhysics tick and default name) */
+	static FSchedulerPtr GetDefaultScheduler(const UObject* WorldContextObject);
+
+	/**
+	 * Get a scheduler from the world of the context object
+	 * @param	WorldContextObject		World
+	 * @param	SchedulerName			Name of the scheduler for debugging purposes
+	 * @param	TickingGroup			Tick group that this scheduler will tick in
+	 */
+	static FSchedulerPtr GetNamedScheduler(
+		const UObject* WorldContextObject,
+		FName SchedulerName,
+		ETickingGroup TickingGroup);
+
+	// - AActor
+	void RegisterActorTickFunctions(bool bRegister) override;
+	void TickActor(float DeltaTime, ELevelTick TickType, FActorTickFunction& ThisTickFunction) override;
+	// --
+
+	UFUNCTION(BlueprintCallable, Category = "Open Unreal Utilities|Frame Scheduler")
+	static FSequentialFrameTaskHandle ScheduleTask(
+		const UObject* WorldContextObject,
+		FName SchedulerName,
+		ETickingGroup TickingGroup,
+		int32 MaxNumTasksToExecutePerFrame,
+		FTimerDynamicDelegate Task);
+	UFUNCTION(BlueprintCallable, Category = "Open Unreal Utilities|Frame Scheduler")
+	static void CancelTask(FSequentialFrameTaskHandle Handle);
+
+private:
+	UPROPERTY()
+	FActorTickFunction DuringPhysicsTickFunction;
+
+	UPROPERTY()
+	FActorTickFunction PostPhysicsTickFunction;
+
+	/** Name map. Used by public API to access schedulers */
+	TMap<FName, FSchedulerPtr> SchedulersByName;
+
+	/** Store a priority sorted list for each tick group. Used to propagate Tick() to schedulers */
+	TMap<ETickingGroup, TArray<FSchedulerPtr>> TickGroupToSchedulerPriorityList;
+
+	/** Result may be null during world shutdown */
+	static AWorldBoundSFSchedulerRegistry* GetWorldSingleton(const UObject* WorldContextObject);
+};

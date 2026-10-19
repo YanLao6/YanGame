@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "YanShooterContent",
+	"Description": "Art and audio assets required by the shooter gameplay, migrated from Lyra main content. Kept separate from this project's original assets so they can be trimmed or replaced in batches later.",
+	"Category": "Content",
+	"CreatedBy": "",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": false,
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Plugins": [
+		{
+			"Name": "YanGameCore",
+			"Enabled": true
+		}
+	]
+}

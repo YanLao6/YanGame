@@ -1,0 +1,133 @@
+#pragma once
+
+#include "AttributeSets/YanAttributeSet.h"
+#include "AbilitySystemComponent.h"
+
+#include "YanBaseCombatSet.generated.h"
+
+#define UE_API YANGAMEABILITY_API
+
+struct FGameplayEffectModCallbackData;
+
+/**
+ * 战斗基础属性集。
+ */
+UCLASS(MinimalAPI, BlueprintType)
+class UYanBaseCombatSet : public UYanAttributeSet
+{
+	GENERATED_BODY()
+
+public:
+	UE_API UYanBaseCombatSet();
+
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, CursedEnergy);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, MaxCursedEnergy);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, CursedEnergyCost);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, CursedEnergyRegen);
+
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, Poise);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, MaxPoise);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, PoiseDamage);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, PoiseRegen);
+
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, BaseDamage);
+	ATTRIBUTE_ACCESSORS(UYanBaseCombatSet, BaseHeal);
+
+	/** CursedEnergy 变化时广播。 */
+	mutable FYanAttributeEvent OnCursedEnergyChanged;
+
+	/** MaxCursedEnergy 变化时广播。 */
+	mutable FYanAttributeEvent OnMaxCursedEnergyChanged;
+
+	/** Poise 变化时广播。 */
+	mutable FYanAttributeEvent OnPoiseChanged;
+
+	/** MaxPoise 变化时广播。 */
+	mutable FYanAttributeEvent OnMaxPoiseChanged;
+
+	/** Poise 归零时广播（供晕眩逻辑使用）。 */
+	mutable FYanAttributeEvent OnOutOfPoise;
+
+	//~Begin UObject Interface
+	UE_API virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	//~End UObject Interface
+
+protected:
+	UFUNCTION()
+	UE_API void OnRep_CursedEnergy(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	UE_API void OnRep_MaxCursedEnergy(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	UE_API void OnRep_Poise(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	UE_API void OnRep_MaxPoise(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	UE_API void OnRep_BaseDamage(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	UE_API void OnRep_BaseHeal(const FGameplayAttributeData& OldValue);
+
+	//~Begin UAttributeSet Interface
+	UE_API virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	UE_API virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+	UE_API virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	UE_API virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+	//~End UAttributeSet Interface
+
+	UE_API void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const;
+
+private:
+	// 当前咒力，上限由 MaxCursedEnergy 约束
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CursedEnergy, Category = "Yan|CursedEnergy", Meta = ( AllowPrivateAccess = true))
+	FGameplayAttributeData CursedEnergy;
+
+	// 最大咒力，可被 GameplayEffect 修改
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxCursedEnergy, Category = "Yan|CursedEnergy", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData MaxCursedEnergy;
+
+	// 当前韧性（0-3），归零触发晕眩；
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Poise, Category = "Yan|Poise", Meta = ( AllowPrivateAccess = true))
+	FGameplayAttributeData Poise;
+
+	// 最大韧性，可被 GameplayEffect 修改
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxPoise, Category = "Yan|Poise", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData MaxPoise;
+
+	// 是否已处于韧性归零状态，避免重复广播
+	bool bOutOfPoise = false;
+
+	// 变化前的 CursedEnergy / Poise 备份
+	float CursedEnergyBeforeAttributeChange = 0.0f;
+	float PoiseBeforeAttributeChange        = 0.0f;
+
+	// meta：咒力消耗，映射为 -CursedEnergy
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|CursedEnergy", Meta = ( AllowPrivateAccess = true))
+	FGameplayAttributeData CursedEnergyCost;
+
+	// meta：咒力恢复，映射为 +CursedEnergy
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|CursedEnergy", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData CursedEnergyRegen;
+
+	// meta：韧性打断，映射为 -Poise
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|Poise", Meta = ( AllowPrivateAccess = true))
+	FGameplayAttributeData PoiseDamage;
+
+	// meta：韧性恢复，映射为 +Poise
+	UPROPERTY(BlueprintReadOnly, Category = "Yan|Poise", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData PoiseRegen;
+
+	// 来源侧基础伤害，由伤害 Execution 以 Source 身份捕获，结算后写入目标的 Damage
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BaseDamage, Category = "Yan|Combat", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData BaseDamage;
+
+	// 来源侧基础治疗量，由治疗 Execution 以 Source 身份捕获，结算后写入目标的 Healing
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BaseHeal, Category = "Yan|Combat", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData BaseHeal;
+};
+
+#undef UE_API

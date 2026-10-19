@@ -1,0 +1,107 @@
+// Copyright (c) 2023 Jonas Reich & Contributors
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+#include "TimerManager.h"
+
+#include "SequentialFrameTask.generated.h"
+
+class FSequentialFrameScheduler;
+
+/** Handle to a task registered in the SequentialFrameScheduler */
+USTRUCT(BlueprintType)
+struct OUURUNTIME_API FSequentialFrameTaskHandle
+{
+	GENERATED_BODY()
+
+public:
+	FSequentialFrameTaskHandle() = default;
+
+	FSequentialFrameTaskHandle(int32 InIndex, const TWeakPtr<FSequentialFrameScheduler>& _pWeakScheduler) :
+		Index(InIndex), pWeakScheduler(_pWeakScheduler)
+	{
+	}
+
+	int32 Index = INDEX_NONE;
+
+	bool operator==(const FSequentialFrameTaskHandle& _Other) const
+	{
+		return Index == _Other.Index && pWeakScheduler == _Other.pWeakScheduler;
+	}
+	bool IsValid() const { return Index != INDEX_NONE && pWeakScheduler != nullptr; }
+	void Reset()
+	{
+		Index = INDEX_NONE;
+		pWeakScheduler = nullptr;
+	}
+	void Cancel();
+
+private:
+	TWeakPtr<FSequentialFrameScheduler> pWeakScheduler = nullptr;
+};
+
+/** A task that is registered in the SequentialFrameScheduler */
+class OUURUNTIME_API FSequentialFrameTask
+{
+public:
+	/**
+	 * Sequential frame tasks use extended unified timer delegates,
+	 * because we don't want to reinvent the wheel and make it usable with everything
+	 * that was usable with timer manager before.
+	 * We can't just alias the types because then they can't be easily used in dependent types.
+	 * The next best thing is inheriting from them, so here we go :)
+	 */
+	using FTaskUnifiedDelegate = FSimpleDelegate;
+	using FTaskDelegate = FSimpleDelegate;
+	using FTaskDynamicDelegate = FTimerDynamicDelegate;
+	//-------------------------
+
+	FSequentialFrameTaskHandle Handle;
+
+	// #TODO change time values to double
+	float Period = 0.03f;
+	bool bTickAsOftenAsPossible = true;
+
+	float LastInvocationTime = 0.f;
+	float SecondToLastInvocationTime = 0.f;
+
+	bool bIsPaused = false;
+
+	FTaskUnifiedDelegate Delegate;
+
+	/** Get the next time this task wants to be invoked in seconds. */
+	float GetNextDesiredInvocationTimeSeconds() const;
+
+	void Tick(float DeltaTime);
+
+	float GetOvertimeSeconds() const;
+
+	/** Get the overtime for this task as a fraction of invocation period (0.5 = 50% overtime). */
+	float GetOvertimeFraction() const;
+
+	/** Get a prediction for overtime in a future number of frames */
+	float GetPredictedOvertimeFraction(float PredictedDeltaTime, int32 NumFrames) const;
+
+	void Execute(float Now);
+
+	// Movable only (required because of FTimerUnifiedDelegate)
+	FSequentialFrameTask() = default;
+	FSequentialFrameTask(FSequentialFrameTask&&) = default;
+	FSequentialFrameTask(const FSequentialFrameTask&) = delete;
+	FSequentialFrameTask& operator=(FSequentialFrameTask&&) = default;
+	FSequentialFrameTask& operator=(FSequentialFrameTask&) = delete;
+
+private:
+	float CachedOvertimeSeconds = 0.f;
+	float CachedOvertimeFraction = 0.f;
+
+	// Get period which can be used safely as divisor
+	float GetPeriodDivisor() const;
+};
+
+FORCEINLINE uint32 OUURUNTIME_API GetTypeHash(const FSequentialFrameTaskHandle& Handle)
+{
+	return Handle.Index;
+}

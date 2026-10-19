@@ -1,0 +1,61 @@
+{
+	"FileVersion": 3,
+	"Version": 155,
+	"VersionName": "1.5.5",
+	"FriendlyName": "Subsystem Browser",
+	"Description": "Plugin that adds Subsystem Browser panel to Editor",
+	"Category": "Editor",
+	"CreatedBy": "Aquanox",
+	"CreatedByURL": "https://github.com/aquanox/SubsystemBrowserPlugin",
+	"DocsURL": "https://github.com/aquanox/SubsystemBrowserPlugin/wiki",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/f1ba87b348774d338e75d25ddbc46b98",
+	"FabURL": "com.epicgames.launcher://ue/fab/product/b557270d-b692-4261-bda8-6a8e469a6249",
+	"SupportURL": "https://github.com/aquanox/SubsystemBrowserPlugin/issues",
+	"EngineVersion": "",
+	"CanContainContent": false,
+	"Installed": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"EnabledByDefault": true,
+	"Modules": [
+		{
+			"Name": "SubsystemBrowser",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			],
+			"WhitelistTargets": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "SubsystemSettingsEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			],
+			"WhitelistTargets": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "SubsystemBrowserTests",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			],
+			"WhitelistTargets": [
+				"Editor"
+			]
+		}
+	]
+}
